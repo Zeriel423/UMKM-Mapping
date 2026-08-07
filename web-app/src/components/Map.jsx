@@ -1,5 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Circle,
+  ZoomControl,
+  useMap
+} from 'react-leaflet';
 import L from 'leaflet';
 
 // Make L available globally for leaflet.markercluster
@@ -222,15 +230,17 @@ const MapComponent = ({ data, centroids, colors, clusterRadii, clusterStats }) =
   return (
     <div className="map-container" id="map-container">
       <MapContainer
-        center={defaultCenter}
-        zoom={zoomLevel}
-        style={{ height: '100%', width: '100%' }}
-        zoomControl={true}
-      >
+  center={defaultCenter}
+  zoom={zoomLevel}
+  style={{ height: '100%', width: '100%' }}
+  zoomControl={false}
+>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
+
+        <ZoomControl position="topright" />
 
         {/* Clustered data markers */}
         <MarkerClusterLayer data={data} colors={colors} />
