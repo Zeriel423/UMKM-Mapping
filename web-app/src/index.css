@@ -787,3 +787,84 @@ h1, h2, h3, h4, h5, h6 {
     min-width: 140px;
   }
 }
+
+/* ===============================
+   Mobile
+================================*/
+@media screen and (max-width: 768px) {
+
+  body{
+      overflow:auto;
+  }
+
+  .app-container{
+      position:relative;
+      flex-direction:column;
+  }
+
+  .sidebar{
+      position:fixed;
+      left:0;
+      top:0;
+      width:85%;
+      max-width:340px;
+      height:100vh;
+      transform:translateX(-100%);
+      z-index:1000;
+  }
+
+  .sidebar.open{
+      transform:translateX(0);
+  }
+
+  .map-container{
+      width:100%;
+      height:100vh;
+  }
+
+  .mobile-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.4);
+    z-index:900;
+}
+
+.mobile-menu-button{
+    position:fixed;
+    top:15px;
+    left:15px;
+
+    width:48px;
+    height:48px;
+
+    border-radius:50%;
+    border:none;
+
+    z-index:1200;
+}
+
+.stats-card{
+
+    padding:.8rem;
+}
+
+.stats-value{
+
+    font-size:1.2rem;
+}
+
+.filter-chips{
+
+    overflow-x:auto;
+
+    flex-wrap:nowrap;
+
+    white-space:nowrap;
+}
+
+.search-input{
+
+    font-size:16px;
+}
+
+}
