@@ -493,111 +493,113 @@ const UserLocationFeature = ({ data }) => {
             </div>
 
             {/* List */}
-            <div
-              style={{
-                maxHeight: "270px",
-                overflowY: "auto",
-              }}
-            >
-              {nearest.length === 0 ? (
-  <div
-    style={{
-      padding: "14px",
-      fontSize: "13px",
-      color: "#64748b",
-    }}
-  >
-    Tidak ada data UMKM dengan koordinat yang valid.
-  </div>
-) : (
-  nearest.map((umkm, index) => (
+            {/* List */}
+<div
+  style={{
+    maxHeight: "270px",
+    overflowY: "auto",
+  }}
+>
+  {nearest.length === 0 ? (
     <div
-      key={`${umkm.name}-${index}`}
       style={{
-        borderBottom:
-          index < nearest.length - 1
-            ? "1px solid #f1f5f9"
-            : "none",
-        background: "#fff",
-        padding: "11px 15px",
+        padding: "14px",
+        fontSize: "13px",
+        color: "#64748b",
       }}
     >
-      {/* Informasi UMKM */}
-      <button
-        type="button"
-        onClick={() => focusUmkm(umkm)}
-        style={{
-          width: "100%",
-          border: "none",
-          background: "transparent",
-          padding: 0,
-          textAlign: "left",
-          cursor: "pointer",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 10,
-          }}
-        >
-          <strong
-            style={{
-              color: "#1e293b",
-              fontSize: "13px",
-            }}
-          >
-            {index + 1}. {umkm.name}
-          </strong>
-
-          <span
-            style={{
-              color: "#2563eb",
-              fontWeight: 800,
-              fontSize: "12px",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {formatDistance(umkm.distance)}
-          </span>
-        </div>
-
-        <div
-          style={{
-            color: "#64748b",
-            fontSize: "11px",
-            marginTop: 3,
-          }}
-        >
-          {umkm.product_label ||
-            umkm.product_type ||
-            "UMKM"}
-        </div>
-      </button>
-
-      {/* Tombol Rute */}
-      <button
-        type="button"
-        onClick={() => openRoute(umkm)}
-        style={{
-          marginTop: "8px",
-          width: "100%",
-          border: "none",
-          borderRadius: "8px",
-          background: "#2563eb",
-          color: "#fff",
-          padding: "7px 10px",
-          fontSize: "12px",
-          fontWeight: 700,
-          cursor: "pointer",
-        }}
-      >
-        🚗 Buka Rute
-      </button>
+      Tidak ada data UMKM dengan koordinat yang valid.
     </div>
-  ))
-)}
+  ) : (
+    nearest.map((umkm, index) => (
+      <div
+        key={`${umkm.name}-${index}`}
+        style={{
+          borderBottom:
+            index < nearest.length - 1
+              ? "1px solid #f1f5f9"
+              : "none",
+          background: "#fff",
+          padding: "11px 15px",
+        }}
+      >
+        {/* Informasi UMKM */}
+        <button
+          type="button"
+          onClick={() => focusUmkm(umkm)}
+          style={{
+            width: "100%",
+            border: "none",
+            background: "transparent",
+            padding: 0,
+            textAlign: "left",
+            cursor: "pointer",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 10,
+            }}
+          >
+            <strong
+              style={{
+                color: "#1e293b",
+                fontSize: "13px",
+              }}
+            >
+              {index + 1}. {umkm.name}
+            </strong>
+
+            <span
+              style={{
+                color: "#2563eb",
+                fontWeight: 800,
+                fontSize: "12px",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {formatDistance(umkm.distance)}
+            </span>
+          </div>
+
+          <div
+            style={{
+              color: "#64748b",
+              fontSize: "11px",
+              marginTop: 3,
+            }}
+          >
+            {umkm.product_label ||
+              umkm.product_type ||
+              "UMKM"}
+          </div>
+        </button>
+
+        {/* Tombol Rute */}
+        <button
+          type="button"
+          onClick={() => openRoute(umkm)}
+          style={{
+            marginTop: "8px",
+            width: "100%",
+            border: "none",
+            borderRadius: "8px",
+            background: "#2563eb",
+            color: "#fff",
+            padding: "7px 10px",
+            fontSize: "12px",
+            fontWeight: 700,
+            cursor: "pointer",
+          }}
+        >
+          🚗 Buka Rute
+        </button>
+      </div>
+    ))
+  )}
+</div>
             {/* Reset */}
             <button
               type="button"
