@@ -415,17 +415,27 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   top: 1rem;
   left: 1rem;
-  z-index: 200;
+
   width: 44px;
   height: 44px;
+
+  z-index: 2000;
+
   border-radius: var(--border-radius-sm);
   background: var(--bg-elevated);
   border: none;
   box-shadow: var(--shadow-lg);
+
   cursor: pointer;
+
   align-items: center;
   justify-content: center;
+
   color: var(--primary-color);
+
+  /* Pastikan tombol/icon tidak tertutup elemen map */
+  pointer-events: auto;
+
   transition: all var(--transition-fast);
 }
 
@@ -754,117 +764,52 @@ h1, h2, h3, h4, h5, h6 {
    RESPONSIVE
    ═══════════════════════════════════════════ */
 @media (max-width: 768px) {
+  body {
+    overflow: auto;
+  }
+
+  .app-container {
+    position: relative;
+    flex-direction: column;
+  }
+
   .sidebar-toggle {
     display: flex;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    width: 48px;
+    height: 48px;
+    z-index: 2000;
   }
 
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
+    width: 85%;
+    max-width: 340px;
     height: 100vh;
-    width: min(var(--sidebar-width), 85vw);
     transform: translateX(-100%);
-    z-index: 150;
+    z-index: 1500;
   }
 
   .sidebar.open {
     transform: translateX(0);
   }
 
-  .sidebar-overlay.visible {
-    display: block;
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1400;
   }
 
   .main-content {
     width: 100vw;
   }
 
-  .map-legend {
-    bottom: 1rem;
-    right: 0.5rem;
-    padding: 0.75rem;
-    min-width: 140px;
+  .map-container {
+    width: 100%;
+    height: 100vh;
   }
-}
-
-/* ===============================
-   Mobile
-================================*/
-@media screen and (max-width: 768px) {
-
-  body{
-      overflow:auto;
-  }
-
-  .app-container{
-      position:relative;
-      flex-direction:column;
-  }
-
-  .sidebar{
-      position:fixed;
-      left:0;
-      top:0;
-      width:85%;
-      max-width:340px;
-      height:100vh;
-      transform:translateX(-100%);
-      z-index:1000;
-  }
-
-  .sidebar.open{
-      transform:translateX(0);
-  }
-
-  .map-container{
-      width:100%;
-      height:100vh;
-  }
-
-  .mobile-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.4);
-    z-index:900;
-}
-
-.mobile-menu-button{
-    position:fixed;
-    top:15px;
-    left:15px;
-
-    width:48px;
-    height:48px;
-
-    border-radius:50%;
-    border:none;
-
-    z-index:1200;
-}
-
-.stats-card{
-
-    padding:.8rem;
-}
-
-.stats-value{
-
-    font-size:1.2rem;
-}
-
-.filter-chips{
-
-    overflow-x:auto;
-
-    flex-wrap:nowrap;
-
-    white-space:nowrap;
-}
-
-.search-input{
-
-    font-size:16px;
-}
-
 }
