@@ -52,6 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 .app-container {
   display: flex;
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
   overflow: hidden;
 }
@@ -541,6 +542,7 @@ h1, h2, h3, h4, h5, h6 {
    ═══════════════════════════════════════════ */
 .loading-screen {
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
   display: flex;
   align-items: center;
@@ -587,6 +589,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Error State */
 .error-screen {
   height: 100vh;
+  height: 100dvh;
   width: 100vw;
   display: flex;
   align-items: center;
@@ -763,6 +766,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 0;
     left: 0;
     height: 100vh;
+    height: 100dvh;
     width: min(var(--sidebar-width), 85vw);
     transform: translateX(-100%);
     z-index: 150;
@@ -780,91 +784,17 @@ h1, h2, h3, h4, h5, h6 {
     width: 100vw;
   }
 
+  /* Kontrol zoom bawaan Leaflet ada di pojok kiri atas, sama seperti tombol hamburger.
+     Geser ke bawah supaya keduanya tidak tumpang tindih. */
+  .leaflet-top.leaflet-left {
+    top: 4.5rem;
+  }
+
   .map-legend {
-    bottom: 1rem;
+    bottom: 3.25rem;
     right: 0.5rem;
     padding: 0.75rem;
     min-width: 140px;
+    max-width: 60vw;
   }
-}
-
-/* ===============================
-   Mobile
-================================*/
-@media screen and (max-width: 768px) {
-
-  body{
-      overflow:auto;
-  }
-
-  .app-container{
-      position:relative;
-      flex-direction:column;
-  }
-
-  .sidebar{
-      position:fixed;
-      left:0;
-      top:0;
-      width:85%;
-      max-width:340px;
-      height:100vh;
-      transform:translateX(-100%);
-      z-index:1000;
-  }
-
-  .sidebar.open{
-      transform:translateX(0);
-  }
-
-  .map-container{
-      width:100%;
-      height:100vh;
-  }
-
-  .mobile-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.4);
-    z-index:900;
-}
-
-.mobile-menu-button{
-    position:fixed;
-    top:15px;
-    left:15px;
-
-    width:48px;
-    height:48px;
-
-    border-radius:50%;
-    border:none;
-
-    z-index:1200;
-}
-
-.stats-card{
-
-    padding:.8rem;
-}
-
-.stats-value{
-
-    font-size:1.2rem;
-}
-
-.filter-chips{
-
-    overflow-x:auto;
-
-    flex-wrap:nowrap;
-
-    white-space:nowrap;
-}
-
-.search-input{
-
-    font-size:16px;
-}
-
 }
