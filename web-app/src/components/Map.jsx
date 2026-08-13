@@ -407,6 +407,22 @@ const UserLocationFeature = ({ data }) => {
     });
   };
 
+  // Membuka Google Maps untuk mendapatkan rute ke UMKM
+  const openRoute = (umkm) => {
+    const lat = Number(umkm.lat);
+    const lng = Number(umkm.lng);
+
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+      return;
+    }
+
+    const destination = `${lat},${lng}`;
+
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+
+    window.open(mapsUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <>
       {/* Panel UMKM Terdekat */}
@@ -494,11 +510,102 @@ const UserLocationFeature = ({ data }) => {
                   Tidak ada data UMKM dengan koordinat yang valid.
                 </div>
               ) : (
-                nearest.map((umkm, index) => (
-                  <button
-                    type="button"
-                    key={`${umkm.name}-${index}`}
-                    onClick={() => focusUmkm(umkm)}
+                nearest.map(
+  (umkm, index) => (
+    <div
+      key={`${umkm.name}-${index}`}
+      style={{
+        borderBottom:
+          index < nearest.length - 1
+            ? '1px solid #f1f5f9'
+            : 'none',
+        background: '#fff',
+        padding: '11px 15px'
+      }}
+    >
+      {/* Informasi UMKM */}
+      <button
+        type="button"
+        onClick={() =>
+          focusUmkm(umkm)
+        }
+        style={{
+          width: '100%',
+          border: 'none',
+          background: 'transparent',
+          padding: 0,
+          textAlign: 'left',
+          cursor: 'pointer'
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent:
+              'space-between',
+            gap: 10
+          }}
+        >
+          <strong
+            style={{
+              color: '#1e293b',
+              fontSize: '13px'
+            }}
+          >
+            {index + 1}. {umkm.name}
+          </strong>
+
+          <span
+            style={{
+              color: '#2563eb',
+              fontWeight: 800,
+              fontSize: '12px',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {formatDistance(
+              umkm.distance
+            )}
+          </span>
+        </div>
+
+        <div
+          style={{
+            color: '#64748b',
+            fontSize: '11px',
+            marginTop: 3
+          }}
+        >
+          {umkm.product_label ||
+            umkm.product_type ||
+            'UMKM'}
+        </div>
+      </button>
+
+      {/* Tombol Rute */}
+      <button
+        type="button"
+        onClick={() =>
+          openRoute(umkm)
+        }
+        style={{
+          marginTop: '8px',
+          width: '100%',
+          border: 'none',
+          borderRadius: '8px',
+          background: '#2563eb',
+          color: '#fff',
+          padding: '7px 10px',
+          fontSize: '12px',
+          fontWeight: 700,
+          cursor: 'pointer'
+        }}
+      >
+        🚗 Buka Rute
+      </button>
+    </div>
+  )
+)
                     style={{
                       width: "100%",
                       border: "none",
