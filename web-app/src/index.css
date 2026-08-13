@@ -764,52 +764,37 @@ h1, h2, h3, h4, h5, h6 {
    RESPONSIVE
    ═══════════════════════════════════════════ */
 @media (max-width: 768px) {
-  body {
-    overflow: auto;
+  .user-location-panel {
+    top: 76px !important;
+    left: 12px !important;
+    width: calc(100% - 24px) !important;
+    max-width: 360px !important;
   }
 
-  .app-container {
-    position: relative;
+  .user-location-card {
+    max-height: 46vh;
+    display: flex;
     flex-direction: column;
   }
 
-  .sidebar-toggle {
-    display: flex;
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    width: 48px;
-    height: 48px;
-    z-index: 2000;
+  .user-location-list {
+    max-height: 31vh !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 85%;
-    max-width: 340px;
-    height: 100vh;
-    transform: translateX(-100%);
-    z-index: 1500;
+  .map-legend {
+    right: 12px;
+    bottom: 16px;
+    min-width: 150px;
+    max-width: 185px;
+    max-height: 27vh;
+    overflow-y: auto;
+    padding: 0.75rem;
   }
 
-  .sidebar.open {
-    transform: translateX(0);
-  }
-
-  .sidebar-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1400;
-  }
-
-  .main-content {
-    width: 100vw;
-  }
-
-  .map-container {
-    width: 100%;
-    height: 100vh;
+  .leaflet-top.leaflet-right {
+    top: 68px;
+    right: 8px;
   }
 }
