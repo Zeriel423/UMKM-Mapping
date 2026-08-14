@@ -59,7 +59,7 @@ const Sidebar = ({
             >
               Semua
             </button>
-            {productTypes.slice(0, 8).map((pt) => (
+            {productTypes.map((pt) => (
               <button
                 key={pt.code}
                 className={`filter-chip ${productFilter === pt.code ? 'active' : ''}`}

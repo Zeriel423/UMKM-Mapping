@@ -110,7 +110,7 @@ const formatDistance = (distance) => {
 // MARKER CLUSTER LAYER
 // =========================================================
 
-const MarkerClusterLayer = ({ data, colors }) => {
+const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
   const map = useMap();
   const clusterGroupRef = useRef(null);
   const mcLoadedRef = useRef(false);
@@ -180,6 +180,8 @@ const MarkerClusterLayer = ({ data, colors }) => {
           icon: getIcon(clusterColor),
         });
 
+        marker.on("click", () => onSelectBusiness?.(umkm));
+
         marker.bindPopup(
           `
           <div>
@@ -244,6 +246,8 @@ const MarkerClusterLayer = ({ data, colors }) => {
           icon: getIcon(clusterColor),
         });
 
+        marker.on("click", () => onSelectBusiness?.(umkm));
+
         marker.bindPopup(
           `
           <div>
@@ -296,7 +300,25 @@ const MarkerClusterLayer = ({ data, colors }) => {
         map.removeLayer(clusterGroupRef.current);
       }
     };
-  }, [map, data, colors]);
+  }, [map, data, colors, onSelectBusiness]);
+
+  return null;
+};
+
+// Brings a shared-link or list selection into view without taking over the
+// map until the visitor explicitly selects a business.
+const SelectedBusinessController = ({ business }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!business) return;
+
+    const lat = Number(business.lat);
+    const lng = Number(business.lng);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+
+    map.flyTo([lat, lng], Math.max(map.getZoom(), 15), { duration: 0.8 });
+  }, [business, map]);
 
   return null;
 };
@@ -427,6 +449,7 @@ const UserLocationFeature = ({ data }) => {
     <>
       {/* Panel UMKM Terdekat */}
       <div
+        className="nearby-panel"
         style={{
           position: "absolute",
           top: "16px",
@@ -739,6 +762,8 @@ const MapComponent = ({
   colors,
   clusterRadii,
   clusterStats,
+  selectedBusiness,
+  onSelectBusiness,
 }) => {
   const defaultCenter = [1.2, 124.5];
 
@@ -765,8 +790,10 @@ const MapComponent = ({
         {/* Fitur untuk masyarakat */}
         <UserLocationFeature data={data} />
 
+        <SelectedBusinessController business={selectedBusiness} />
+
         {/* Marker UMKM */}
-        <MarkerClusterLayer data={data} colors={colors} />
+        <MarkerClusterLayer data={data} colors={colors} onSelectBusiness={onSelectBusiness} />
 
         {/* Centroid dan radius cluster */}
         {centroids.map((centroid, idx) => (

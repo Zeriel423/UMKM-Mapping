@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Sidebar from './components/Sidebar';
 import MapView from './components/Map';
+import BusinessList from './components/BusinessList';
 import { performKMeans, generateClusterColors } from './utils/kmeans';
 import { Loader2, AlertTriangle, Menu, X } from 'lucide-react';
 
@@ -17,6 +18,8 @@ function App() {
   // Search & filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [productFilter, setProductFilter] = useState('');
+  const [activeCollection, setActiveCollection] = useState(null);
+  const [selectedBusinessId, setSelectedBusinessId] = useState(null);
 
   // Load data
   useEffect(() => {
@@ -40,6 +43,23 @@ function App() {
     fetchData();
   }, []);
 
+  // A shared business link uses the static-app-friendly format: ?umkm=<id>.
+  // Keep the selected card in sync when visitors use the browser back button.
+  useEffect(() => {
+    if (rawData.length === 0) return undefined;
+
+    const syncSelectedBusinessFromUrl = () => {
+      const businessId = new URLSearchParams(window.location.search).get('umkm');
+      const businessExists = rawData.some((business) => String(business.id) === businessId);
+      setSelectedBusinessId(businessExists ? businessId : null);
+    };
+
+    syncSelectedBusinessFromUrl();
+    window.addEventListener('popstate', syncSelectedBusinessFromUrl);
+
+    return () => window.removeEventListener('popstate', syncSelectedBusinessFromUrl);
+  }, [rawData]);
+
   // Extract unique product types from data
   const productTypes = useMemo(() => {
     if (rawData.length === 0) return [];
@@ -60,7 +80,9 @@ function App() {
   const filteredData = useMemo(() => {
     let result = rawData;
 
-    if (productFilter) {
+    if (activeCollection) {
+      result = result.filter((item) => activeCollection.productTypes.includes(item.product_type));
+    } else if (productFilter) {
       result = result.filter(item => item.product_type === productFilter);
     }
 
@@ -76,7 +98,12 @@ function App() {
     }
 
     return result;
-  }, [rawData, searchQuery, productFilter]);
+  }, [rawData, searchQuery, productFilter, activeCollection]);
+
+  const selectedBusiness = useMemo(
+    () => rawData.find((business) => String(business.id) === String(selectedBusinessId)) || null,
+    [rawData, selectedBusinessId],
+  );
 
   // Compute clustering results from filtered data and kValue
   const clusterResult = useMemo(() => {
@@ -108,6 +135,61 @@ function App() {
 
   // Close sidebar on mobile when clicking overlay
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
+
+  const selectBusiness = useCallback((business) => {
+    const businessId = String(business.id);
+    setSelectedBusinessId(businessId);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set('umkm', businessId);
+    window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
+  }, []);
+
+  const clearSelectedBusiness = useCallback(() => {
+    setSelectedBusinessId(null);
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete('umkm');
+    window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
+  }, []);
+
+  const selectProductFilter = useCallback((filter) => {
+    setActiveCollection(null);
+    setProductFilter(filter);
+  }, []);
+
+  const selectCollection = useCallback((collection) => {
+    setProductFilter('');
+    setActiveCollection(collection);
+  }, []);
+
+  const shareBusiness = useCallback(async (business) => {
+    const title = business.brand?.trim() || business.name || 'UMKM';
+    const url = new URL(window.location.href);
+    url.searchParams.set('umkm', String(business.id));
+    const shareUrl = url.toString();
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title,
+          text: `Lihat ${title} di Zonasi UMKM`,
+          url: shareUrl,
+        });
+        return 'Tautan berhasil dibagikan.';
+      } catch (shareError) {
+        if (shareError.name === 'AbortError') return '';
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      return 'Tautan UMKM telah disalin.';
+    } catch {
+      window.prompt('Salin tautan UMKM ini:', shareUrl);
+      return '';
+    }
+  }, []);
 
   // Loading screen
   if (isLoading) {
@@ -168,7 +250,7 @@ function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         productFilter={productFilter}
-        setProductFilter={setProductFilter}
+        setProductFilter={selectProductFilter}
         productTypes={productTypes}
       />
 
@@ -180,6 +262,19 @@ function App() {
           colors={colors}
           clusterRadii={clusterRadii}
           clusterStats={clusterStats}
+          selectedBusiness={selectedBusiness}
+          onSelectBusiness={selectBusiness}
+        />
+        <BusinessList
+          key={`${searchQuery}-${productFilter}-${activeCollection?.id || 'all'}`}
+          businesses={filteredData}
+          allBusinesses={rawData}
+          selectedBusiness={selectedBusiness}
+          activeCollectionId={activeCollection?.id}
+          onSelectCollection={selectCollection}
+          onSelectBusiness={selectBusiness}
+          onClearSelectedBusiness={clearSelectedBusiness}
+          onShareBusiness={shareBusiness}
         />
       </main>
     </div>
