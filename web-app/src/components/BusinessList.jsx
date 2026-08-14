@@ -71,6 +71,7 @@ const BusinessList = ({
 
   return (
     <aside className="business-panel" aria-label="Daftar UMKM">
+      <div className="mobile-panel-handle" aria-hidden="true" />
       <CommunityCollections
         data={allBusinesses}
         activeCollectionId={activeCollectionId}

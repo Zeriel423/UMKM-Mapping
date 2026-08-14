@@ -460,6 +460,7 @@ const UserLocationFeature = ({ data }) => {
       >
         {!userLocation ? (
           <button
+            className="nearby-trigger"
             type="button"
             onClick={findNearest}
             disabled={loading}
