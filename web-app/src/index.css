@@ -1374,3 +1374,132 @@ h1, h2, h3, h4, h5, h6 {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Minimal mobile discovery: preserve map space and keep secondary actions compact. */
+@media (max-width: 768px) {
+  .sidebar-toggle {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--primary-color);
+    box-shadow: 0 5px 16px rgba(15, 23, 42, 0.18);
+  }
+
+  .map-container {
+    height: 66dvh;
+    flex-basis: 66dvh;
+  }
+
+  .business-panel {
+    height: calc(34dvh + 10px);
+    flex-basis: calc(34dvh + 10px);
+    margin-top: -10px;
+    border-radius: 18px 18px 0 0;
+    background: #fff;
+    box-shadow: 0 -6px 18px rgba(15, 23, 42, 0.1);
+  }
+
+  .mobile-panel-handle {
+    display: none;
+  }
+
+  .community-collections {
+    padding: 0.75rem 1rem 0.85rem;
+    background: #fff;
+  }
+
+  .community-collections .section-heading {
+    margin-bottom: 0.55rem;
+  }
+
+  .community-collections .section-heading h2 {
+    display: none;
+  }
+
+  .community-collections .eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+
+  .collection-list {
+    flex-direction: row;
+    gap: 0.55rem;
+    overflow-x: auto;
+    padding-bottom: 0.15rem;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .collection-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .collection-card {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    flex: 0 0 172px;
+    min-height: 62px;
+    gap: 0.45rem;
+    padding: 0.55rem;
+    border-radius: 12px;
+    scroll-snap-align: start;
+    box-shadow: none;
+  }
+
+  .collection-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .collection-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .collection-copy strong {
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .collection-copy span {
+    display: none;
+  }
+
+  .collection-count {
+    padding-left: 0.1rem;
+    font-size: 0.68rem;
+  }
+
+  .business-results {
+    padding: 0.85rem 1rem 1.1rem;
+  }
+
+  .business-results .section-heading {
+    margin-bottom: 0.6rem;
+  }
+
+  .business-results .section-heading h2 {
+    font-size: 0.92rem;
+  }
+
+  .nearby-panel {
+    top: calc(78px + env(safe-area-inset-top)) !important;
+    left: 16px !important;
+    width: auto !important;
+  }
+
+  .nearby-trigger {
+    width: auto !important;
+    min-height: 44px;
+    padding: 0.6rem 0.8rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 5px 14px rgba(15, 23, 42, 0.16) !important;
+    font-size: 0.78rem !important;
+  }
+
+  .leaflet-control-zoom a {
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 38px !important;
+  }
+}
