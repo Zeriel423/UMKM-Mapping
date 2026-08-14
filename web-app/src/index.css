@@ -1503,3 +1503,195 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 38px !important;
   }
 }
+
+/* Restore the original mobile layout: simple vertical map and discovery panel. */
+@media (max-width: 768px) {
+  body {
+    overflow: auto;
+    min-height: initial;
+    background: var(--bg-color);
+  }
+
+  .app-container {
+    height: 100vh;
+    min-height: 0;
+  }
+
+  .sidebar-toggle {
+    top: 15px;
+    left: 15px;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-sm);
+    background: var(--bg-elevated);
+    color: var(--primary-color);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar {
+    width: 85%;
+    max-width: 340px;
+    height: 100vh;
+    padding: 1.75rem;
+    border-radius: 0;
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .main-content {
+    height: auto;
+  }
+
+  .map-container {
+    height: 56vh;
+    flex: 0 0 56vh;
+  }
+
+  .business-panel {
+    height: 44vh;
+    flex: 0 0 44vh;
+    margin-top: 0;
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    border-radius: 0;
+    background: #fff;
+    box-shadow: 0 -5px 18px rgba(15, 23, 42, 0.08);
+    overscroll-behavior: auto;
+  }
+
+  .mobile-panel-handle {
+    display: none;
+  }
+
+  .community-collections,
+  .business-results,
+  .business-detail {
+    margin: 0;
+    padding: 0.85rem 1rem;
+  }
+
+  .community-collections {
+    padding-top: 0.85rem;
+    background: linear-gradient(150deg, #f0faf8 0%, #ffffff 100%);
+  }
+
+  .community-collections .section-heading,
+  .business-results .section-heading {
+    margin-bottom: 0.75rem;
+  }
+
+  .community-collections .section-heading h2 {
+    display: block;
+  }
+
+  .section-heading h2,
+  .business-results .section-heading h2 {
+    font-size: 0.95rem;
+    letter-spacing: normal;
+  }
+
+  .eyebrow,
+  .community-collections .eyebrow,
+  .business-detail-topline > span {
+    font-size: 0.62rem;
+    letter-spacing: 0.09em;
+  }
+
+  .collection-list {
+    flex-direction: column;
+    gap: 0.45rem;
+    overflow: visible;
+    padding-bottom: 0;
+    scroll-snap-type: none;
+  }
+
+  .collection-card {
+    width: 100%;
+    grid-template-columns: auto 1fr auto;
+    flex: none;
+    min-height: 0;
+    gap: 0.6rem;
+    padding: 0.65rem;
+    border-radius: var(--border-radius-sm);
+    box-shadow: none;
+    scroll-snap-align: none;
+  }
+
+  .collection-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .collection-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .collection-copy strong {
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
+
+  .collection-copy span {
+    display: inline;
+    font-size: 0.66rem;
+  }
+
+  .collection-count {
+    padding-left: 0;
+    font-size: 0.68rem;
+  }
+
+  .business-detail {
+    border: 0;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 0;
+    background: #fffdf6;
+  }
+
+  .business-results {
+    padding-top: 0.85rem;
+    background: transparent;
+  }
+
+  .business-card {
+    border-radius: var(--border-radius-sm);
+  }
+
+  .business-card-main {
+    padding: 0.72rem;
+  }
+
+  .business-card-title {
+    font-size: 0.8rem;
+  }
+
+  .business-card-category,
+  .business-card-address {
+    font-size: 0.67rem;
+  }
+
+  .nearby-panel {
+    top: 76px !important;
+    left: 16px !important;
+    width: min(340px, calc(100% - 32px)) !important;
+  }
+
+  .nearby-trigger {
+    width: 100% !important;
+    min-height: 0;
+    padding: 12px 16px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.18) !important;
+    font-size: 14px !important;
+  }
+
+  .leaflet-control-zoom a {
+    width: auto !important;
+    height: auto !important;
+    line-height: 26px !important;
+  }
+
+  .map-legend {
+    display: block;
+  }
+}
