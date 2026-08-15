@@ -220,7 +220,7 @@ function App() {
   }
 
   return (
-    <div className="app-container">
+    <div className={`app-container ${sidebarOpen ? 'sidebar-open' : ''}`}>
       {/* Mobile sidebar toggle */}
       <button
         className="sidebar-toggle"
