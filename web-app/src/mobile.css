@@ -36,18 +36,27 @@
     box-shadow: 0 7px 20px rgba(15, 23, 42, 0.16) !important;
   }
 
+  /* When the sidebar is open, clear the map controls from underneath it. */
+  .app-container.sidebar-open .nearby-panel {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
   /* Hide Leaflet + / - controls on mobile only. */
   .leaflet-control-zoom {
     display: none !important;
   }
 
-  /* Hide the community section on mobile. */
+  /* Keep the community section visible on mobile. */
   .business-panel .community-collections {
-    display: none !important;
+    display: block;
   }
 
-  /* Let the useful UMKM results start immediately in the lower panel. */
-  .business-panel .business-results {
-    padding-top: 1rem;
+  /* The clustering calculation details are useful for analysis, but not for
+     visitors on a small screen. Keep the UMKM-focused content uncluttered. */
+  .sidebar .algo-info,
+  .sidebar .sidebar-footer {
+    display: none !important;
   }
 }
