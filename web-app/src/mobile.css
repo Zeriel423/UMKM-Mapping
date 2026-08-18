@@ -63,8 +63,8 @@
   /* =========================================================
      MOBILE DISCOVERY SHEET
      Closed: only the compact trigger is visible.
-     Open: the discovery panel slides up to roughly half the viewport,
-     keeping the map visible above it.
+     Open: the discovery panel uses about 38% of the viewport,
+     leaving most of the map visible above it.
      ========================================================= */
 
   .mobile-discovery-trigger {
@@ -129,7 +129,7 @@
     bottom: 0 !important;
     width: 100% !important;
     max-width: none !important;
-    height: min(54vh, 680px) !important;
+    height: min(38vh, 460px) !important;
     max-height: calc(100dvh - 82px) !important;
     flex: none !important;
     order: initial !important;
@@ -250,6 +250,6 @@
   }
 
   .business-panel {
-    height: min(56vh, 640px) !important;
+    height: min(36vh, 400px) !important;
   }
 }
