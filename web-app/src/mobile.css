@@ -48,7 +48,7 @@
     display: none !important;
   }
 
-  /* Keep the community section visible on mobile. */
+  /* Keep the community section visible when the discovery sheet is opened. */
   .business-panel .community-collections {
     display: block;
   }
@@ -58,5 +58,198 @@
   .sidebar .algo-info,
   .sidebar .sidebar-footer {
     display: none !important;
+  }
+
+  /* =========================================================
+     MOBILE DISCOVERY SHEET
+     Closed: only the compact trigger is visible.
+     Open: the discovery panel slides up to roughly half the viewport,
+     keeping the map visible above it.
+     ========================================================= */
+
+  .mobile-discovery-trigger {
+    position: fixed;
+    left: 50%;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 1850;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-width: 220px;
+    max-width: calc(100vw - 32px);
+    min-height: 50px;
+    padding: 11px 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 999px;
+    background: rgba(29, 31, 39, 0.94);
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.28);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    touch-action: manipulation;
+
+    transition: transform 0.25s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .mobile-discovery-trigger:hover,
+  .mobile-discovery-trigger:focus-visible {
+    box-shadow: 0 12px 34px rgba(15, 23, 42, 0.34);
+    outline: none;
+  }
+
+  .mobile-discovery-trigger:active {
+    transform: translateX(-50%) scale(0.98);
+  }
+
+  .mobile-discovery-trigger svg {
+    flex-shrink: 0;
+  }
+
+  .app-container.discovery-open .mobile-discovery-trigger {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) translateY(12px);
+  }
+
+  .business-panel {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: min(54vh, 680px) !important;
+    max-height: calc(100dvh - 82px) !important;
+    flex: none !important;
+    order: initial !important;
+
+    z-index: 1800 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
+    border: 0 !important;
+    border-radius: 24px 24px 0 0 !important;
+    box-shadow: 0 -14px 40px rgba(15, 23, 42, 0.22) !important;
+
+    transform: translateY(100%) !important;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+
+    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.2s ease,
+                visibility 0s linear 0.34s;
+  }
+
+  .business-panel.mobile-open {
+    transform: translateY(0) !important;
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.2s ease,
+                visibility 0s linear 0s;
+  }
+
+  .mobile-panel-header {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.94);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .mobile-panel-handle {
+    width: 42px;
+    height: 5px;
+    border-radius: 999px;
+    background: #cbd5e1;
+  }
+
+  .mobile-panel-close {
+    position: absolute;
+    right: 12px;
+    top: 7px;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+
+  .mobile-panel-close:active {
+    transform: scale(0.95);
+  }
+
+  .business-panel .community-collections,
+  .business-panel .business-results,
+  .business-panel .business-detail {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .business-panel .community-collections {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .business-panel .collection-list {
+    gap: 10px;
+  }
+
+  .business-panel .collection-card {
+    min-height: 82px;
+  }
+
+  .business-panel .business-card-list {
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+
+  /* Keep the top map search hidden while the discovery sheet is expanded so
+     the sheet has one clear interaction focus. */
+  .app-container.discovery-open .nearby-panel {
+    opacity: 0.35 !important;
+    pointer-events: none !important;
+  }
+
+  /* Sidebar remains the highest-priority mobile navigation surface. */
+  .app-container.sidebar-open .business-panel {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .mobile-discovery-trigger {
+    min-width: 0;
+    width: calc(100vw - 32px);
+  }
+
+  .business-panel {
+    height: min(56vh, 640px) !important;
   }
 }
