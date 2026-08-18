@@ -17,7 +17,6 @@
     box-shadow: 0 7px 20px rgba(21, 69, 62, 0.28);
   }
 
-  /* Put the nearest-UMKM search beside the burger button. */
   .nearby-panel {
     top: calc(15px + env(safe-area-inset-top)) !important;
     left: 75px !important;
@@ -36,36 +35,24 @@
     box-shadow: 0 7px 20px rgba(15, 23, 42, 0.16) !important;
   }
 
-  /* When the sidebar is open, clear the map controls from underneath it. */
   .app-container.sidebar-open .nearby-panel {
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
   }
 
-  /* Hide Leaflet + / - controls on mobile only. */
   .leaflet-control-zoom {
     display: none !important;
   }
 
-  /* Keep the community section visible when the discovery sheet is opened. */
   .business-panel .community-collections {
     display: block;
   }
 
-  /* The clustering calculation details are useful for analysis, but not for
-     visitors on a small screen. Keep the UMKM-focused content uncluttered. */
   .sidebar .algo-info,
   .sidebar .sidebar-footer {
     display: none !important;
   }
-
-  /* =========================================================
-     MOBILE DISCOVERY SHEET
-     Closed: only the compact trigger is visible.
-     Open: the discovery panel uses about 38% of the viewport,
-     leaving most of the map visible above it.
-     ========================================================= */
 
   .mobile-discovery-trigger {
     position: fixed;
@@ -73,17 +60,14 @@
     bottom: calc(18px + env(safe-area-inset-bottom));
     transform: translateX(-50%);
     z-index: 1850;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 9px;
-
     min-width: 220px;
     max-width: calc(100vw - 32px);
     min-height: 50px;
     padding: 11px 20px;
-
     border: 1px solid rgba(255, 255, 255, 0.65);
     border-radius: 999px;
     background: rgba(29, 31, 39, 0.94);
@@ -91,14 +75,12 @@
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.28);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-
     font-family: var(--font-body);
     font-size: 14px;
     font-weight: 700;
     line-height: 1;
     cursor: pointer;
     touch-action: manipulation;
-
     transition: transform 0.25s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   }
 
@@ -133,22 +115,18 @@
     max-height: calc(100dvh - 82px) !important;
     flex: none !important;
     order: initial !important;
-
     z-index: 1800 !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
-
     border: 0 !important;
     border-radius: 24px 24px 0 0 !important;
     box-shadow: 0 -14px 40px rgba(15, 23, 42, 0.22) !important;
-
     transform: translateY(100%) !important;
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
-
     transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
                 opacity 0.2s ease,
                 visibility 0s linear 0.34s;
@@ -229,17 +207,47 @@
     padding-bottom: calc(24px + env(safe-area-inset-bottom));
   }
 
-  /* Keep the top map search hidden while the discovery sheet is expanded so
-     the sheet has one clear interaction focus. */
   .app-container.discovery-open .nearby-panel {
     opacity: 0.35 !important;
     pointer-events: none !important;
   }
 
-  /* Sidebar remains the highest-priority mobile navigation surface. */
   .app-container.sidebar-open .business-panel {
     visibility: hidden !important;
     pointer-events: none !important;
+  }
+
+  /* The discovery sheet is fixed, so the map itself must use the full
+     mobile viewport. The base stylesheet's old 53dvh/56vh map height
+     otherwise leaves a large blank area under the Leaflet canvas. */
+  .app-container {
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  .main-content {
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .map-container,
+  #map-container {
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    flex: 1 1 auto !important;
+  }
+
+  #map-container .leaflet-container {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
   }
 }
 
