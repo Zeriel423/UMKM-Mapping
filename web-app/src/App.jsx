@@ -8,23 +8,17 @@ import { Loader2, AlertTriangle, Menu, X, Search } from 'lucide-react';
 const businessTitle = (business) => business.brand?.trim() || business.name || 'UMKM tanpa nama';
 
 function App() {
-  // Data state
   const [rawData, setRawData] = useState([]);
   const [kValue, setKValue] = useState(3);
-
-  // UI state
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
-
-  // Search & filter state
   const [searchQuery, setSearchQuery] = useState('');
   const [productFilter, setProductFilter] = useState('');
   const [activeCollection, setActiveCollection] = useState(null);
   const [selectedBusinessId, setSelectedBusinessId] = useState(null);
 
-  // Load data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -46,8 +40,6 @@ function App() {
     fetchData();
   }, []);
 
-  // A shared business link uses the static-app-friendly format: ?umkm=<id>.
-  // Keep the selected card in sync when visitors use the browser back button.
   useEffect(() => {
     if (rawData.length === 0) return undefined;
 
@@ -63,7 +55,6 @@ function App() {
     return () => window.removeEventListener('popstate', syncSelectedBusinessFromUrl);
   }, [rawData]);
 
-  // Extract unique product types from data
   const productTypes = useMemo(() => {
     if (rawData.length === 0) return [];
     const typeMap = new Map();
@@ -78,7 +69,6 @@ function App() {
     return Array.from(typeMap.values()).sort((a, b) => b.count - a.count);
   }, [rawData]);
 
-  // Filter data based on search and product filter
   const filteredData = useMemo(() => {
     let result = rawData;
 
@@ -107,7 +97,6 @@ function App() {
     [rawData, selectedBusinessId],
   );
 
-  // Compute clustering results from filtered data and kValue
   const clusterResult = useMemo(() => {
     if (filteredData.length === 0) {
       return { clusteredData: [], centroids: [], colors: [], clusterStats: [], clusterRadii: [], iterations: 0, wcss: 0 };
@@ -140,9 +129,7 @@ function App() {
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((isOpen) => {
       const nextOpen = !isOpen;
-      if (nextOpen) {
-        setDiscoveryOpen(false);
-      }
+      if (nextOpen) setDiscoveryOpen(false);
       return nextOpen;
     });
   }, []);
@@ -153,11 +140,7 @@ function App() {
 
     setSelectedBusinessId(businessId);
 
-    // On mobile, close the discovery sheet after a list selection so the map
-    // and the selected location remain visible together.
-    if (wasDiscoveryOpen) {
-      setDiscoveryOpen(false);
-    }
+    if (wasDiscoveryOpen) setDiscoveryOpen(false);
 
     const url = new URL(window.location.href);
     url.searchParams.set('umkm', businessId);
@@ -172,19 +155,22 @@ function App() {
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
-  // When an item is selected from the mobile list, reuse the existing Leaflet
-  // popup instead of rendering a second floating detail card. The selected
-  // marker is centered by Map.jsx; clicking the marker DOM element opens the
-  // exact same popup used by normal map interaction.
+  // Reuse the existing Leaflet popup instead of rendering a second floating
+  // detail card when a business is selected from the mobile list.
   useEffect(() => {
     if (!selectedBusiness) return undefined;
 
     const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
+    const selectedName = businessTitle(selectedBusiness);
+    const selectedAddress = selectedBusiness.address || '';
 
     const addRouteButton = () => {
       const popupContent = document.querySelector('.leaflet-popup-content');
       if (!popupContent || popupContent.querySelector('.popup-route-button')) return;
-      if (!popupContent.textContent?.includes(businessTitle(selectedBusiness))) return;
+
+      const popupText = popupContent.textContent || '';
+      const matchesBusiness = popupText.includes(selectedName) || (selectedAddress && popupText.includes(selectedAddress));
+      if (!matchesBusiness) return;
 
       const routeButton = document.createElement('a');
       routeButton.className = 'popup-route-button';
@@ -240,7 +226,11 @@ function App() {
         .sort((a, b) => a.distance - b.distance)[0];
 
       if (marker && marker.distance < Math.max(mapRect.width, mapRect.height) * 0.2) {
-        marker.element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+        marker.element.dispatchEvent(new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        }));
         window.setTimeout(addRouteButton, 80);
       }
     };
@@ -292,7 +282,6 @@ function App() {
     }
   }, []);
 
-  // Loading screen
   if (isLoading) {
     return (
       <div className="loading-screen">
@@ -304,7 +293,6 @@ function App() {
     );
   }
 
-  // Error screen
   if (error) {
     return (
       <div className="error-screen">
@@ -322,7 +310,6 @@ function App() {
 
   return (
     <div className={`app-container ${sidebarOpen ? 'sidebar-open' : ''} ${discoveryOpen ? 'discovery-open' : ''}`}>
-      {/* Mobile sidebar toggle */}
       <button
         className="sidebar-toggle"
         onClick={toggleSidebar}
@@ -332,13 +319,11 @@ function App() {
         {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
       </button>
 
-      {/* Mobile overlay */}
       <div
         className={`sidebar-overlay ${sidebarOpen ? 'visible' : ''}`}
         onClick={closeSidebar}
       />
 
-      {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
         kValue={kValue}
@@ -355,7 +340,6 @@ function App() {
         productTypes={productTypes}
       />
 
-      {/* Main map area */}
       <main className="main-content">
         <button
           className="mobile-discovery-trigger"
