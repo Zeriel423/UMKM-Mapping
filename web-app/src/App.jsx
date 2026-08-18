@@ -3,18 +3,9 @@ import Sidebar from './components/Sidebar';
 import MapView from './components/Map';
 import BusinessList from './components/BusinessList';
 import { performKMeans, generateClusterColors } from './utils/kmeans';
-import { Loader2, AlertTriangle, Menu, X, Search, ExternalLink, MapPin } from 'lucide-react';
+import { Loader2, AlertTriangle, Menu, X, Search } from 'lucide-react';
 
 const businessTitle = (business) => business.brand?.trim() || business.name || 'UMKM tanpa nama';
-
-const directionsUrl = (business) => {
-  const lat = Number(business?.lat);
-  const lng = Number(business?.lng);
-
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
-
-  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lng}`)}`;
-};
 
 function App() {
   // Data state
@@ -26,7 +17,6 @@ function App() {
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
-  const [showMapDetailCard, setShowMapDetailCard] = useState(false);
 
   // Search & filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -65,7 +55,6 @@ function App() {
       const businessId = new URLSearchParams(window.location.search).get('umkm');
       const businessExists = rawData.some((business) => String(business.id) === businessId);
       setSelectedBusinessId(businessExists ? businessId : null);
-      if (!businessExists) setShowMapDetailCard(false);
     };
 
     syncSelectedBusinessFromUrl();
@@ -153,7 +142,6 @@ function App() {
       const nextOpen = !isOpen;
       if (nextOpen) {
         setDiscoveryOpen(false);
-        setShowMapDetailCard(false);
       }
       return nextOpen;
     });
@@ -164,7 +152,6 @@ function App() {
     const wasDiscoveryOpen = discoveryOpen;
 
     setSelectedBusinessId(businessId);
-    setShowMapDetailCard(wasDiscoveryOpen);
 
     // On mobile, close the discovery sheet after a list selection so the map
     // and the selected location remain visible together.
@@ -179,12 +166,93 @@ function App() {
 
   const clearSelectedBusiness = useCallback(() => {
     setSelectedBusinessId(null);
-    setShowMapDetailCard(false);
 
     const url = new URL(window.location.href);
     url.searchParams.delete('umkm');
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
+
+  // When an item is selected from the mobile list, reuse the existing Leaflet
+  // popup instead of rendering a second floating detail card. The selected
+  // marker is centered by Map.jsx; clicking the marker DOM element opens the
+  // exact same popup used by normal map interaction.
+  useEffect(() => {
+    if (!selectedBusiness) return undefined;
+
+    const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
+
+    const addRouteButton = () => {
+      const popupContent = document.querySelector('.leaflet-popup-content');
+      if (!popupContent || popupContent.querySelector('.popup-route-button')) return;
+      if (!popupContent.textContent?.includes(businessTitle(selectedBusiness))) return;
+
+      const routeButton = document.createElement('a');
+      routeButton.className = 'popup-route-button';
+      routeButton.href = routeUrl;
+      routeButton.target = '_blank';
+      routeButton.rel = 'noreferrer';
+      routeButton.textContent = '🚗 Rute';
+      routeButton.style.cssText = [
+        'display:flex',
+        'align-items:center',
+        'justify-content:center',
+        'width:100%',
+        'box-sizing:border-box',
+        'margin-top:10px',
+        'padding:8px 12px',
+        'border-radius:8px',
+        'background:#0f766e',
+        'color:#fff',
+        'font-size:12px',
+        'font-weight:700',
+        'text-decoration:none',
+      ].join(';');
+
+      popupContent.appendChild(routeButton);
+    };
+
+    const openSelectedMarkerPopup = () => {
+      addRouteButton();
+
+      const mapElement = document.querySelector('#map-container .leaflet-container');
+      if (!mapElement) return;
+
+      const mapRect = mapElement.getBoundingClientRect();
+      const targetX = mapRect.left + mapRect.width / 2;
+      const targetY = mapRect.top + mapRect.height / 2;
+
+      const markerElements = Array.from(
+        mapElement.querySelectorAll('.leaflet-marker-icon.custom-div-icon'),
+      ).filter((element) => element.innerHTML.includes('width: 10px'));
+
+      if (markerElements.length === 0) return;
+
+      const marker = markerElements
+        .map((element) => {
+          const rect = element.getBoundingClientRect();
+          const x = rect.left + rect.width / 2;
+          const y = rect.top + rect.height / 2;
+          return {
+            element,
+            distance: Math.hypot(x - targetX, y - targetY),
+          };
+        })
+        .sort((a, b) => a.distance - b.distance)[0];
+
+      if (marker && marker.distance < Math.max(mapRect.width, mapRect.height) * 0.2) {
+        marker.element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+        window.setTimeout(addRouteButton, 80);
+      }
+    };
+
+    const firstAttempt = window.setTimeout(openSelectedMarkerPopup, 900);
+    const secondAttempt = window.setTimeout(openSelectedMarkerPopup, 1300);
+
+    return () => {
+      window.clearTimeout(firstAttempt);
+      window.clearTimeout(secondAttempt);
+    };
+  }, [selectedBusiness]);
 
   const selectProductFilter = useCallback((filter) => {
     setActiveCollection(null);
@@ -294,7 +362,6 @@ function App() {
           type="button"
           onClick={() => {
             setSidebarOpen(false);
-            setShowMapDetailCard(false);
             setDiscoveryOpen(true);
           }}
           aria-label="Buka pencarian dan pilihan komunitas"
@@ -313,77 +380,6 @@ function App() {
           selectedBusiness={selectedBusiness}
           onSelectBusiness={selectBusiness}
         />
-
-        {showMapDetailCard && selectedBusiness && (
-          <article
-            className="map-selection-detail-card"
-            aria-label={`Detail ${businessTitle(selectedBusiness)}`}
-            style={{
-              position: 'absolute',
-              left: '50%',
-              bottom: '24px',
-              transform: 'translateX(-50%)',
-              zIndex: 1800,
-              width: 'min(390px, calc(100% - 32px))',
-              boxSizing: 'border-box',
-              padding: '16px 18px',
-              borderRadius: '18px',
-              background: 'rgba(255,255,255,0.97)',
-              boxShadow: '0 12px 35px rgba(15,23,42,0.22)',
-              border: '1px solid rgba(15,23,42,0.08)',
-              backdropFilter: 'blur(10px)',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
-              <div style={{ minWidth: 0 }}>
-                <span style={{ display: 'block', fontSize: '10px', fontWeight: 800, letterSpacing: '0.12em', color: '#0f766e', marginBottom: '5px' }}>
-                  UMKM TERPILIH
-                </span>
-                <h2 style={{ margin: 0, fontSize: '18px', lineHeight: 1.2, color: '#0f172a' }}>
-                  {businessTitle(selectedBusiness)}
-                </h2>
-                <span style={{ display: 'inline-block', marginTop: '7px', padding: '4px 8px', borderRadius: '999px', background: '#e6f7f3', color: '#0f766e', fontSize: '11px', fontWeight: 700 }}>
-                  {selectedBusiness.product_label || selectedBusiness.product_type || 'UMKM'}
-                </span>
-              </div>
-              <button
-                type="button"
-                onClick={clearSelectedBusiness}
-                aria-label="Tutup kartu detail UMKM"
-                style={{ flex: '0 0 auto', width: '32px', height: '32px', border: 0, borderRadius: '50%', background: '#f1f5f9', color: '#475569', display: 'grid', placeItems: 'center', cursor: 'pointer' }}
-              >
-                <X size={17} />
-              </button>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '7px', marginTop: '11px', color: '#64748b', fontSize: '12px', lineHeight: 1.45 }}>
-              <MapPin size={15} style={{ flex: '0 0 auto', marginTop: '1px' }} />
-              <span>{selectedBusiness.address || 'Alamat belum tersedia'}</span>
-            </div>
-
-            <div style={{ display: 'flex', gap: '8px', marginTop: '13px' }}>
-              {directionsUrl(selectedBusiness) && (
-                <a
-                  className="action-button primary"
-                  href={directionsUrl(selectedBusiness)}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ flex: 1, justifyContent: 'center', textDecoration: 'none' }}
-                >
-                  <ExternalLink size={15} /> Rute
-                </a>
-              )}
-              <button
-                className="action-button secondary"
-                type="button"
-                onClick={() => setShowMapDetailCard(false)}
-                style={{ flex: 1, justifyContent: 'center' }}
-              >
-                Lihat di daftar
-              </button>
-            </div>
-          </article>
-        )}
 
         <BusinessList
           key={`${searchQuery}-${productFilter}-${activeCollection?.id || 'all'}`}
