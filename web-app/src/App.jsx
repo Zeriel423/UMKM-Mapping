@@ -3,7 +3,7 @@ import Sidebar from './components/Sidebar';
 import MapView from './components/Map';
 import BusinessList from './components/BusinessList';
 import { performKMeans, generateClusterColors } from './utils/kmeans';
-import { Loader2, AlertTriangle, Menu, X } from 'lucide-react';
+import { Loader2, AlertTriangle, Menu, X, Search } from 'lucide-react';
 
 function App() {
   // Data state
@@ -14,6 +14,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [discoveryOpen, setDiscoveryOpen] = useState(false);
 
   // Search & filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -136,6 +137,14 @@ function App() {
   // Close sidebar on mobile when clicking overlay
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
 
+  const toggleSidebar = useCallback(() => {
+    setSidebarOpen((isOpen) => {
+      const nextOpen = !isOpen;
+      if (nextOpen) setDiscoveryOpen(false);
+      return nextOpen;
+    });
+  }, []);
+
   const selectBusiness = useCallback((business) => {
     const businessId = String(business.id);
     setSelectedBusinessId(businessId);
@@ -220,11 +229,11 @@ function App() {
   }
 
   return (
-    <div className={`app-container ${sidebarOpen ? 'sidebar-open' : ''}`}>
+    <div className={`app-container ${sidebarOpen ? 'sidebar-open' : ''} ${discoveryOpen ? 'discovery-open' : ''}`}>
       {/* Mobile sidebar toggle */}
       <button
         className="sidebar-toggle"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
+        onClick={toggleSidebar}
         aria-label={sidebarOpen ? 'Tutup menu' : 'Buka menu'}
         id="sidebar-toggle"
       >
@@ -256,6 +265,20 @@ function App() {
 
       {/* Main map area */}
       <main className="main-content">
+        <button
+          className="mobile-discovery-trigger"
+          type="button"
+          onClick={() => {
+            setSidebarOpen(false);
+            setDiscoveryOpen(true);
+          }}
+          aria-label="Buka pencarian dan pilihan komunitas"
+          aria-expanded={discoveryOpen}
+        >
+          <Search size={18} aria-hidden="true" />
+          <span>Pencarian &amp; Komunitas</span>
+        </button>
+
         <MapView
           data={clusteredData}
           centroids={centroids}
@@ -275,6 +298,8 @@ function App() {
           onSelectBusiness={selectBusiness}
           onClearSelectedBusiness={clearSelectedBusiness}
           onShareBusiness={shareBusiness}
+          isMobileOpen={discoveryOpen}
+          onMobileClose={() => setDiscoveryOpen(false)}
         />
       </main>
     </div>
