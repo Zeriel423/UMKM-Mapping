@@ -51,6 +51,8 @@ const BusinessList = ({
   onSelectBusiness,
   onClearSelectedBusiness,
   onShareBusiness,
+  isMobileOpen = false,
+  onMobileClose,
 }) => {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [notice, setNotice] = useState('');
@@ -70,8 +72,19 @@ const BusinessList = ({
   };
 
   return (
-    <aside className="business-panel" aria-label="Daftar UMKM">
-      <div className="mobile-panel-handle" aria-hidden="true" />
+    <aside className={`business-panel ${isMobileOpen ? 'mobile-open' : ''}`} aria-label="Daftar UMKM">
+      <div className="mobile-panel-header">
+        <div className="mobile-panel-handle" aria-hidden="true" />
+        <button
+          className="mobile-panel-close"
+          type="button"
+          onClick={onMobileClose}
+          aria-label="Tutup pencarian dan pilihan komunitas"
+        >
+          <X size={18} />
+        </button>
+      </div>
+
       <CommunityCollections
         data={allBusinesses}
         activeCollectionId={activeCollectionId}
