@@ -134,18 +134,18 @@ function App() {
     });
   }, []);
 
+  // Keep this callback stable. Recreating it when the mobile panel closes
+  // caused the Leaflet marker layer to be rebuilt, which closed the popup.
   const selectBusiness = useCallback((business) => {
     const businessId = String(business.id);
-    const wasDiscoveryOpen = discoveryOpen;
 
     setSelectedBusinessId(businessId);
-
-    if (wasDiscoveryOpen) setDiscoveryOpen(false);
+    setDiscoveryOpen(false);
 
     const url = new URL(window.location.href);
     url.searchParams.set('umkm', businessId);
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
-  }, [discoveryOpen]);
+  }, []);
 
   const clearSelectedBusiness = useCallback(() => {
     setSelectedBusinessId(null);
@@ -155,8 +155,8 @@ function App() {
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
-  // Reuse the existing Leaflet popup instead of rendering a second floating
-  // detail card when a business is selected from the mobile list.
+  // Reuse the existing Leaflet popup. This does not render a second detail
+  // card; it only clicks the existing marker and appends the Rute action.
   useEffect(() => {
     if (!selectedBusiness) return undefined;
 
@@ -198,8 +198,6 @@ function App() {
     };
 
     const openSelectedMarkerPopup = () => {
-      addRouteButton();
-
       const mapElement = document.querySelector('#map-container .leaflet-container');
       if (!mapElement) return;
 
@@ -231,12 +229,15 @@ function App() {
           cancelable: true,
           view: window,
         }));
+
         window.setTimeout(addRouteButton, 80);
+        window.setTimeout(addRouteButton, 250);
       }
     };
 
-    const firstAttempt = window.setTimeout(openSelectedMarkerPopup, 900);
-    const secondAttempt = window.setTimeout(openSelectedMarkerPopup, 1300);
+    // Wait for flyTo/marker rendering, then open the existing Leaflet popup.
+    const firstAttempt = window.setTimeout(openSelectedMarkerPopup, 700);
+    const secondAttempt = window.setTimeout(openSelectedMarkerPopup, 1100);
 
     return () => {
       window.clearTimeout(firstAttempt);
