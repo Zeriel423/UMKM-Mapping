@@ -1,46 +1,10 @@
-import { ExternalLink, MapPin, Share2, X } from 'lucide-react';
+import { MapPin, Share2, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import CommunityCollections from './CommunityCollections';
 
 const PAGE_SIZE = 40;
 
 const businessTitle = (business) => business.brand?.trim() || business.name || 'UMKM tanpa nama';
-
-const directionsUrl = (business) => {
-  const lat = Number(business.lat);
-  const lng = Number(business.lng);
-
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
-
-  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lng}`)}`;
-};
-
-const BusinessDetail = ({ business, onClose, onShare }) => (
-  <article className="business-detail" aria-label={`Detail ${businessTitle(business)}`}>
-    <div className="business-detail-topline">
-      <span>DETAIL UMKM</span>
-      <button className="icon-button" type="button" onClick={onClose} aria-label="Tutup detail UMKM">
-        <X size={17} />
-      </button>
-    </div>
-    <h2>{businessTitle(business)}</h2>
-    {business.brand && business.name !== business.brand && (
-      <p className="business-legal-name">{business.name}</p>
-    )}
-    <span className="business-category">{business.product_label || business.product_type}</span>
-    <p className="business-address"><MapPin size={15} />{business.address || 'Alamat belum tersedia'}</p>
-    <div className="business-detail-actions">
-      {directionsUrl(business) && (
-        <a className="action-button primary" href={directionsUrl(business)} target="_blank" rel="noreferrer">
-          <ExternalLink size={15} /> Rute
-        </a>
-      )}
-      <button className="action-button secondary" type="button" onClick={() => onShare(business)}>
-        <Share2 size={15} /> Bagikan
-      </button>
-    </div>
-  </article>
-);
 
 const BusinessList = ({
   businesses,
@@ -90,14 +54,6 @@ const BusinessList = ({
         activeCollectionId={activeCollectionId}
         onSelect={onSelectCollection}
       />
-
-      {selectedBusiness && (
-        <BusinessDetail
-          business={selectedBusiness}
-          onClose={onClearSelectedBusiness}
-          onShare={share}
-        />
-      )}
 
       <section className="business-results" aria-labelledby="business-results-title">
         <div className="section-heading results-heading">
