@@ -156,21 +156,27 @@ function App() {
   }, []);
 
   // Reuse the existing Leaflet popup. This does not render a second detail
-  // card; it only clicks the existing marker and appends the Rute action.
+  // card; it only opens the existing marker popup and appends the Rute action.
   useEffect(() => {
     if (!selectedBusiness) return undefined;
 
     const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
     const selectedName = businessTitle(selectedBusiness);
     const selectedAddress = selectedBusiness.address || '';
+    let retryTimer = null;
+    let stopped = false;
 
+    // Add the Rute button only to the existing Leaflet popup for this UMKM.
     const addRouteButton = () => {
       const popupContent = document.querySelector('.leaflet-popup-content');
-      if (!popupContent || popupContent.querySelector('.popup-route-button')) return;
+      if (!popupContent || popupContent.querySelector('.popup-route-button')) return false;
 
       const popupText = popupContent.textContent || '';
-      const matchesBusiness = popupText.includes(selectedName) || (selectedAddress && popupText.includes(selectedAddress));
-      if (!matchesBusiness) return;
+      const matchesBusiness =
+        popupText.includes(selectedName) ||
+        (selectedAddress && popupText.includes(selectedAddress));
+
+      if (!matchesBusiness) return false;
 
       const routeButton = document.createElement('a');
       routeButton.className = 'popup-route-button';
@@ -195,11 +201,16 @@ function App() {
       ].join(';');
 
       popupContent.appendChild(routeButton);
+      return true;
     };
 
+    // Find the marker moved to the center by flyTo and trigger the same
+    // click event used when a visitor manually clicks a marker.
     const openSelectedMarkerPopup = () => {
+      if (stopped) return true;
+
       const mapElement = document.querySelector('#map-container .leaflet-container');
-      if (!mapElement) return;
+      if (!mapElement) return false;
 
       const mapRect = mapElement.getBoundingClientRect();
       const targetX = mapRect.left + mapRect.width / 2;
@@ -209,7 +220,7 @@ function App() {
         mapElement.querySelectorAll('.leaflet-marker-icon.custom-div-icon'),
       ).filter((element) => element.innerHTML.includes('width: 10px'));
 
-      if (markerElements.length === 0) return;
+      if (markerElements.length === 0) return false;
 
       const marker = markerElements
         .map((element) => {
@@ -223,25 +234,44 @@ function App() {
         })
         .sort((a, b) => a.distance - b.distance)[0];
 
-      if (marker && marker.distance < Math.max(mapRect.width, mapRect.height) * 0.2) {
-        marker.element.dispatchEvent(new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true,
-          view: window,
-        }));
-
-        window.setTimeout(addRouteButton, 80);
-        window.setTimeout(addRouteButton, 250);
+      if (!marker || marker.distance >= Math.max(mapRect.width, mapRect.height) * 0.2) {
+        return false;
       }
+
+      marker.element.dispatchEvent(new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+      }));
+
+      // Leaflet creates the popup asynchronously after the marker click.
+      window.setTimeout(addRouteButton, 80);
+      window.setTimeout(addRouteButton, 250);
+      window.setTimeout(addRouteButton, 500);
+
+      return true;
     };
 
-    // Wait for flyTo/marker rendering, then open the existing Leaflet popup.
-    const firstAttempt = window.setTimeout(openSelectedMarkerPopup, 700);
-    const secondAttempt = window.setTimeout(openSelectedMarkerPopup, 1100);
+    // MarkerCluster loads asynchronously, and closing the mobile panel can
+    // also take a frame. Retry briefly instead of using one fixed timeout.
+    const retryOpenPopup = () => {
+      if (stopped) return;
+
+      const opened = openSelectedMarkerPopup();
+      if (opened) {
+        stopped = true;
+        return;
+      }
+
+      retryTimer = window.setTimeout(retryOpenPopup, 180);
+    };
+
+    const initialTimer = window.setTimeout(retryOpenPopup, 300);
 
     return () => {
-      window.clearTimeout(firstAttempt);
-      window.clearTimeout(secondAttempt);
+      stopped = true;
+      window.clearTimeout(initialTimer);
+      if (retryTimer) window.clearTimeout(retryTimer);
     };
   }, [selectedBusiness]);
 
