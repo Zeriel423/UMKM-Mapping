@@ -18,6 +18,7 @@ function App() {
   const [productFilter, setProductFilter] = useState('');
   const [activeCollection, setActiveCollection] = useState(null);
   const [selectedBusinessId, setSelectedBusinessId] = useState(null);
+  const [focusSelectedBusiness, setFocusSelectedBusiness] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +48,7 @@ function App() {
       const businessId = new URLSearchParams(window.location.search).get('umkm');
       const businessExists = rawData.some((business) => String(business.id) === businessId);
       setSelectedBusinessId(businessExists ? businessId : null);
+      setFocusSelectedBusiness(businessExists);
     };
 
     syncSelectedBusinessFromUrl();
@@ -128,9 +130,10 @@ function App() {
     });
   }, []);
 
-  const selectBusiness = useCallback((business) => {
+  const selectBusiness = useCallback((business, focus = false) => {
     const businessId = String(business.id);
     setSelectedBusinessId(businessId);
+    setFocusSelectedBusiness(focus);
     setDiscoveryOpen(false);
 
     const url = new URL(window.location.href);
@@ -140,15 +143,16 @@ function App() {
 
   const clearSelectedBusiness = useCallback(() => {
     setSelectedBusinessId(null);
+    setFocusSelectedBusiness(false);
+
     const url = new URL(window.location.href);
     url.searchParams.delete('umkm');
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
-  // The marker popup is owned by Leaflet, so do not render a second card.
-  // After a list/community selection, flyTo can temporarily reposition or
-  // rebuild markercluster layers. Keep trying to open the selected marker
-  // until the popup is actually present and stable.
+  // Leaflet owns the popup. Direct marker clicks must never trigger another
+  // flyTo because that can close the popup that Leaflet just opened.
+  // List/community selections keep the existing flyTo + popup behavior.
   useEffect(() => {
     if (!selectedBusiness) return undefined;
 
@@ -156,6 +160,48 @@ function App() {
     let attempts = 0;
     const maxAttempts = 28;
     let timer = null;
+
+    const selectedName = businessTitle(selectedBusiness);
+    const selectedAddress = selectedBusiness.address || '';
+
+    const addRouteButton = () => {
+      if (cancelled) return;
+
+      const popupContent = document.querySelector('.leaflet-popup-content');
+      if (!popupContent || popupContent.querySelector('.popup-route-button')) return;
+
+      const popupText = popupContent.textContent || '';
+      const matchesBusiness =
+        popupText.includes(selectedName) ||
+        (selectedAddress && popupText.includes(selectedAddress));
+
+      if (!matchesBusiness) return;
+
+      const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
+      const routeButton = document.createElement('a');
+      routeButton.className = 'popup-route-button';
+      routeButton.href = routeUrl;
+      routeButton.target = '_blank';
+      routeButton.rel = 'noreferrer';
+      routeButton.textContent = '🚗 Rute';
+      routeButton.style.cssText = [
+        'display:flex',
+        'align-items:center',
+        'justify-content:center',
+        'width:100%',
+        'box-sizing:border-box',
+        'margin-top:10px',
+        'padding:8px 12px',
+        'border-radius:8px',
+        'background:#0f766e',
+        'color:#fff',
+        'font-size:12px',
+        'font-weight:700',
+        'text-decoration:none',
+      ].join(';');
+
+      popupContent.appendChild(routeButton);
+    };
 
     const openSelectedPopup = () => {
       if (cancelled) return;
@@ -198,52 +244,10 @@ function App() {
         view: window,
       }));
 
-      const selectedName = businessTitle(selectedBusiness);
-      const selectedAddress = selectedBusiness.address || '';
-
-      const addRouteButton = () => {
-        const popupContent = document.querySelector('.leaflet-popup-content');
-        if (!popupContent || popupContent.querySelector('.popup-route-button')) return;
-
-        const popupText = popupContent.textContent || '';
-        const matchesBusiness =
-          popupText.includes(selectedName) ||
-          (selectedAddress && popupText.includes(selectedAddress));
-
-        if (!matchesBusiness) return;
-
-        const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
-        const routeButton = document.createElement('a');
-        routeButton.className = 'popup-route-button';
-        routeButton.href = routeUrl;
-        routeButton.target = '_blank';
-        routeButton.rel = 'noreferrer';
-        routeButton.textContent = '🚗 Rute';
-        routeButton.style.cssText = [
-          'display:flex',
-          'align-items:center',
-          'justify-content:center',
-          'width:100%',
-          'box-sizing:border-box',
-          'margin-top:10px',
-          'padding:8px 12px',
-          'border-radius:8px',
-          'background:#0f766e',
-          'color:#fff',
-          'font-size:12px',
-          'font-weight:700',
-          'text-decoration:none',
-        ].join(';');
-
-        popupContent.appendChild(routeButton);
-      };
-
       window.setTimeout(addRouteButton, 50);
       window.setTimeout(addRouteButton, 150);
       window.setTimeout(addRouteButton, 300);
 
-      // If markercluster closes the popup during its final animation,
-      // the next retry will reopen it. This is intentionally bounded.
       window.setTimeout(() => {
         if (!document.querySelector('.leaflet-popup')) scheduleRetry();
       }, 180);
@@ -255,15 +259,24 @@ function App() {
       timer = window.setTimeout(openSelectedPopup, attempts < 6 ? 180 : 250);
     };
 
-    // Give flyTo a moment to start, then use the retry loop instead of a
-    // single fixed timeout. This handles both desktop and mobile animation.
+    // Direct marker click: Leaflet has already opened the popup. Only add Rute.
+    // List/community selection: open the marker after flyTo as before.
+    if (!focusSelectedBusiness) {
+      const directTimers = [50, 150, 300].map((delay) => window.setTimeout(addRouteButton, delay));
+
+      return () => {
+        cancelled = true;
+        directTimers.forEach((directTimer) => window.clearTimeout(directTimer));
+      };
+    }
+
     timer = window.setTimeout(openSelectedPopup, 700);
 
     return () => {
       cancelled = true;
       if (timer) window.clearTimeout(timer);
     };
-  }, [selectedBusiness]);
+  }, [selectedBusiness, focusSelectedBusiness]);
 
   const selectProductFilter = useCallback((filter) => {
     setActiveCollection(null);
@@ -368,7 +381,7 @@ function App() {
           colors={colors}
           clusterRadii={clusterRadii}
           clusterStats={clusterStats}
-          selectedBusiness={selectedBusiness}
+          selectedBusiness={focusSelectedBusiness ? selectedBusiness : null}
           onSelectBusiness={selectBusiness}
         />
 
@@ -379,7 +392,7 @@ function App() {
           selectedBusiness={selectedBusiness}
           activeCollectionId={activeCollection?.id}
           onSelectCollection={selectCollection}
-          onSelectBusiness={selectBusiness}
+          onSelectBusiness={(business) => selectBusiness(business, true)}
           onClearSelectedBusiness={clearSelectedBusiness}
           onShareBusiness={shareBusiness}
           isMobileOpen={discoveryOpen}
