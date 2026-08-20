@@ -155,80 +155,38 @@ function App() {
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
-  // Reuse the existing Leaflet popup. This does not render a second detail
-  // card; it only opens the existing marker popup and appends the Rute action.
+  // Open the existing Leaflet popup only after flyTo has completely finished.
+  // Waiting for `moveend` avoids opening a popup while markercluster is still
+  // moving/repositioning markers, which previously made the popup flash and disappear.
   useEffect(() => {
     if (!selectedBusiness) return undefined;
 
-    const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
-    const selectedName = businessTitle(selectedBusiness);
-    const selectedAddress = selectedBusiness.address || '';
-    let retryTimer = null;
-    let stopped = false;
+    const mapElement = document.querySelector('#map-container .leaflet-container');
+    if (!mapElement) return undefined;
 
-    const addRouteButton = () => {
-      const popupContent = document.querySelector('.leaflet-popup-content');
-      if (!popupContent || popupContent.querySelector('.popup-route-button')) return false;
-
-      const popupText = popupContent.textContent || '';
-      const matchesBusiness =
-        popupText.includes(selectedName) ||
-        (selectedAddress && popupText.includes(selectedAddress));
-
-      if (!matchesBusiness) return false;
-
-      const routeButton = document.createElement('a');
-      routeButton.className = 'popup-route-button';
-      routeButton.href = routeUrl;
-      routeButton.target = '_blank';
-      routeButton.rel = 'noreferrer';
-      routeButton.textContent = '🚗 Rute';
-      routeButton.style.cssText = [
-        'display:flex',
-        'align-items:center',
-        'justify-content:center',
-        'width:100%',
-        'box-sizing:border-box',
-        'margin-top:10px',
-        'padding:8px 12px',
-        'border-radius:8px',
-        'background:#0f766e',
-        'color:#fff',
-        'font-size:12px',
-        'font-weight:700',
-        'text-decoration:none',
-      ].join(';');
-
-      popupContent.appendChild(routeButton);
-      return true;
-    };
-
-    const openSelectedMarkerPopup = () => {
-      if (stopped) return true;
-
-      const mapElement = document.querySelector('#map-container .leaflet-container');
-      if (!mapElement) return false;
-
+    const findAndOpenPopup = () => {
       const mapRect = mapElement.getBoundingClientRect();
       const targetX = mapRect.left + mapRect.width / 2;
       const targetY = mapRect.top + mapRect.height / 2;
+      const selectedId = String(selectedBusiness.id);
+      const selectedName = businessTitle(selectedBusiness);
+      const selectedAddress = selectedBusiness.address || '';
 
       const markerElements = Array.from(
         mapElement.querySelectorAll('.leaflet-marker-icon.custom-div-icon'),
       ).filter((element) => element.innerHTML.includes('width: 10px'));
 
-      if (markerElements.length === 0) return false;
+      const candidates = markerElements.map((element) => {
+        const rect = element.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+        return { element, distance: Math.hypot(x - targetX, y - targetY) };
+      });
 
-      const marker = markerElements
-        .map((element) => {
-          const rect = element.getBoundingClientRect();
-          const x = rect.left + rect.width / 2;
-          const y = rect.top + rect.height / 2;
-          return { element, distance: Math.hypot(x - targetX, y - targetY) };
-        })
-        .sort((a, b) => a.distance - b.distance)[0];
-
-      if (!marker || marker.distance >= Math.max(mapRect.width, mapRect.height) * 0.2) {
+      // After flyTo, the selected marker should be at the map center.
+      // Use the closest marker rather than a timing-based click.
+      const marker = candidates.sort((a, b) => a.distance - b.distance)[0];
+      if (!marker || marker.distance > Math.max(mapRect.width, mapRect.height) * 0.12) {
         return false;
       }
 
@@ -238,27 +196,80 @@ function App() {
         view: window,
       }));
 
-      window.setTimeout(addRouteButton, 80);
-      window.setTimeout(addRouteButton, 250);
-      window.setTimeout(addRouteButton, 500);
+      const addRouteButton = () => {
+        const popupContent = document.querySelector('.leaflet-popup-content');
+        if (!popupContent || popupContent.querySelector('.popup-route-button')) return;
 
+        const popupText = popupContent.textContent || '';
+        const matchesBusiness =
+          popupText.includes(selectedName) ||
+          (selectedAddress && popupText.includes(selectedAddress));
+
+        if (!matchesBusiness) return;
+
+        const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
+        const routeButton = document.createElement('a');
+        routeButton.className = 'popup-route-button';
+        routeButton.href = routeUrl;
+        routeButton.target = '_blank';
+        routeButton.rel = 'noreferrer';
+        routeButton.textContent = '🚗 Rute';
+        routeButton.style.cssText = [
+          'display:flex',
+          'align-items:center',
+          'justify-content:center',
+          'width:100%',
+          'box-sizing:border-box',
+          'margin-top:10px',
+          'padding:8px 12px',
+          'border-radius:8px',
+          'background:#0f766e',
+          'color:#fff',
+          'font-size:12px',
+          'font-weight:700',
+          'text-decoration:none',
+        ].join(';');
+
+        popupContent.appendChild(routeButton);
+      };
+
+      window.setTimeout(addRouteButton, 50);
+      window.setTimeout(addRouteButton, 150);
+      window.setTimeout(addRouteButton, 300);
       return true;
     };
 
-    const retryOpenPopup = () => {
-      if (stopped) return;
-      const opened = openSelectedMarkerPopup();
-      if (opened) {
-        stopped = true;
+    let retryTimer = null;
+    let cancelled = false;
+
+    const tryOpenAfterMove = () => {
+      if (cancelled) return;
+      if (findAndOpenPopup()) {
+        window.setTimeout(() => {
+          if (!document.querySelector('.leaflet-popup')) {
+            findAndOpenPopup();
+          }
+        }, 250);
         return;
       }
-      retryTimer = window.setTimeout(retryOpenPopup, 180);
+      retryTimer = window.setTimeout(tryOpenAfterMove, 120);
     };
 
-    const initialTimer = window.setTimeout(retryOpenPopup, 300);
+    const handleMoveEnd = () => {
+      window.setTimeout(tryOpenAfterMove, 40);
+    };
+
+    // React-Leaflet exposes the Leaflet map through the DOM container.
+    // Dispatching the event here lets the existing marker popup open only
+    // after the camera animation is finished.
+    mapElement.addEventListener('moveend', handleMoveEnd);
+
+    // Also start once in case flyTo already finished before this effect mounted.
+    const initialTimer = window.setTimeout(tryOpenAfterMove, 900);
 
     return () => {
-      stopped = true;
+      cancelled = true;
+      mapElement.removeEventListener('moveend', handleMoveEnd);
       window.clearTimeout(initialTimer);
       if (retryTimer) window.clearTimeout(retryTimer);
     };
