@@ -61,9 +61,7 @@ function App() {
     rawData.forEach(item => {
       const code = item.product_type;
       const label = item.product_label || code;
-      if (!typeMap.has(code)) {
-        typeMap.set(code, { code, label, count: 0 });
-      }
+      if (!typeMap.has(code)) typeMap.set(code, { code, label, count: 0 });
       typeMap.get(code).count++;
     });
     return Array.from(typeMap.values()).sort((a, b) => b.count - a.count);
@@ -105,11 +103,7 @@ function App() {
     const effectiveK = Math.min(kValue, filteredData.length);
     const result = performKMeans(filteredData, effectiveK);
     const generatedColors = generateClusterColors(effectiveK);
-
-    const stats = result.clusters.map((cluster, index) => ({
-      count: cluster.length,
-      color: generatedColors[index]
-    }));
+    const stats = result.clusters.map((cluster, index) => ({ count: cluster.length, color: generatedColors[index] }));
 
     return {
       clusteredData: result.clusteredData,
@@ -134,11 +128,8 @@ function App() {
     });
   }, []);
 
-  // Keep this callback stable. Recreating it when the mobile panel closes
-  // caused the Leaflet marker layer to be rebuilt, which closed the popup.
   const selectBusiness = useCallback((business) => {
     const businessId = String(business.id);
-
     setSelectedBusinessId(businessId);
     setDiscoveryOpen(false);
 
@@ -149,45 +140,56 @@ function App() {
 
   const clearSelectedBusiness = useCallback(() => {
     setSelectedBusinessId(null);
-
     const url = new URL(window.location.href);
     url.searchParams.delete('umkm');
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
-  // Open the existing Leaflet popup only after flyTo has completely finished.
-  // Waiting for `moveend` avoids opening a popup while markercluster is still
-  // moving/repositioning markers, which previously made the popup flash and disappear.
+  // The marker popup is owned by Leaflet, so do not render a second card.
+  // After a list/community selection, flyTo can temporarily reposition or
+  // rebuild markercluster layers. Keep trying to open the selected marker
+  // until the popup is actually present and stable.
   useEffect(() => {
     if (!selectedBusiness) return undefined;
 
-    const mapElement = document.querySelector('#map-container .leaflet-container');
-    if (!mapElement) return undefined;
+    let cancelled = false;
+    let attempts = 0;
+    const maxAttempts = 28;
+    let timer = null;
 
-    const findAndOpenPopup = () => {
+    const openSelectedPopup = () => {
+      if (cancelled) return;
+
+      const mapElement = document.querySelector('#map-container .leaflet-container');
+      if (!mapElement) {
+        scheduleRetry();
+        return;
+      }
+
       const mapRect = mapElement.getBoundingClientRect();
       const targetX = mapRect.left + mapRect.width / 2;
       const targetY = mapRect.top + mapRect.height / 2;
-      const selectedId = String(selectedBusiness.id);
-      const selectedName = businessTitle(selectedBusiness);
-      const selectedAddress = selectedBusiness.address || '';
 
       const markerElements = Array.from(
         mapElement.querySelectorAll('.leaflet-marker-icon.custom-div-icon'),
       ).filter((element) => element.innerHTML.includes('width: 10px'));
 
-      const candidates = markerElements.map((element) => {
-        const rect = element.getBoundingClientRect();
-        const x = rect.left + rect.width / 2;
-        const y = rect.top + rect.height / 2;
-        return { element, distance: Math.hypot(x - targetX, y - targetY) };
-      });
+      const marker = markerElements
+        .map((element) => {
+          const rect = element.getBoundingClientRect();
+          return {
+            element,
+            distance: Math.hypot(
+              rect.left + rect.width / 2 - targetX,
+              rect.top + rect.height / 2 - targetY,
+            ),
+          };
+        })
+        .sort((a, b) => a.distance - b.distance)[0];
 
-      // After flyTo, the selected marker should be at the map center.
-      // Use the closest marker rather than a timing-based click.
-      const marker = candidates.sort((a, b) => a.distance - b.distance)[0];
-      if (!marker || marker.distance > Math.max(mapRect.width, mapRect.height) * 0.12) {
-        return false;
+      if (!marker || marker.distance > Math.max(mapRect.width, mapRect.height) * 0.14) {
+        scheduleRetry();
+        return;
       }
 
       marker.element.dispatchEvent(new MouseEvent('click', {
@@ -195,6 +197,9 @@ function App() {
         cancelable: true,
         view: window,
       }));
+
+      const selectedName = businessTitle(selectedBusiness);
+      const selectedAddress = selectedBusiness.address || '';
 
       const addRouteButton = () => {
         const popupContent = document.querySelector('.leaflet-popup-content');
@@ -236,42 +241,27 @@ function App() {
       window.setTimeout(addRouteButton, 50);
       window.setTimeout(addRouteButton, 150);
       window.setTimeout(addRouteButton, 300);
-      return true;
+
+      // If markercluster closes the popup during its final animation,
+      // the next retry will reopen it. This is intentionally bounded.
+      window.setTimeout(() => {
+        if (!document.querySelector('.leaflet-popup')) scheduleRetry();
+      }, 180);
     };
 
-    let retryTimer = null;
-    let cancelled = false;
-
-    const tryOpenAfterMove = () => {
-      if (cancelled) return;
-      if (findAndOpenPopup()) {
-        window.setTimeout(() => {
-          if (!document.querySelector('.leaflet-popup')) {
-            findAndOpenPopup();
-          }
-        }, 250);
-        return;
-      }
-      retryTimer = window.setTimeout(tryOpenAfterMove, 120);
+    const scheduleRetry = () => {
+      if (cancelled || attempts >= maxAttempts) return;
+      attempts += 1;
+      timer = window.setTimeout(openSelectedPopup, attempts < 6 ? 180 : 250);
     };
 
-    const handleMoveEnd = () => {
-      window.setTimeout(tryOpenAfterMove, 40);
-    };
-
-    // React-Leaflet exposes the Leaflet map through the DOM container.
-    // Dispatching the event here lets the existing marker popup open only
-    // after the camera animation is finished.
-    mapElement.addEventListener('moveend', handleMoveEnd);
-
-    // Also start once in case flyTo already finished before this effect mounted.
-    const initialTimer = window.setTimeout(tryOpenAfterMove, 900);
+    // Give flyTo a moment to start, then use the retry loop instead of a
+    // single fixed timeout. This handles both desktop and mobile animation.
+    timer = window.setTimeout(openSelectedPopup, 700);
 
     return () => {
       cancelled = true;
-      mapElement.removeEventListener('moveend', handleMoveEnd);
-      window.clearTimeout(initialTimer);
-      if (retryTimer) window.clearTimeout(retryTimer);
+      if (timer) window.clearTimeout(timer);
     };
   }, [selectedBusiness]);
 
