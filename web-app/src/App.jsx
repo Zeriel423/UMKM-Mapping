@@ -140,6 +140,8 @@ function App() {
       <style>{`
         .mobile-discovery-trigger { display:none; }
         .selected-business-card { position:absolute; left:50%; bottom:24px; transform:translateX(-50%); z-index:1500; width:min(390px,calc(100% - 32px)); background:#fff; border:1px solid rgba(29,93,85,.14); border-radius:16px; box-shadow:0 12px 34px rgba(15,23,42,.24); overflow:hidden; }
+        .selected-business-card.flyto-popup { opacity:0; animation:selected-business-flyto-popup .28s ease-out .82s forwards; }
+        @keyframes selected-business-flyto-popup { from { opacity:0; } to { opacity:1; } }
         .selected-business-card-header { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:13px 15px 8px; }
         .selected-business-card-title { margin:0; color:#0f172a; font:800 16px/1.25 var(--font-body); }
         .selected-business-card-close { display:grid; place-items:center; width:32px; height:32px; flex:0 0 32px; border:0; border-radius:9px; background:#f1f5f9; color:#64748b; cursor:pointer; }
@@ -194,7 +196,7 @@ function App() {
         />
 
         {selectedBusiness && (
-          <article className="selected-business-card" aria-label={`Detail ${selectedBusiness.brand || selectedBusiness.name || 'UMKM'}`}>
+          <article className={`selected-business-card ${focusSelectedBusiness ? 'flyto-popup' : ''}`} aria-label={`Detail ${selectedBusiness.brand || selectedBusiness.name || 'UMKM'}`}>
             <div className="selected-business-card-header">
               <h2 className="selected-business-card-title">{selectedBusiness.brand?.trim() || selectedBusiness.name || 'UMKM'}</h2>
               <button className="selected-business-card-close" type="button" onClick={clearSelectedBusiness} aria-label="Tutup detail UMKM">
