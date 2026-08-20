@@ -3,7 +3,7 @@ import Sidebar from './components/Sidebar';
 import MapView from './components/Map';
 import BusinessList from './components/BusinessList';
 import { performKMeans, generateClusterColors } from './utils/kmeans';
-import { Loader2, AlertTriangle, Menu, X, Search } from 'lucide-react';
+import { Loader2, AlertTriangle, Menu, X, Search, Navigation, Share2 } from 'lucide-react';
 
 function App() {
   const [rawData, setRawData] = useState([]);
@@ -88,10 +88,10 @@ function App() {
     const id = String(business.id);
     setSelectedBusinessId(id);
     setFocusSelectedBusiness(focus);
-    if (focus) setDiscoveryOpen(false);
     const url = new URL(window.location.href);
     url.searchParams.set('umkm', id);
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
+    if (focus) setDiscoveryOpen(false);
   }, []);
 
   const clearSelectedBusiness = useCallback(() => {
@@ -102,83 +102,13 @@ function App() {
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
-  // Keep popup behavior separate for direct marker clicks and list/community selections.
-  // Direct marker click: Leaflet already opened the popup, so never click it twice.
-  // List/community selection: wait for flyTo, then open the marker once.
-  useEffect(() => {
-    if (!selectedBusiness) return;
-
-    const lat = Number(selectedBusiness.lat);
-    const lng = Number(selectedBusiness.lng);
+  const routeToBusiness = useCallback((business) => {
+    const lat = Number(business?.lat);
+    const lng = Number(business?.lng);
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-
-    const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lng}`)}`;
-    let observer;
-    let retryTimer;
-    let stopped = false;
-
-    const addRouteButton = () => {
-      if (stopped) return true;
-      const popups = document.querySelectorAll('.leaflet-popup-content');
-      for (const popup of popups) {
-        if (popup.querySelector('.popup-route-button')) return true;
-        const text = popup.textContent || '';
-        const names = [selectedBusiness.name, selectedBusiness.brand, selectedBusiness.address].filter(Boolean);
-        if (!names.some((name) => text.includes(name))) continue;
-        const button = document.createElement('a');
-        button.className = 'popup-route-button';
-        button.href = routeUrl;
-        button.target = '_blank';
-        button.rel = 'noopener noreferrer';
-        button.textContent = '🚗 Rute';
-        popup.appendChild(button);
-        return true;
-      }
-      return false;
-    };
-
-    const openSelectedMarker = () => {
-      if (stopped || !focusSelectedBusiness) return true;
-      const mapElement = document.querySelector('#map-container .leaflet-container');
-      if (!mapElement) return false;
-      const rect = mapElement.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const markers = [...mapElement.querySelectorAll('.leaflet-marker-icon.custom-div-icon')]
-        .filter((el) => el.innerHTML.includes('width: 10px'))
-        .map((el) => {
-          const r = el.getBoundingClientRect();
-          return { el, distance: Math.hypot(r.left + r.width / 2 - cx, r.top + r.height / 2 - cy) };
-        })
-        .sort((a, b) => a.distance - b.distance);
-      const marker = markers[0];
-      if (!marker || marker.distance > Math.max(rect.width, rect.height) * 0.2) return false;
-      marker.el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-      return true;
-    };
-
-    const retry = () => {
-      if (stopped) return;
-      if (focusSelectedBusiness && !openSelectedMarker()) {
-        retryTimer = window.setTimeout(retry, 180);
-      } else {
-        window.setTimeout(addRouteButton, 50);
-        window.setTimeout(addRouteButton, 150);
-        window.setTimeout(addRouteButton, 350);
-        window.setTimeout(addRouteButton, 700);
-      }
-    };
-
-    observer = new MutationObserver(() => addRouteButton());
-    observer.observe(document.body, { childList: true, subtree: true });
-    retryTimer = window.setTimeout(retry, focusSelectedBusiness ? 900 : 50);
-
-    return () => {
-      stopped = true;
-      observer.disconnect();
-      window.clearTimeout(retryTimer);
-    };
-  }, [selectedBusiness, focusSelectedBusiness]);
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lng}`)}`;
+    window.open(mapsUrl, '_blank', 'noopener,noreferrer');
+  }, []);
 
   const shareBusiness = useCallback(async (business) => {
     const title = business.brand?.trim() || business.name || 'UMKM';
@@ -209,10 +139,21 @@ function App() {
     <div className={`app-container ${sidebarOpen ? 'sidebar-open' : ''} ${discoveryOpen ? 'discovery-open' : ''}`}>
       <style>{`
         .mobile-discovery-trigger { display:none; }
+        .selected-business-card { position:absolute; left:50%; bottom:24px; transform:translateX(-50%); z-index:1500; width:min(390px,calc(100% - 32px)); background:#fff; border:1px solid rgba(29,93,85,.14); border-radius:16px; box-shadow:0 12px 34px rgba(15,23,42,.24); overflow:hidden; }
+        .selected-business-card-header { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:13px 15px 8px; }
+        .selected-business-card-title { margin:0; color:#0f172a; font:800 16px/1.25 var(--font-body); }
+        .selected-business-card-close { display:grid; place-items:center; width:32px; height:32px; flex:0 0 32px; border:0; border-radius:9px; background:#f1f5f9; color:#64748b; cursor:pointer; }
+        .selected-business-card-body { padding:0 15px 13px; }
+        .selected-business-card-category { display:block; margin-bottom:5px; color:var(--primary-color); font:700 11px var(--font-body); text-transform:uppercase; letter-spacing:.04em; }
+        .selected-business-card-address { display:flex; gap:6px; align-items:flex-start; color:#64748b; font:500 12px/1.45 var(--font-body); }
+        .selected-business-card-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 15px 15px; }
+        .selected-business-card-actions button { min-height:38px; border:0; border-radius:10px; display:flex; align-items:center; justify-content:center; gap:7px; font:700 12px var(--font-body); cursor:pointer; }
+        .selected-route-button { background:var(--primary-color); color:#fff; }
+        .selected-share-button { background:#eef5f3; color:var(--primary-color); }
         .popup-route-button { display:flex; align-items:center; justify-content:center; width:100%; box-sizing:border-box; margin-top:10px; padding:8px 12px; border-radius:8px; background:var(--primary-color); color:#fff; font:700 12px var(--font-body); text-decoration:none; }
         .popup-route-button:hover { background:var(--primary-dark); color:#fff; }
         @media (max-width:768px) {
-          .mobile-discovery-trigger { position:absolute; left:12px; right:12px; bottom:12px; top:auto; z-index:1200; display:flex; align-items:center; justify-content:center; gap:7px; min-height:44px; padding:0 14px; border:1px solid rgba(29,93,85,.12); border-radius:12px; background:rgba(255,255,255,.96); color:var(--primary-color); box-shadow:0 5px 16px rgba(15,23,42,.18); font:700 12px var(--font-body); cursor:pointer; backdrop-filter:blur(8px); }
+          .mobile-discovery-trigger { position:absolute; left:50%; right:auto; bottom:calc(18px + env(safe-area-inset-bottom)); top:auto; transform:translateX(-50%); z-index:1200; display:flex; align-items:center; justify-content:center; gap:7px; width:min(250px,calc(100vw - 32px)); min-height:48px; padding:0 14px; border:1px solid rgba(29,93,85,.12); border-radius:999px; background:rgba(255,255,255,.97); color:var(--primary-color); box-shadow:0 8px 24px rgba(15,23,42,.2); font:700 13px var(--font-body); cursor:pointer; backdrop-filter:blur(8px); }
           .mobile-discovery-trigger span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
           .main-content .map-container { width:100%; height:100%; flex:1 1 100%; }
           .main-content .business-panel { display:none; position:absolute; left:10px; right:10px; bottom:10px; z-index:1300; width:auto; height:min(72dvh,620px); max-height:72dvh; flex:none; margin:0; border:1px solid rgba(29,93,85,.12); border-radius:20px; box-shadow:0 12px 36px rgba(15,23,42,.22); overflow-y:auto; }
@@ -220,6 +161,8 @@ function App() {
           .mobile-panel-header { position:sticky; top:0; display:flex; justify-content:flex-end; align-items:center; height:48px; padding:0 10px; background:rgba(255,255,255,.97); border-bottom:1px solid var(--border-color); z-index:10; }
           .mobile-panel-handle { display:none !important; }
           .mobile-panel-close { display:inline-grid; place-items:center; width:36px; height:36px; border:0; border-radius:10px; background:#eef5f3; color:var(--primary-color); cursor:pointer; }
+          .selected-business-card { left:12px; right:12px; bottom:calc(78px + env(safe-area-inset-bottom)); transform:none; width:auto; max-width:none; z-index:1700; }
+          .app-container.discovery-open .selected-business-card { display:none; }
         }
       `}</style>
 
@@ -249,6 +192,32 @@ function App() {
           selectedBusiness={focusSelectedBusiness ? selectedBusiness : null}
           onSelectBusiness={(business) => selectBusiness(business, false)}
         />
+
+        {selectedBusiness && (
+          <article className="selected-business-card" aria-label={`Detail ${selectedBusiness.brand || selectedBusiness.name || 'UMKM'}`}>
+            <div className="selected-business-card-header">
+              <h2 className="selected-business-card-title">{selectedBusiness.brand?.trim() || selectedBusiness.name || 'UMKM'}</h2>
+              <button className="selected-business-card-close" type="button" onClick={clearSelectedBusiness} aria-label="Tutup detail UMKM">
+                <X size={17} />
+              </button>
+            </div>
+            <div className="selected-business-card-body">
+              <span className="selected-business-card-category">{selectedBusiness.product_label || selectedBusiness.product_type || 'UMKM'}</span>
+              <div className="selected-business-card-address">
+                <Navigation size={14} />
+                <span>{selectedBusiness.address || 'Alamat belum tersedia'}</span>
+              </div>
+            </div>
+            <div className="selected-business-card-actions">
+              <button className="selected-route-button" type="button" onClick={() => routeToBusiness(selectedBusiness)}>
+                <Navigation size={15} /> Rute
+              </button>
+              <button className="selected-share-button" type="button" onClick={() => shareBusiness(selectedBusiness)}>
+                <Share2 size={15} /> Bagikan
+              </button>
+            </div>
+          </article>
+        )}
 
         <BusinessList
           key={`${searchQuery}-${productFilter}-${activeCollection?.id || 'all'}`}
