@@ -19,6 +19,11 @@ function App() {
   const [activeCollection, setActiveCollection] = useState(null);
   const [selectedBusinessId, setSelectedBusinessId] = useState(null);
 
+  // True hanya ketika pemilihan berasal dari daftar pencarian/komunitas.
+  // Klik marker tidak boleh menjalankan flyTo kedua karena popup Leaflet
+  // sedang dibuka oleh event click marker itu sendiri.
+  const [focusSelectedBusiness, setFocusSelectedBusiness] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,6 +52,7 @@ function App() {
       const businessId = new URLSearchParams(window.location.search).get('umkm');
       const businessExists = rawData.some((business) => String(business.id) === businessId);
       setSelectedBusinessId(businessExists ? businessId : null);
+      setFocusSelectedBusiness(Boolean(businessExists));
     };
 
     syncSelectedBusinessFromUrl();
@@ -134,31 +140,45 @@ function App() {
     });
   }, []);
 
-  // Keep this callback stable. Recreating it when the mobile panel closes
-  // caused the Leaflet marker layer to be rebuilt, which closed the popup.
-  const selectBusiness = useCallback((business) => {
+  // Stable callback untuk pemilihan bisnis.
+  // focus=false dipakai marker, focus=true dipakai daftar pencarian/komunitas.
+  const selectBusiness = useCallback((business, focus = false) => {
     const businessId = String(business.id);
 
     setSelectedBusinessId(businessId);
-    setDiscoveryOpen(false);
+    setFocusSelectedBusiness(focus);
+
+    if (focus) {
+      setDiscoveryOpen(false);
+    }
 
     const url = new URL(window.location.href);
     url.searchParams.set('umkm', businessId);
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
+  const selectBusinessFromMarker = useCallback((business) => {
+    selectBusiness(business, false);
+  }, [selectBusiness]);
+
+  const selectBusinessFromList = useCallback((business) => {
+    selectBusiness(business, true);
+  }, [selectBusiness]);
+
   const clearSelectedBusiness = useCallback(() => {
     setSelectedBusinessId(null);
+    setFocusSelectedBusiness(false);
 
     const url = new URL(window.location.href);
     url.searchParams.delete('umkm');
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
-  // Reuse the existing Leaflet popup. This does not render a second detail
-  // card; it only opens the existing marker popup and appends the Rute action.
+  // Hanya buka ulang popup ketika user memilih dari daftar pencarian/komunitas.
+  // Saat marker diklik langsung, Leaflet sudah membuka popup dan kita tidak
+  // boleh mengirim event click kedua karena itu akan menutup popup kembali.
   useEffect(() => {
-    if (!selectedBusiness) return undefined;
+    if (!selectedBusiness || !focusSelectedBusiness) return undefined;
 
     const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
     const selectedName = businessTitle(selectedBusiness);
@@ -166,7 +186,6 @@ function App() {
     let retryTimer = null;
     let stopped = false;
 
-    // Add the Rute button only to the existing Leaflet popup for this UMKM.
     const addRouteButton = () => {
       const popupContent = document.querySelector('.leaflet-popup-content');
       if (!popupContent || popupContent.querySelector('.popup-route-button')) return false;
@@ -204,8 +223,7 @@ function App() {
       return true;
     };
 
-    // Find the marker moved to the center by flyTo and trigger the same
-    // click event used when a visitor manually clicks a marker.
+    // Cari marker yang berada di pusat peta setelah flyTo.
     const openSelectedMarkerPopup = () => {
       if (stopped) return true;
 
@@ -244,7 +262,6 @@ function App() {
         view: window,
       }));
 
-      // Leaflet creates the popup asynchronously after the marker click.
       window.setTimeout(addRouteButton, 80);
       window.setTimeout(addRouteButton, 250);
       window.setTimeout(addRouteButton, 500);
@@ -252,8 +269,6 @@ function App() {
       return true;
     };
 
-    // MarkerCluster loads asynchronously, and closing the mobile panel can
-    // also take a frame. Retry briefly instead of using one fixed timeout.
     const retryOpenPopup = () => {
       if (stopped) return;
 
@@ -266,14 +281,15 @@ function App() {
       retryTimer = window.setTimeout(retryOpenPopup, 180);
     };
 
-    const initialTimer = window.setTimeout(retryOpenPopup, 300);
+    // Beri waktu Leaflet menyelesaikan flyTo dan marker-cluster rendering.
+    const initialTimer = window.setTimeout(retryOpenPopup, 950);
 
     return () => {
       stopped = true;
       window.clearTimeout(initialTimer);
       if (retryTimer) window.clearTimeout(retryTimer);
     };
-  }, [selectedBusiness]);
+  }, [selectedBusiness, focusSelectedBusiness]);
 
   const selectProductFilter = useCallback((filter) => {
     setActiveCollection(null);
@@ -392,8 +408,10 @@ function App() {
           colors={colors}
           clusterRadii={clusterRadii}
           clusterStats={clusterStats}
-          selectedBusiness={selectedBusiness}
-          onSelectBusiness={selectBusiness}
+          // Hanya kirim selectedBusiness ke map controller jika sumbernya
+          // daftar pencarian/komunitas. Marker click tidak memicu flyTo ulang.
+          selectedBusiness={focusSelectedBusiness ? selectedBusiness : null}
+          onSelectBusiness={selectBusinessFromMarker}
         />
 
         <BusinessList
@@ -403,7 +421,7 @@ function App() {
           selectedBusiness={selectedBusiness}
           activeCollectionId={activeCollection?.id}
           onSelectCollection={selectCollection}
-          onSelectBusiness={selectBusiness}
+          onSelectBusiness={selectBusinessFromList}
           onClearSelectedBusiness={clearSelectedBusiness}
           onShareBusiness={shareBusiness}
           isMobileOpen={discoveryOpen}
