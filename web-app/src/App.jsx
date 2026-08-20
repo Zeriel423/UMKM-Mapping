@@ -169,10 +169,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!selectedBusiness || !focusSelectedBusiness) return undefined;
+    if (!selectedBusiness) return undefined;
 
     const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
-    const selectedName = businessTitle(selectedBusiness);
+    const selectedName = selectedBusiness.name || '';
+    const selectedBrand = selectedBusiness.brand || '';
     const selectedAddress = selectedBusiness.address || '';
     let retryTimer = null;
     let stopped = false;
@@ -183,7 +184,8 @@ function App() {
 
       const popupText = popupContent.textContent || '';
       const matchesBusiness =
-        popupText.includes(selectedName) ||
+        (selectedName && popupText.includes(selectedName)) ||
+        (selectedBrand && popupText.includes(selectedBrand)) ||
         (selectedAddress && popupText.includes(selectedAddress));
 
       if (!matchesBusiness) return false;
@@ -213,6 +215,16 @@ function App() {
       popupContent.appendChild(routeButton);
       return true;
     };
+
+    // Saat marker diklik langsung, Leaflet sudah membuka popup.
+    // Cukup tambahkan tombol rute tanpa mengirim click kedua yang dapat menutup popup.
+    if (!focusSelectedBusiness) {
+      const timers = [80, 220, 450].map((delay) =>
+        window.setTimeout(addRouteButton, delay),
+      );
+
+      return () => timers.forEach((timer) => window.clearTimeout(timer));
+    }
 
     const openSelectedMarkerPopup = () => {
       if (stopped) return true;
@@ -348,28 +360,119 @@ function App() {
     <div className={`app-container ${sidebarOpen ? 'sidebar-open' : ''} ${discoveryOpen ? 'discovery-open' : ''}`}>
       <style>{`
         .mobile-discovery-trigger { display: none; }
+
+        .popup-route-button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          box-sizing: border-box;
+          margin-top: 10px;
+          padding: 8px 12px;
+          border-radius: 8px;
+          background: var(--primary-color);
+          color: #fff;
+          font-family: var(--font-body);
+          font-size: 12px;
+          font-weight: 700;
+          text-decoration: none;
+          transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .popup-route-button:hover {
+          background: var(--primary-dark);
+          color: #fff;
+          transform: translateY(-1px);
+        }
+
         @media (max-width: 768px) {
           .mobile-discovery-trigger {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: calc(14px + env(safe-area-inset-top));
+            right: 14px;
             z-index: 1200;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            min-height: 48px;
-            padding: 0 14px;
+            gap: 7px;
+            min-height: 44px;
+            max-width: calc(100% - 92px);
+            padding: 0 13px;
             border: 1px solid rgba(29, 93, 85, 0.12);
-            border-radius: 14px;
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.96);
             color: var(--primary-color);
             box-shadow: 0 5px 16px rgba(15, 23, 42, 0.18);
             font-family: var(--font-body);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
             backdrop-filter: blur(8px);
+          }
+
+          .mobile-discovery-trigger span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          /* Map tetap memenuhi layar ketika panel pencarian belum dibuka. */
+          .main-content .map-container {
+            width: 100%;
+            height: 100dvh;
+            flex: 1 1 100%;
+          }
+
+          /* Panel pencarian menjadi bottom sheet, bukan elemen yang mengambil seluruh map. */
+          .main-content .business-panel {
+            display: none;
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            z-index: 1300;
+            width: auto;
+            height: min(72dvh, 620px);
+            max-height: 72dvh;
+            flex: none;
+            margin: 0;
+            border: 1px solid rgba(29, 93, 85, 0.12);
+            border-radius: 20px;
+            box-shadow: 0 12px 36px rgba(15, 23, 42, 0.22);
+            overflow-y: auto;
+          }
+
+          .main-content .business-panel.mobile-open {
+            display: block;
+          }
+
+          .mobile-panel-header {
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            height: 48px;
+            padding: 0 10px;
+            background: rgba(255, 255, 255, 0.97);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 10;
+          }
+
+          .mobile-panel-handle {
+            display: none !important;
+          }
+
+          .mobile-panel-close {
+            display: inline-grid;
+            place-items: center;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            border-radius: 10px;
+            background: #eef5f3;
+            color: var(--primary-color);
+            cursor: pointer;
           }
         }
       `}</style>
