@@ -18,10 +18,6 @@ function App() {
   const [productFilter, setProductFilter] = useState('');
   const [activeCollection, setActiveCollection] = useState(null);
   const [selectedBusinessId, setSelectedBusinessId] = useState(null);
-
-  // True hanya ketika pemilihan berasal dari daftar pencarian/komunitas.
-  // Klik marker tidak boleh menjalankan flyTo kedua karena popup Leaflet
-  // sedang dibuka oleh event click marker itu sendiri.
   const [focusSelectedBusiness, setFocusSelectedBusiness] = useState(false);
 
   useEffect(() => {
@@ -140,8 +136,6 @@ function App() {
     });
   }, []);
 
-  // Stable callback untuk pemilihan bisnis.
-  // focus=false dipakai marker, focus=true dipakai daftar pencarian/komunitas.
   const selectBusiness = useCallback((business, focus = false) => {
     const businessId = String(business.id);
 
@@ -174,9 +168,6 @@ function App() {
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
-  // Hanya buka ulang popup ketika user memilih dari daftar pencarian/komunitas.
-  // Saat marker diklik langsung, Leaflet sudah membuka popup dan kita tidak
-  // boleh mengirim event click kedua karena itu akan menutup popup kembali.
   useEffect(() => {
     if (!selectedBusiness || !focusSelectedBusiness) return undefined;
 
@@ -223,7 +214,6 @@ function App() {
       return true;
     };
 
-    // Cari marker yang berada di pusat peta setelah flyTo.
     const openSelectedMarkerPopup = () => {
       if (stopped) return true;
 
@@ -281,7 +271,6 @@ function App() {
       retryTimer = window.setTimeout(retryOpenPopup, 180);
     };
 
-    // Beri waktu Leaflet menyelesaikan flyTo dan marker-cluster rendering.
     const initialTimer = window.setTimeout(retryOpenPopup, 950);
 
     return () => {
@@ -357,6 +346,34 @@ function App() {
 
   return (
     <div className={`app-container ${sidebarOpen ? 'sidebar-open' : ''} ${discoveryOpen ? 'discovery-open' : ''}`}>
+      <style>{`
+        .mobile-discovery-trigger { display: none; }
+        @media (max-width: 768px) {
+          .mobile-discovery-trigger {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 1200;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 48px;
+            padding: 0 14px;
+            border: 1px solid rgba(29, 93, 85, 0.12);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.96);
+            color: var(--primary-color);
+            box-shadow: 0 5px 16px rgba(15, 23, 42, 0.18);
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+          }
+        }
+      `}</style>
+
       <button
         className="sidebar-toggle"
         onClick={toggleSidebar}
@@ -408,8 +425,6 @@ function App() {
           colors={colors}
           clusterRadii={clusterRadii}
           clusterStats={clusterStats}
-          // Hanya kirim selectedBusiness ke map controller jika sumbernya
-          // daftar pencarian/komunitas. Marker click tidak memicu flyTo ulang.
           selectedBusiness={focusSelectedBusiness ? selectedBusiness : null}
           onSelectBusiness={selectBusinessFromMarker}
         />
