@@ -25,9 +25,7 @@ function App() {
         return response.json();
       })
       .then((jsonData) => {
-        if (!Array.isArray(jsonData) || jsonData.length === 0) {
-          throw new Error('Data UMKM kosong atau format tidak valid');
-        }
+        if (!Array.isArray(jsonData) || jsonData.length === 0) throw new Error('Data UMKM kosong atau format tidak valid');
         setRawData(jsonData);
       })
       .catch((err) => setError(err.message))
@@ -61,24 +59,12 @@ function App() {
     let result = rawData;
     if (activeCollection) result = result.filter((item) => activeCollection.productTypes.includes(item.product_type));
     else if (productFilter) result = result.filter((item) => item.product_type === productFilter);
-
     const q = searchQuery.trim().toLowerCase();
-    if (q) {
-      result = result.filter((item) =>
-        item.name?.toLowerCase().includes(q) ||
-        item.brand?.toLowerCase().includes(q) ||
-        item.owner?.toLowerCase().includes(q) ||
-        item.address?.toLowerCase().includes(q) ||
-        item.product_label?.toLowerCase().includes(q)
-      );
-    }
+    if (q) result = result.filter((item) => item.name?.toLowerCase().includes(q) || item.brand?.toLowerCase().includes(q) || item.owner?.toLowerCase().includes(q) || item.address?.toLowerCase().includes(q) || item.product_label?.toLowerCase().includes(q));
     return result;
   }, [rawData, searchQuery, productFilter, activeCollection]);
 
-  const selectedBusiness = useMemo(
-    () => rawData.find((item) => String(item.id) === String(selectedBusinessId)) || null,
-    [rawData, selectedBusinessId]
-  );
+  const selectedBusiness = useMemo(() => rawData.find((item) => String(item.id) === String(selectedBusinessId)) || null, [rawData, selectedBusinessId]);
 
   const clusterResult = useMemo(() => {
     if (!filteredData.length) return { clusteredData: [], centroids: [], colors: [], clusterStats: [], clusterRadii: [], iterations: 0, wcss: 0 };
@@ -116,9 +102,9 @@ function App() {
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
-  // Add the route button to the currently opened Leaflet popup.
-  // MutationObserver makes this reliable for direct marker clicks as well as
-  // popups opened after a flyTo from search/community.
+  // Keep popup behavior separate for direct marker clicks and list/community selections.
+  // Direct marker click: Leaflet already opened the popup, so never click it twice.
+  // List/community selection: wait for flyTo, then open the marker once.
   useEffect(() => {
     if (!selectedBusiness) return;
 
@@ -128,7 +114,7 @@ function App() {
 
     const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${lat},${lng}`)}`;
     let observer;
-    let timer;
+    let retryTimer;
     let stopped = false;
 
     const addRouteButton = () => {
@@ -139,7 +125,6 @@ function App() {
         const text = popup.textContent || '';
         const names = [selectedBusiness.name, selectedBusiness.brand, selectedBusiness.address].filter(Boolean);
         if (!names.some((name) => text.includes(name))) continue;
-
         const button = document.createElement('a');
         button.className = 'popup-route-button';
         button.href = routeUrl;
@@ -152,22 +137,48 @@ function App() {
       return false;
     };
 
+    const openSelectedMarker = () => {
+      if (stopped || !focusSelectedBusiness) return true;
+      const mapElement = document.querySelector('#map-container .leaflet-container');
+      if (!mapElement) return false;
+      const rect = mapElement.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const markers = [...mapElement.querySelectorAll('.leaflet-marker-icon.custom-div-icon')]
+        .filter((el) => el.innerHTML.includes('width: 10px'))
+        .map((el) => {
+          const r = el.getBoundingClientRect();
+          return { el, distance: Math.hypot(r.left + r.width / 2 - cx, r.top + r.height / 2 - cy) };
+        })
+        .sort((a, b) => a.distance - b.distance);
+      const marker = markers[0];
+      if (!marker || marker.distance > Math.max(rect.width, rect.height) * 0.2) return false;
+      marker.el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+      return true;
+    };
+
     const retry = () => {
       if (stopped) return;
-      if (!addRouteButton()) timer = window.setTimeout(retry, 150);
+      if (focusSelectedBusiness && !openSelectedMarker()) {
+        retryTimer = window.setTimeout(retry, 180);
+      } else {
+        window.setTimeout(addRouteButton, 50);
+        window.setTimeout(addRouteButton, 150);
+        window.setTimeout(addRouteButton, 350);
+        window.setTimeout(addRouteButton, 700);
+      }
     };
 
     observer = new MutationObserver(() => addRouteButton());
     observer.observe(document.body, { childList: true, subtree: true });
-    [50, 150, 300, 600, 1000].forEach((delay) => window.setTimeout(addRouteButton, delay));
-    timer = window.setTimeout(retry, 1200);
+    retryTimer = window.setTimeout(retry, focusSelectedBusiness ? 900 : 50);
 
     return () => {
       stopped = true;
-      observer?.disconnect();
-      window.clearTimeout(timer);
+      observer.disconnect();
+      window.clearTimeout(retryTimer);
     };
-  }, [selectedBusiness]);
+  }, [selectedBusiness, focusSelectedBusiness]);
 
   const shareBusiness = useCallback(async (business) => {
     const title = business.brand?.trim() || business.name || 'UMKM';
@@ -201,20 +212,10 @@ function App() {
         .popup-route-button { display:flex; align-items:center; justify-content:center; width:100%; box-sizing:border-box; margin-top:10px; padding:8px 12px; border-radius:8px; background:var(--primary-color); color:#fff; font:700 12px var(--font-body); text-decoration:none; }
         .popup-route-button:hover { background:var(--primary-dark); color:#fff; }
         @media (max-width:768px) {
-          .mobile-discovery-trigger {
-            position:absolute; left:12px; right:12px; bottom:12px; top:auto; z-index:1200;
-            display:flex; align-items:center; justify-content:center; gap:7px;
-            min-height:44px; padding:0 14px; border:1px solid rgba(29,93,85,.12); border-radius:12px;
-            background:rgba(255,255,255,.96); color:var(--primary-color); box-shadow:0 5px 16px rgba(15,23,42,.18);
-            font:700 12px var(--font-body); cursor:pointer; backdrop-filter:blur(8px);
-          }
+          .mobile-discovery-trigger { position:absolute; left:12px; right:12px; bottom:12px; top:auto; z-index:1200; display:flex; align-items:center; justify-content:center; gap:7px; min-height:44px; padding:0 14px; border:1px solid rgba(29,93,85,.12); border-radius:12px; background:rgba(255,255,255,.96); color:var(--primary-color); box-shadow:0 5px 16px rgba(15,23,42,.18); font:700 12px var(--font-body); cursor:pointer; backdrop-filter:blur(8px); }
           .mobile-discovery-trigger span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
           .main-content .map-container { width:100%; height:100%; flex:1 1 100%; }
-          .main-content .business-panel {
-            display:none; position:absolute; left:10px; right:10px; bottom:10px; z-index:1300;
-            width:auto; height:min(72dvh,620px); max-height:72dvh; flex:none; margin:0;
-            border:1px solid rgba(29,93,85,.12); border-radius:20px; box-shadow:0 12px 36px rgba(15,23,42,.22); overflow-y:auto;
-          }
+          .main-content .business-panel { display:none; position:absolute; left:10px; right:10px; bottom:10px; z-index:1300; width:auto; height:min(72dvh,620px); max-height:72dvh; flex:none; margin:0; border:1px solid rgba(29,93,85,.12); border-radius:20px; box-shadow:0 12px 36px rgba(15,23,42,.22); overflow-y:auto; }
           .main-content .business-panel.mobile-open { display:block; }
           .mobile-panel-header { position:sticky; top:0; display:flex; justify-content:flex-end; align-items:center; height:48px; padding:0 10px; background:rgba(255,255,255,.97); border-bottom:1px solid var(--border-color); z-index:10; }
           .mobile-panel-handle { display:none !important; }
