@@ -123,15 +123,11 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
       if (!mcLoadedRef.current && !L.MarkerClusterGroup) {
         try {
           await import("leaflet.markercluster/dist/leaflet.markercluster.js");
-
           await import("leaflet.markercluster/dist/MarkerCluster.css");
-
           await import("leaflet.markercluster/dist/MarkerCluster.Default.css");
-
           mcLoadedRef.current = true;
         } catch (err) {
           console.error("[Map] Failed to load markercluster:", err);
-
           addMarkersWithoutClustering();
           return;
         }
@@ -224,7 +220,6 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
       });
 
       map.addLayer(clusterGroup);
-
       clusterGroupRef.current = clusterGroup;
     };
 
@@ -329,20 +324,15 @@ const SelectedBusinessController = ({ business }) => {
 
 const UserLocationFeature = ({ data }) => {
   const map = useMap();
-
   const [userLocation, setUserLocation] = useState(null);
-
   const [nearest, setNearest] = useState([]);
-
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState("");
 
   // Cari lokasi pengguna
   const findNearest = () => {
     if (!navigator.geolocation) {
       setError("Browser Anda tidak mendukung fitur lokasi.");
-
       return;
     }
 
@@ -367,7 +357,6 @@ const UserLocationFeature = ({ data }) => {
         const nearestData = validData
           .map((umkm) => ({
             ...umkm,
-
             distance: calculateDistance(
               location.lat,
               location.lng,
@@ -375,16 +364,12 @@ const UserLocationFeature = ({ data }) => {
               Number(umkm.lng),
             ),
           }))
-
           .sort((a, b) => a.distance - b.distance)
-
           // Ambil 5 terdekat
           .slice(0, 5);
 
         setUserLocation(location);
-
         setNearest(nearestData);
-
         setLoading(false);
 
         // Fokus ke lokasi pengguna
@@ -392,7 +377,6 @@ const UserLocationFeature = ({ data }) => {
           duration: 1.2,
         });
       },
-
       (geoError) => {
         setLoading(false);
 
@@ -406,7 +390,6 @@ const UserLocationFeature = ({ data }) => {
           setError("Gagal mendapatkan lokasi. Silakan coba lagi.");
         }
       },
-
       {
         enableHighAccuracy: true,
         timeout: 10000,
@@ -439,10 +422,15 @@ const UserLocationFeature = ({ data }) => {
     }
 
     const destination = `${lat},${lng}`;
-
     const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
 
     window.open(mapsUrl, "_blank", "noopener,noreferrer");
+  };
+
+  // Hentikan event sentuh/scroll agar Leaflet tidak mengambil alih gesture
+  // ketika pengguna menggulir daftar UMKM terdekat pada perangkat mobile.
+  const stopMapTouch = (event) => {
+    event.stopPropagation();
   };
 
   return (
@@ -496,12 +484,7 @@ const UserLocationFeature = ({ data }) => {
                 borderBottom: "1px solid #e2e8f0",
               }}
             >
-              <div
-                style={{
-                  fontWeight: 800,
-                  color: "#0f172a",
-                }}
-              >
+              <div style={{ fontWeight: 800, color: "#0f172a" }}>
                 📍 UMKM Terdekat
               </div>
 
@@ -516,114 +499,124 @@ const UserLocationFeature = ({ data }) => {
               </div>
             </div>
 
-            {/* List */}
-            {/* List */}
-<div
-  style={{
-    maxHeight: "270px",
-    overflowY: "auto",
-  }}
->
-  {nearest.length === 0 ? (
-    <div
-      style={{
-        padding: "14px",
-        fontSize: "13px",
-        color: "#64748b",
-      }}
-    >
-      Tidak ada data UMKM dengan koordinat yang valid.
-    </div>
-  ) : (
-    nearest.map((umkm, index) => (
-      <div
-        key={`${umkm.name}-${index}`}
-        style={{
-          borderBottom:
-            index < nearest.length - 1
-              ? "1px solid #f1f5f9"
-              : "none",
-          background: "#fff",
-          padding: "11px 15px",
-        }}
-      >
-        {/* Informasi UMKM */}
-        <button
-          type="button"
-          onClick={() => focusUmkm(umkm)}
-          style={{
-            width: "100%",
-            border: "none",
-            background: "transparent",
-            padding: 0,
-            textAlign: "left",
-            cursor: "pointer",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 10,
-            }}
-          >
-            <strong
+            {/*
+              Daftar dibuat sebagai area scroll mandiri.
+              Event touch dihentikan agar gesture vertikal tidak diteruskan
+              ke Leaflet map pada perangkat mobile.
+            */}
+            <div
+              className="nearby-results-list"
               style={{
-                color: "#1e293b",
-                fontSize: "13px",
+                maxHeight: "270px",
+                overflowY: "auto",
+                overflowX: "hidden",
+                WebkitOverflowScrolling: "touch",
+                overscrollBehavior: "contain",
+                touchAction: "pan-y",
               }}
+              onTouchStart={stopMapTouch}
+              onTouchMove={stopMapTouch}
+              onWheel={stopMapTouch}
             >
-              {index + 1}. {umkm.name}
-            </strong>
+              {nearest.length === 0 ? (
+                <div
+                  style={{
+                    padding: "14px",
+                    fontSize: "13px",
+                    color: "#64748b",
+                  }}
+                >
+                  Tidak ada data UMKM dengan koordinat yang valid.
+                </div>
+              ) : (
+                nearest.map((umkm, index) => (
+                  <div
+                    key={`${umkm.name}-${index}`}
+                    style={{
+                      borderBottom:
+                        index < nearest.length - 1
+                          ? "1px solid #f1f5f9"
+                          : "none",
+                      background: "#fff",
+                      padding: "11px 15px",
+                    }}
+                  >
+                    {/* Informasi UMKM */}
+                    <button
+                      type="button"
+                      onClick={() => focusUmkm(umkm)}
+                      style={{
+                        width: "100%",
+                        border: "none",
+                        background: "transparent",
+                        padding: 0,
+                        textAlign: "left",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 10,
+                        }}
+                      >
+                        <strong
+                          style={{
+                            color: "#1e293b",
+                            fontSize: "13px",
+                          }}
+                        >
+                          {index + 1}. {umkm.name}
+                        </strong>
 
-            <span
-              style={{
-                color: "#2563eb",
-                fontWeight: 800,
-                fontSize: "12px",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {formatDistance(umkm.distance)}
-            </span>
-          </div>
+                        <span
+                          style={{
+                            color: "#2563eb",
+                            fontWeight: 800,
+                            fontSize: "12px",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {formatDistance(umkm.distance)}
+                        </span>
+                      </div>
 
-          <div
-            style={{
-              color: "#64748b",
-              fontSize: "11px",
-              marginTop: 3,
-            }}
-          >
-            {umkm.product_label ||
-              umkm.product_type ||
-              "UMKM"}
-          </div>
-        </button>
+                      <div
+                        style={{
+                          color: "#64748b",
+                          fontSize: "11px",
+                          marginTop: 3,
+                        }}
+                      >
+                        {umkm.product_label || umkm.product_type || "UMKM"}
+                      </div>
+                    </button>
 
-        {/* Tombol Rute */}
-        <button
-          type="button"
-          onClick={() => openRoute(umkm)}
-          style={{
-            marginTop: "8px",
-            width: "100%",
-            border: "none",
-            borderRadius: "8px",
-            background: "#2563eb",
-            color: "#fff",
-            padding: "7px 10px",
-            fontSize: "12px",
-            fontWeight: 700,
-            cursor: "pointer",
-          }}
-        >
-          🚗 Buka Rute
-        </button>
-      </div>
-    ))
-  )}
-</div>
+                    {/* Tombol Rute */}
+                    <button
+                      type="button"
+                      onClick={() => openRoute(umkm)}
+                      style={{
+                        marginTop: "8px",
+                        width: "100%",
+                        border: "none",
+                        borderRadius: "8px",
+                        background: "#2563eb",
+                        color: "#fff",
+                        padding: "7px 10px",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
+                    >
+                      🚗 Buka Rute
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
+
             {/* Reset */}
             <button
               type="button"
@@ -674,9 +667,7 @@ const UserLocationFeature = ({ data }) => {
           >
             <Popup>
               <strong>📍 Lokasi Anda</strong>
-
               <br />
-
               <span
                 style={{
                   fontSize: "12px",
@@ -723,20 +714,13 @@ const MapLegend = ({ colors, clusterStats }) => {
           <div key={idx} className="map-legend-item">
             <span
               className="map-legend-color"
-              style={{
-                backgroundColor: color,
-              }}
+              style={{ backgroundColor: color }}
             />
 
             <span>
               Zone {idx + 1}
               {clusterStats && clusterStats[idx] && (
-                <span
-                  style={{
-                    color: "#94a3b8",
-                    marginLeft: "4px",
-                  }}
-                >
+                <span style={{ color: "#94a3b8", marginLeft: "4px" }}>
                   ({clusterStats[idx].count})
                 </span>
               )}
@@ -766,93 +750,53 @@ const MapComponent = ({
   selectedBusiness,
   onSelectBusiness,
 }) => {
-  const defaultCenter = [1.2, 124.5];
-
-  const zoomLevel = 8;
+  const defaultCenter = [-0.9, 123.0];
+  const defaultZoom = 8;
 
   return (
-    <div className="map-container" id="map-container">
+    <div id="map-container" className="map-container">
       <MapContainer
         center={defaultCenter}
-        zoom={zoomLevel}
-        style={{
-          height: "100%",
-          width: "100%",
-        }}
+        zoom={defaultZoom}
+        minZoom={6}
+        maxZoom={18}
         zoomControl={false}
+        style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <ZoomControl position="topright" />
+        <ZoomControl position="bottomright" />
 
-        {/* Fitur untuk masyarakat */}
-        <UserLocationFeature data={data} />
+        <MarkerClusterLayer
+          data={data}
+          colors={colors}
+          onSelectBusiness={onSelectBusiness}
+        />
 
         <SelectedBusinessController business={selectedBusiness} />
 
-        {/* Marker UMKM */}
-        <MarkerClusterLayer data={data} colors={colors} onSelectBusiness={onSelectBusiness} />
+        <UserLocationFeature data={data} />
 
-        {/* Centroid dan radius cluster */}
-        {centroids.map((centroid, idx) => (
-          <React.Fragment key={`centroid-${idx}`}>
-            <Marker
-              position={[centroid.lat, centroid.lng]}
-              icon={getIcon(colors[idx], true)}
-              zIndexOffset={1000}
-            >
-              <Popup>
-                <div
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  <strong
-                    style={{
-                      color: colors[idx],
-                    }}
-                  >
-                    Pusat Zone {idx + 1}
-                  </strong>
+        <MapLegend colors={colors} clusterStats={clusterStats} />
 
-                  <br />
-
-                  <span
-                    style={{
-                      fontSize: "0.8rem",
-                      color: "#64748b",
-                    }}
-                  >
-                    {centroid.lat.toFixed(4)}, {centroid.lng.toFixed(4)}
-                  </span>
-                </div>
-              </Popup>
-            </Marker>
-
-            <Circle
-              center={[centroid.lat, centroid.lng]}
-              radius={
-                clusterRadii && clusterRadii[idx]
-                  ? Math.min(clusterRadii[idx] * 0.7, 50000)
-                  : 2000
-              }
-              pathOptions={{
-                color: colors[idx],
-                fillColor: colors[idx],
-                fillOpacity: 0.06,
-                weight: 1.5,
-                dashArray: "6, 4",
-              }}
-            />
-          </React.Fragment>
+        {centroids.map((centroid, index) => (
+          <Circle
+            key={`radius-${index}`}
+            center={[centroid.lat, centroid.lng]}
+            radius={clusterRadii[index] || 0}
+            pathOptions={{
+              color: colors[index],
+              fillColor: colors[index],
+              fillOpacity: 0.04,
+              weight: 1.5,
+              dashArray: "6 6",
+            }}
+          />
         ))}
       </MapContainer>
-
-      {/* Legend */}
-      <MapLegend colors={colors} clusterStats={clusterStats} />
     </div>
   );
 };
