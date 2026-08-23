@@ -1,6 +1,7 @@
 import { MapPin, Share2, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import CommunityCollections from './CommunityCollections';
+import { locationAccuracyLabel } from '../utils/location';
 
 // Jumlah item yang ditampilkan pada setiap batch "Tampilkan lebih banyak".
 const PAGE_SIZE = 40;
@@ -130,6 +131,10 @@ const BusinessList = ({
                     <span className="business-card-address">
                       <MapPin size={14} />
                       {business.address || 'Alamat belum tersedia'}
+                    </span>
+
+                    <span className="business-card-location">
+                      {locationAccuracyLabel(business)}
                     </span>
                   </button>
 

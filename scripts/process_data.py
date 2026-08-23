@@ -1,4 +1,3 @@
-import pandas as pd
 import json
 import random
 import os
@@ -277,7 +276,8 @@ PRODUCT_TYPE_LABELS = {
 
 def get_coords_for_address(address):
     """Geocode an address by matching against known district names and spelling aliases.
-    Returns: (lat, lng, is_matched)
+    Returns: (lat, lng, is_matched, matched_area). The returned coordinate is
+    the stable analysis point; display spreading is applied separately.
     """
     address_upper = str(address).upper()
     
@@ -286,11 +286,7 @@ def get_coords_for_address(address):
     for district in sorted_districts:
         if district in address_upper:
             coords = DISTRICT_COORDS[district]
-            # Add a small random offset so points don't overlap perfectly
-            # ~500m scatter for realistic visualization
-            lat_offset = random.uniform(-0.005, 0.005)
-            lng_offset = random.uniform(-0.005, 0.005)
-            return coords[0] + lat_offset, coords[1] + lng_offset, True
+            return coords[0], coords[1], True, district
             
     # 2. Try to match spelling variations and village-level mappings
     sorted_aliases = sorted(SPELLING_ALIASES.keys(), key=len, reverse=True)
@@ -299,14 +295,20 @@ def get_coords_for_address(address):
             target_district = SPELLING_ALIASES[alias]
             if target_district in DISTRICT_COORDS:
                 coords = DISTRICT_COORDS[target_district]
-                lat_offset = random.uniform(-0.005, 0.005)
-                lng_offset = random.uniform(-0.005, 0.005)
-                return coords[0] + lat_offset, coords[1] + lng_offset, True
+                return coords[0], coords[1], True, target_district
     
     # Default to Manado area center if no district matched
-    lat_offset = random.uniform(-0.01, 0.01)
-    lng_offset = random.uniform(-0.01, 0.01)
-    return DISTRICT_COORDS['MANADO'][0] + lat_offset, DISTRICT_COORDS['MANADO'][1] + lng_offset, False
+    return DISTRICT_COORDS['MANADO'][0], DISTRICT_COORDS['MANADO'][1], False, 'MANADO'
+
+
+def get_display_coords(lat, lng, stable_key, is_matched):
+    """Spread overlapping markers deterministically without changing analysis coordinates."""
+    spread = 0.005 if is_matched else 0.01
+    display_random = random.Random(str(stable_key))
+    return (
+        lat + display_random.uniform(-spread, spread),
+        lng + display_random.uniform(-spread, spread),
+    )
 
 
 def get_product_label(code):
@@ -316,6 +318,8 @@ def get_product_label(code):
 
 
 def main():
+    import pandas as pd
+
     file_path = '../Database UMKM.xlsx'
     if not os.path.exists(file_path):
         print(f"File not found: {file_path}")
@@ -327,13 +331,16 @@ def main():
     relevant_columns = ['FAC NAME', 'JENIS PRODUK', 'MEREK DAGANG', 'NAMA PU', 'ALAMAT PU']
     df = df[relevant_columns].dropna(subset=['ALAMAT PU']).copy()
     
-    # Set random seed for reproducibility
-    random.seed(42)
-    
     data = []
     matched_count = 0
     for idx, row in df.iterrows():
-        lat, lng, is_matched = get_coords_for_address(row['ALAMAT PU'])
+        analysis_lat, analysis_lng, is_matched, matched_area = get_coords_for_address(row['ALAMAT PU'])
+        display_lat, display_lng = get_display_coords(
+            analysis_lat,
+            analysis_lng,
+            f"{idx}|{row['ALAMAT PU']}",
+            is_matched,
+        )
         if is_matched:
             matched_count += 1
         product_code = str(row['JENIS PRODUK']).strip()
@@ -345,8 +352,17 @@ def main():
             'brand': str(row['MEREK DAGANG']),
             'owner': str(row['NAMA PU']),
             'address': str(row['ALAMAT PU']),
-            'lat': lat,
-            'lng': lng
+            # Stable district/area point used by K-Means.
+            'analysis_lat': analysis_lat,
+            'analysis_lng': analysis_lng,
+            # Visual-only offset so markers at one area center remain clickable.
+            'display_lat': display_lat,
+            'display_lng': display_lng,
+            # Legacy aliases retained for compatibility with older clients.
+            'lat': display_lat,
+            'lng': display_lng,
+            'location_accuracy': 'perkiraan_kecamatan' if is_matched else 'belum_terverifikasi',
+            'location_area': matched_area,
         }
         data.append(item)
     

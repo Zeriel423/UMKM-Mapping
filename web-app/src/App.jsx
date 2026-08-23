@@ -3,6 +3,12 @@ import Sidebar from './components/Sidebar';
 import MapView from './components/Map';
 import BusinessList from './components/BusinessList';
 import { performKMeans, generateClusterColors } from './utils/kmeans';
+import {
+  getAnalysisCoordinates,
+  isExactLocation,
+  isMappableLocation,
+  normalizeBusinessLocation,
+} from './utils/location';
 import { Loader2, AlertTriangle, Menu, X, Search } from 'lucide-react';
 
 const businessTitle = (business) => business.brand?.trim() || business.name || 'UMKM tanpa nama';
@@ -29,7 +35,7 @@ function App() {
         if (!Array.isArray(jsonData) || jsonData.length === 0) {
           throw new Error('Data UMKM kosong atau format tidak valid');
         }
-        setRawData(jsonData);
+        setRawData(jsonData.map(normalizeBusinessLocation));
       } catch (err) {
         console.error('[App] Error loading data:', err);
         setError(err.message);
@@ -39,6 +45,17 @@ function App() {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') {
+        setSidebarOpen(false);
+        setDiscoveryOpen(false);
+      }
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
   }, []);
 
   useEffect(() => {
@@ -97,13 +114,23 @@ function App() {
     [rawData, selectedBusinessId],
   );
 
+  const mappableCount = useMemo(
+    () => rawData.filter(isMappableLocation).length,
+    [rawData],
+  );
+
+  const mappableFilteredData = useMemo(
+    () => filteredData.filter(isMappableLocation),
+    [filteredData],
+  );
+
   const clusterResult = useMemo(() => {
-    if (filteredData.length === 0) {
+    if (mappableFilteredData.length === 0) {
       return { clusteredData: [], centroids: [], colors: [], clusterStats: [], clusterRadii: [], iterations: 0, wcss: 0 };
     }
 
-    const effectiveK = Math.min(kValue, filteredData.length);
-    const result = performKMeans(filteredData, effectiveK);
+    const effectiveK = Math.min(kValue, mappableFilteredData.length);
+    const result = performKMeans(mappableFilteredData, effectiveK);
     const generatedColors = generateClusterColors(effectiveK);
     const stats = result.clusters.map((cluster, index) => ({ count: cluster.length, color: generatedColors[index] }));
 
@@ -116,7 +143,7 @@ function App() {
       iterations: result.iterations,
       wcss: result.wcss,
     };
-  }, [filteredData, kValue]);
+  }, [mappableFilteredData, kValue]);
 
   const { clusteredData, centroids, colors, clusterStats, clusterRadii, iterations, wcss } = clusterResult;
 
@@ -177,13 +204,16 @@ function App() {
 
       if (!matchesBusiness) return;
 
-      const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selectedBusiness.lat},${selectedBusiness.lng}`)}`;
+      const coordinates = getAnalysisCoordinates(selectedBusiness);
+      const routeUrl = isExactLocation(selectedBusiness) && coordinates
+        ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${coordinates.lat},${coordinates.lng}`)}`
+        : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedBusiness.address || selectedName)}`;
       const routeButton = document.createElement('a');
       routeButton.className = 'popup-route-button';
       routeButton.href = routeUrl;
       routeButton.target = '_blank';
       routeButton.rel = 'noreferrer';
-      routeButton.textContent = '🚗 Rute';
+      routeButton.textContent = isExactLocation(selectedBusiness) ? '🚗 Rute' : '🔎 Cari alamat';
       routeButton.style.cssText = [
         'display:flex',
         'align-items:center',
@@ -338,17 +368,18 @@ function App() {
 
   return (
     <div className={`app-container ${sidebarOpen ? 'sidebar-open' : ''} ${discoveryOpen ? 'discovery-open' : ''}`}>
-      <button className="sidebar-toggle" onClick={toggleSidebar} aria-label={sidebarOpen ? 'Tutup menu' : 'Buka menu'} id="sidebar-toggle">
+      <button className="sidebar-toggle" onClick={toggleSidebar} aria-label={sidebarOpen ? 'Tutup menu' : 'Buka menu'} aria-expanded={sidebarOpen} aria-controls="sidebar" id="sidebar-toggle">
         {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
       </button>
 
-      <div className={`sidebar-overlay ${sidebarOpen ? 'visible' : ''}`} onClick={closeSidebar} />
+      <div className={`sidebar-overlay ${sidebarOpen ? 'visible' : ''}`} onClick={closeSidebar} aria-hidden="true" />
 
       <Sidebar
         isOpen={sidebarOpen}
         kValue={kValue}
         setKValue={setKValue}
         totalData={rawData.length}
+        mappableCount={mappableCount}
         filteredCount={filteredData.length}
         clusterStats={clusterStats}
         iterations={iterations}

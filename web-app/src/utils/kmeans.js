@@ -1,17 +1,59 @@
 // src/utils/kmeans.js
 
-// Calculate Euclidean distance between two points
+const EARTH_RADIUS_KM = 6371.0088;
+
+const coordinatesOf = (point) => ({
+  lat: Number(point.analysis_lat ?? point.lat),
+  lng: Number(point.analysis_lng ?? point.lng),
+});
+
+// Haversine keeps geographic distances meaningful across mainland and islands.
 const distance = (p1, p2) => {
-  return Math.sqrt(Math.pow(p1.lat - p2.lat, 2) + Math.pow(p1.lng - p2.lng, 2));
+  const first = coordinatesOf(p1);
+  const second = coordinatesOf(p2);
+  const toRadians = (degrees) => (degrees * Math.PI) / 180;
+  const dLat = toRadians(second.lat - first.lat);
+  const dLng = toRadians(second.lng - first.lng);
+  const lat1 = toRadians(first.lat);
+  const lat2 = toRadians(second.lat);
+  const a = Math.sin(dLat / 2) ** 2
+    + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+
+  return EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+};
+
+const createSeed = (data, k) => {
+  let hash = 2166136261 ^ k;
+  for (const point of data) {
+    const coordinates = coordinatesOf(point);
+    const value = `${point.id ?? ''}|${coordinates.lat}|${coordinates.lng}`;
+    for (let index = 0; index < value.length; index++) {
+      hash ^= value.charCodeAt(index);
+      hash = Math.imul(hash, 16777619);
+    }
+  }
+  return hash >>> 0;
+};
+
+const seededRandom = (seed) => {
+  let value = seed;
+  return () => {
+    value += 0x6D2B79F5;
+    let result = value;
+    result = Math.imul(result ^ (result >>> 15), result | 1);
+    result ^= result + Math.imul(result ^ (result >>> 7), result | 61);
+    return ((result ^ (result >>> 14)) >>> 0) / 4294967296;
+  };
 };
 
 // K-Means++ initialization for better centroid selection
 const initializeCentroidsKMeansPP = (data, k) => {
   const centroids = [];
+  const random = seededRandom(createSeed(data, k));
   
-  // Pick the first centroid randomly (use a deterministic index for consistency)
+  // Use a deterministic first centroid so the same input always yields the same zones.
   const firstIndex = Math.floor(data.length / 2);
-  centroids.push({ lat: data[firstIndex].lat, lng: data[firstIndex].lng });
+  centroids.push(coordinatesOf(data[firstIndex]));
 
   for (let c = 1; c < k; c++) {
     // Calculate distance from each point to its nearest existing centroid
@@ -31,7 +73,7 @@ const initializeCentroidsKMeansPP = (data, k) => {
     const probabilities = distances.map(d => d / totalDist);
 
     // Weighted random selection
-    let r = Math.random();
+    let r = random();
     let cumulative = 0;
     let selectedIndex = 0;
     for (let i = 0; i < probabilities.length; i++) {
@@ -42,7 +84,12 @@ const initializeCentroidsKMeansPP = (data, k) => {
       }
     }
 
-    centroids.push({ lat: data[selectedIndex].lat, lng: data[selectedIndex].lng });
+    centroids.push(coordinatesOf(data[selectedIndex]));
+  }
+
+  // Degenerate datasets can contain fewer unique locations than K.
+  while (centroids.length < k) {
+    centroids.push(coordinatesOf(data[centroids.length % data.length]));
   }
 
   return centroids;
@@ -67,8 +114,7 @@ const calculateClusterRadius = (cluster, centroid) => {
     const dist = distance(point, centroid);
     if (dist > maxDist) maxDist = dist;
   }
-  // Convert degrees to approximate meters (1 degree ≈ 111,000 meters)
-  return maxDist * 111000;
+  return maxDist * 1000;
 };
 
 // K-means Clustering implementation with K-Means++ initialization
@@ -114,8 +160,8 @@ export const performKMeans = (data, k, maxIterations = 100) => {
         continue;
       }
 
-      const sumLat = cluster.reduce((sum, point) => sum + point.lat, 0);
-      const sumLng = cluster.reduce((sum, point) => sum + point.lng, 0);
+      const sumLat = cluster.reduce((sum, point) => sum + coordinatesOf(point).lat, 0);
+      const sumLng = cluster.reduce((sum, point) => sum + coordinatesOf(point).lng, 0);
 
       const newLat = sumLat / cluster.length;
       const newLng = sumLng / cluster.length;
