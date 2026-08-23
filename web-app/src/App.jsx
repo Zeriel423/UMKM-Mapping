@@ -5,7 +5,6 @@ import BusinessList from './components/BusinessList';
 import { performKMeans, generateClusterColors } from './utils/kmeans';
 import {
   getAnalysisCoordinates,
-  isExactLocation,
   isMappableLocation,
   normalizeBusinessLocation,
 } from './utils/location';
@@ -205,15 +204,16 @@ function App() {
       if (!matchesBusiness) return;
 
       const coordinates = getAnalysisCoordinates(selectedBusiness);
-      const routeUrl = isExactLocation(selectedBusiness) && coordinates
-        ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${coordinates.lat},${coordinates.lng}`)}`
-        : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedBusiness.address || selectedName)}`;
+      const destination = coordinates
+        ? `${coordinates.lat},${coordinates.lng}`
+        : selectedBusiness.address || selectedName;
+      const routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
       const routeButton = document.createElement('a');
       routeButton.className = 'popup-route-button';
       routeButton.href = routeUrl;
       routeButton.target = '_blank';
       routeButton.rel = 'noreferrer';
-      routeButton.textContent = isExactLocation(selectedBusiness) ? '🚗 Rute' : '🔎 Cari alamat';
+      routeButton.textContent = '🚗 Rute';
       routeButton.style.cssText = [
         'display:flex',
         'align-items:center',

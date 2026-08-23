@@ -385,9 +385,10 @@ const UserLocationFeature = ({ data }) => {
 
   const openMap = (umkm) => {
     const coordinates = getAnalysisCoordinates(umkm);
-    const mapsUrl = isExactLocation(umkm) && coordinates
-      ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${coordinates.lat},${coordinates.lng}`)}`
-      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(umkm.address || umkm.name)}`;
+    const destination = coordinates
+      ? `${coordinates.lat},${coordinates.lng}`
+      : umkm.address || umkm.name;
+    const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
 
     window.open(mapsUrl, "_blank", "noopener,noreferrer");
   };
@@ -569,7 +570,7 @@ const UserLocationFeature = ({ data }) => {
             cursor: "pointer",
           }}
         >
-          {isExactLocation(umkm) ? "🚗 Buka Rute" : "🔎 Cari Alamat"}
+          🚗 Buka Rute
         </button>
       </div>
     ))
