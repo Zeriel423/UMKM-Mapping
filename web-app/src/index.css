@@ -1827,7 +1827,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Active responsive rules: desktop styles stay above, mobile lives only here. */
+/* Desktop visibility guard. Mobile rules now live exclusively in mobile.css. */
 @media (min-width: 769px) {
   .sidebar {
     transform: none !important;
@@ -1840,7 +1840,8 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@media (max-width: 768px) {
+/* Inactive legacy mobile block retained temporarily as a reference. */
+@media (max-width: 0px) {
   body {
     min-height: 100dvh;
     overflow: hidden;
@@ -2053,7 +2054,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 0px) {
   .map-container {
     height: 54dvh;
     flex-basis: 54dvh;

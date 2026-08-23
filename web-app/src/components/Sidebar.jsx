@@ -19,70 +19,89 @@ const Sidebar = ({
 }) => {
   return (
     <aside className={`sidebar ${isOpen ? 'open' : ''}`} id="sidebar">
-      {/* Header */}
       <div className="sidebar-header">
-        <h1>Zonasi UMKM</h1>
-        <p className="sidebar-subtitle">
-          Pemetaan &amp; Analisis K-Means Sulawesi Utara
-        </p>
-      </div>
-
-      {/* Search */}
-      <div className="search-box">
-        <label className="visually-hidden" htmlFor="search-input">Cari UMKM</label>
-        <Search size={16} className="search-icon" />
-        <input
-          id="search-input"
-          className="search-input"
-          type="text"
-          placeholder="Cari UMKM, merek, pemilik..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        {searchQuery && (
-          <button
-            className="search-clear"
-            onClick={() => setSearchQuery('')}
-            aria-label="Hapus pencarian"
-          >
-            <X size={14} />
-          </button>
-        )}
-      </div>
-
-      {/* Product Type Filter */}
-      {productTypes && productTypes.length > 0 && (
-        <div className="filter-section">
-          <span className="filter-label">Filter Jenis Produk</span>
-          <div className="filter-chips">
-            <button
-              className={`filter-chip ${productFilter === '' ? 'active' : ''}`}
-              onClick={() => setProductFilter('')}
-              aria-pressed={productFilter === ''}
-            >
-              Semua
-            </button>
-            {productTypes.map((pt) => (
-              <button
-                key={pt.code}
-                className={`filter-chip ${productFilter === pt.code ? 'active' : ''}`}
-                onClick={() => setProductFilter(productFilter === pt.code ? '' : pt.code)}
-                title={pt.label}
-                aria-pressed={productFilter === pt.code}
-              >
-                {pt.label}
-              </button>
-            ))}
+        <div className="sidebar-brand">
+          <span className="sidebar-brand-mark" aria-hidden="true">
+            <MapPin size={22} />
+          </span>
+          <div>
+            <span className="sidebar-eyebrow">WEB GIS SULAWESI UTARA</span>
+            <h1>Zonasi UMKM</h1>
           </div>
         </div>
-      )}
+        <p className="sidebar-subtitle">
+          Pemetaan persebaran dan analisis zonasi UMKM dengan K-Means.
+        </p>
+        <div className="sidebar-data-status">
+          <span><i aria-hidden="true" />Data publik aktif</span>
+          <strong>{mappableCount.toLocaleString('id-ID')} titik peta</strong>
+        </div>
+      </div>
+
+      <section className="sidebar-discovery" aria-labelledby="sidebar-discovery-title">
+        <div className="sidebar-section-heading">
+          <div>
+            <span className="sidebar-section-kicker">TEMUKAN USAHA</span>
+            <h2 id="sidebar-discovery-title">Cari UMKM yang Anda butuhkan</h2>
+          </div>
+          <Search size={18} aria-hidden="true" />
+        </div>
+
+        <div className="search-box">
+          <label className="visually-hidden" htmlFor="search-input">Cari UMKM</label>
+          <Search size={16} className="search-icon" />
+          <input
+            id="search-input"
+            className="search-input"
+            type="text"
+            placeholder="Nama usaha, merek, pemilik..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          {searchQuery && (
+            <button
+              className="search-clear"
+              onClick={() => setSearchQuery('')}
+              aria-label="Hapus pencarian"
+            >
+              <X size={14} />
+            </button>
+          )}
+        </div>
+
+        {productTypes && productTypes.length > 0 && (
+          <div className="filter-section">
+            <span className="filter-label">Jenis produk</span>
+            <div className="filter-chips">
+              <button
+                className={`filter-chip ${productFilter === '' ? 'active' : ''}`}
+                onClick={() => setProductFilter('')}
+                aria-pressed={productFilter === ''}
+              >
+                Semua
+              </button>
+              {productTypes.map((pt) => (
+                <button
+                  key={pt.code}
+                  className={`filter-chip ${productFilter === pt.code ? 'active' : ''}`}
+                  onClick={() => setProductFilter(productFilter === pt.code ? '' : pt.code)}
+                  title={pt.label}
+                  aria-pressed={productFilter === pt.code}
+                >
+                  {pt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
 
       {/* Stats Cards */}
       <div className="stats-container">
         <div className="stats-card">
           <div className="stats-card-header">
             <MapPin size={18} color="var(--primary-color)" />
-            <h3>Total UMKM</h3>
+            <h3>Cakupan data UMKM</h3>
           </div>
           <p className="stats-value">{totalData.toLocaleString('id-ID')}</p>
           <p className="stats-breakdown">

@@ -398,70 +398,25 @@ const UserLocationFeature = ({ data }) => {
   return (
     <>
       {/* Panel UMKM Terdekat */}
-      <div
-        className="nearby-panel"
-        style={{
-          position: "absolute",
-          top: "16px",
-          left: "16px",
-          zIndex: 1000,
-          width: "min(340px, calc(100% - 32px))",
-        }}
-      >
+      <div className="nearby-panel">
         {!userLocation ? (
           <button
             className="nearby-trigger"
             type="button"
             onClick={findNearest}
             disabled={loading}
-            style={{
-              width: "100%",
-              border: "none",
-              borderRadius: "12px",
-              padding: "12px 16px",
-              background: "#fff",
-              color: "#1e293b",
-              fontWeight: 700,
-              fontSize: "14px",
-              cursor: loading ? "wait" : "pointer",
-              boxShadow: "0 3px 14px rgba(0,0,0,0.18)",
-              textAlign: "left",
-            }}
           >
             {loading ? "📍 Mencari lokasi Anda..." : "📍 Cari UMKM di Sekitar Anda"}
           </button>
         ) : (
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: "14px",
-              boxShadow: "0 3px 18px rgba(0,0,0,0.2)",
-              overflow: "hidden",
-            }}
-          >
+          <div className="nearby-card">
             {/* Header */}
-            <div
-              style={{
-                padding: "13px 15px",
-                borderBottom: "1px solid #e2e8f0",
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: 800,
-                  color: "#0f172a",
-                }}
-              >
+            <div className="nearby-card-header">
+              <div className="nearby-card-title">
                 📍 {hasEstimatedResults ? "Perkiraan UMKM Terdekat" : "UMKM Terdekat"}
               </div>
 
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "#64748b",
-                  marginTop: 3,
-                }}
-              >
+              <div className="nearby-card-subtitle">
                 {hasEstimatedResults
                   ? "Jarak dihitung dari titik perkiraan wilayah"
                   : "5 UMKM terdekat dari lokasi Anda"}
@@ -469,128 +424,55 @@ const UserLocationFeature = ({ data }) => {
             </div>
 
             {/* List */}
-            {/* List */}
-<div
-  style={{
-    maxHeight: "270px",
-    overflowY: "auto",
-  }}
->
-  {nearest.length === 0 ? (
-    <div
-      style={{
-        padding: "14px",
-        fontSize: "13px",
-        color: "#64748b",
-      }}
-    >
-      Tidak ada data UMKM dengan koordinat yang valid.
-    </div>
-  ) : (
-    nearest.map((umkm, index) => (
-      <div
-        key={`${umkm.name}-${index}`}
-        style={{
-          borderBottom:
-            index < nearest.length - 1
-              ? "1px solid #f1f5f9"
-              : "none",
-          background: "#fff",
-          padding: "11px 15px",
-        }}
-      >
-        {/* Informasi UMKM */}
-        <button
-          type="button"
-          onClick={() => focusUmkm(umkm)}
-          style={{
-            width: "100%",
-            border: "none",
-            background: "transparent",
-            padding: 0,
-            textAlign: "left",
-            cursor: "pointer",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 10,
-            }}
-          >
-            <strong
-              style={{
-                color: "#1e293b",
-                fontSize: "13px",
-              }}
-            >
-              {index + 1}. {umkm.name}
-            </strong>
+            <div className="nearby-list">
+              {nearest.length === 0 ? (
+                <div className="nearby-empty">
+                  Tidak ada data UMKM dengan koordinat yang valid.
+                </div>
+              ) : (
+                nearest.map((umkm, index) => (
+                  <div className="nearby-item" key={`${umkm.name}-${index}`}>
+                    {/* Informasi UMKM */}
+                    <button
+                      className="nearby-item-main"
+                      type="button"
+                      onClick={() => focusUmkm(umkm)}
+                    >
+                      <div className="nearby-item-heading">
+                        <strong className="nearby-item-name">
+                          {index + 1}. {umkm.name}
+                        </strong>
 
-            <span
-              style={{
-                color: "#2563eb",
-                fontWeight: 800,
-                fontSize: "12px",
-                whiteSpace: "nowrap",
-              }}
-            >
-              {formatDistance(umkm.distance)}
-            </span>
-          </div>
+                        <span className="nearby-item-distance">
+                          {formatDistance(umkm.distance)}
+                        </span>
+                      </div>
 
-          <div
-            style={{
-              color: "#64748b",
-              fontSize: "11px",
-              marginTop: 3,
-            }}
-          >
-            {umkm.product_label ||
-              umkm.product_type ||
-              "UMKM"}
-          </div>
-        </button>
+                      <div className="nearby-item-category">
+                        {umkm.product_label ||
+                          umkm.product_type ||
+                          "UMKM"}
+                      </div>
+                    </button>
 
-        {/* Tombol Rute */}
-        <button
-          type="button"
-          onClick={() => openMap(umkm)}
-          style={{
-            marginTop: "8px",
-            width: "100%",
-            border: "none",
-            borderRadius: "8px",
-            background: "#2563eb",
-            color: "#fff",
-            padding: "7px 10px",
-            fontSize: "12px",
-            fontWeight: 700,
-            cursor: "pointer",
-          }}
-        >
-          🚗 Buka Rute
-        </button>
-      </div>
-    ))
-  )}
-</div>
+                    {/* Tombol Rute */}
+                    <button
+                      className="nearby-route-button"
+                      type="button"
+                      onClick={() => openMap(umkm)}
+                      aria-label={`Buka rute menuju ${umkm.name}`}
+                    >
+                      🚗 Buka Rute
+                    </button>
+                  </div>
+                ))
+              )}
+            </div>
             {/* Reset */}
             <button
+              className="nearby-reset-button"
               type="button"
               onClick={clearLocation}
-              style={{
-                width: "100%",
-                border: "none",
-                borderTop: "1px solid #e2e8f0",
-                background: "#f8fafc",
-                padding: "9px",
-                color: "#475569",
-                fontSize: "12px",
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
             >
               Reset lokasi
             </button>
@@ -599,18 +481,7 @@ const UserLocationFeature = ({ data }) => {
 
         {/* Error */}
         {error && (
-          <div
-            style={{
-              marginTop: "8px",
-              padding: "10px 12px",
-              background: "#fff",
-              color: "#b91c1c",
-              borderRadius: "10px",
-              boxShadow: "0 3px 12px rgba(0,0,0,0.15)",
-              fontSize: "12px",
-              lineHeight: 1.4,
-            }}
-          >
+          <div className="nearby-error">
             {error}
           </div>
         )}
@@ -629,12 +500,7 @@ const UserLocationFeature = ({ data }) => {
 
               <br />
 
-              <span
-                style={{
-                  fontSize: "12px",
-                  color: "#64748b",
-                }}
-              >
+              <span className="nearby-user-coordinates">
                 {userLocation.lat.toFixed(5)}, {userLocation.lng.toFixed(5)}
               </span>
             </Popup>

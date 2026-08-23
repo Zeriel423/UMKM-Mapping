@@ -1,5 +1,5 @@
-import { MapPin, Share2, X } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { MapPin, Search, Share2, X } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import CommunityCollections from './CommunityCollections';
 import { locationAccuracyLabel } from '../utils/location';
 
@@ -13,19 +13,52 @@ const businessTitle = (business) =>
 const BusinessList = ({
   businesses,
   allBusinesses,
+  resultsKey = '',
   selectedBusiness,
   activeCollectionId,
   onSelectCollection,
   onSelectBusiness,
   onShareBusiness,
+  searchQuery = '',
+  onSearchChange,
   isMobileOpen = false,
   onMobileClose,
 }) => {
-  // Menyimpan jumlah item yang sedang ditampilkan.
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  // Menyimpan jumlah item tanpa me-remount input saat kriteria berubah.
+  const [pagination, setPagination] = useState({ key: resultsKey, count: PAGE_SIZE });
+  const visibleCount = pagination.key === resultsKey ? pagination.count : PAGE_SIZE;
+  const panelRef = useRef(null);
+  const closeButtonRef = useRef(null);
 
   // Menyimpan pesan singkat setelah proses berbagi berhasil.
   const [notice, setNotice] = useState('');
+
+  useEffect(() => {
+    if (!isMobileOpen) return undefined;
+
+    const focusFrame = window.requestAnimationFrame(() => closeButtonRef.current?.focus());
+    return () => window.cancelAnimationFrame(focusFrame);
+  }, [isMobileOpen]);
+
+  const trapMobileFocus = (event) => {
+    if (!isMobileOpen || event.key !== 'Tab') return;
+
+    const focusableElements = Array.from(panelRef.current?.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ) || []);
+    if (focusableElements.length === 0) return;
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  };
 
   // Menempatkan UMKM yang sedang dipilih di urutan paling atas.
   const orderedBusinesses = useMemo(() => {
@@ -51,14 +84,20 @@ const BusinessList = ({
 
   return (
     <aside
+      ref={panelRef}
+      id="business-panel"
       className={`business-panel ${isMobileOpen ? 'mobile-open' : ''}`}
       aria-label="Daftar UMKM"
+      role={isMobileOpen ? 'dialog' : undefined}
+      aria-modal={isMobileOpen || undefined}
+      onKeyDown={trapMobileFocus}
     >
       {/* Header khusus bottom sheet pada perangkat mobile. */}
       <div className="mobile-panel-header">
         <div className="mobile-panel-handle" aria-hidden="true" />
 
         <button
+          ref={closeButtonRef}
           className="mobile-panel-close"
           type="button"
           onClick={onMobileClose}
@@ -66,6 +105,29 @@ const BusinessList = ({
         >
           <X size={18} />
         </button>
+      </div>
+
+      <div className="mobile-panel-search">
+        <label htmlFor="mobile-business-search">Cari UMKM</label>
+        <div className="mobile-search-box">
+          <Search size={17} aria-hidden="true" />
+          <input
+            id="mobile-business-search"
+            type="text"
+            placeholder="Nama usaha, merek, atau pemilik"
+            value={searchQuery}
+            onChange={(event) => onSearchChange?.(event.target.value)}
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => onSearchChange?.('')}
+              aria-label="Hapus pencarian"
+            >
+              <X size={16} />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Pilihan komunitas/kategori yang tersedia. */}
@@ -158,7 +220,10 @@ const BusinessList = ({
           <button
             className="load-more-button"
             type="button"
-            onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}
+            onClick={() => setPagination((current) => ({
+              key: resultsKey,
+              count: (current.key === resultsKey ? current.count : PAGE_SIZE) + PAGE_SIZE,
+            }))}
           >
             Tampilkan lebih banyak
           </button>

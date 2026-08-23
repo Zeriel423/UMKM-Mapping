@@ -1,268 +1,525 @@
 /* =========================================================
-   MOBILE UI FIXES
-   Only applies to screens <= 768px.
-   Desktop layout remains untouched.
+   PUBLIC MOBILE LAYOUT
+   Satu-satunya sumber aturan aktif untuk viewport <= 768px.
+   Semua selector di-scope ke .public-app agar desktop dan admin terpisah.
    ========================================================= */
 
-/* Tombol ini hanya digunakan untuk membuka bottom sheet pada mobile. */
-.mobile-discovery-trigger {
+.public-app .mobile-discovery-trigger {
   display: none;
 }
 
 @media (max-width: 768px) {
-  .sidebar-toggle {
+  .public-app {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+    flex-direction: column;
+  }
+
+  .public-app .main-content {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .public-app .map-container,
+  .public-app #map-container {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    flex: 1 1 auto;
+  }
+
+  .public-app #map-container .leaflet-container {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .public-app .sidebar-toggle {
+    position: fixed;
     top: calc(15px + env(safe-area-inset-top));
-    left: 15px;
+    left: calc(15px + env(safe-area-inset-left));
+    z-index: 2000;
+    display: flex;
     width: 48px;
     height: 48px;
-    z-index: 2000;
+    border: 1px solid rgba(255, 255, 255, 0.55);
     border-radius: 14px;
-    background: var(--primary-color);
+    background: linear-gradient(145deg, #1b6b61 0%, #0d463f 100%);
     color: #fff;
-    box-shadow: 0 7px 20px rgba(21, 69, 62, 0.28);
+    box-shadow: 0 9px 24px rgba(13, 70, 63, 0.3);
   }
 
-  .nearby-panel {
-    top: calc(15px + env(safe-area-inset-top)) !important;
-    left: 75px !important;
-    width: calc(100% - 90px) !important;
-    max-width: none !important;
-    z-index: 1900 !important;
+  .public-app .sidebar-toggle:hover {
+    background: var(--primary-dark);
   }
 
-  .nearby-trigger {
-    width: 100% !important;
-    min-height: 48px;
-    padding: 12px 14px !important;
-    border-radius: 14px !important;
-    font-size: 14px !important;
-    line-height: 1.25;
-    box-shadow: 0 7px 20px rgba(15, 23, 42, 0.16) !important;
+  .public-app .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 1500;
+    width: min(90vw, 370px);
+    height: 100dvh;
+    max-width: none;
+    padding: 0 17px calc(20px + env(safe-area-inset-bottom));
+    gap: 14px;
+    border: 0;
+    border-radius: 0 22px 22px 0;
+    box-shadow: 16px 0 42px rgba(12, 45, 41, 0.24);
+    transform: translateX(-105%);
+    visibility: hidden;
+    pointer-events: none;
   }
 
-  .app-container.sidebar-open .nearby-panel {
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
+  .public-app .sidebar.open {
+    transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
   }
 
-  .leaflet-control-zoom {
-    display: none !important;
+  .public-app .sidebar-header {
+    margin: 0 -17px;
+    padding: calc(78px + env(safe-area-inset-top)) 20px 20px;
   }
 
-  .business-panel .community-collections {
+  .public-app .sidebar-header h1 {
+    font-size: 24px;
+  }
+
+  .public-app .sidebar-subtitle {
+    font-size: 12px;
+  }
+
+  .public-app .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1400;
+    display: none;
+    background: rgba(11, 36, 33, 0.52);
+    backdrop-filter: blur(3px);
+  }
+
+  .public-app .sidebar-overlay.visible {
     display: block;
   }
 
-  .sidebar .algo-info,
-  .sidebar .sidebar-footer {
-    display: none !important;
+  .public-app.sidebar-open .nearby-panel,
+  .public-app.sidebar-open .mobile-discovery-trigger,
+  .public-app.sidebar-open .business-panel {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
   }
 
-  .mobile-discovery-trigger {
+  .public-app .sidebar-discovery {
+    padding: 14px;
+  }
+
+  .public-app .search-input {
+    min-height: 48px;
+    font-size: 16px;
+  }
+
+  .public-app .search-clear {
+    width: 44px;
+    height: 44px;
+  }
+
+  .public-app .filter-chip {
+    min-height: 44px;
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+
+  .public-app .analysis-panel > summary {
+    min-height: 48px;
+  }
+
+  .public-app .text-button {
+    min-height: 44px;
+  }
+
+  .public-app .analysis-summary-hint {
+    display: none;
+  }
+
+  .public-app .nearby-panel {
+    top: calc(15px + env(safe-area-inset-top));
+    left: calc(75px + env(safe-area-inset-left));
+    z-index: 1650;
+    width: calc(100% - 90px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    max-width: none;
+  }
+
+  .public-app .nearby-trigger {
+    min-height: 48px;
+    padding: 12px 14px;
+    overflow: hidden;
+    border-radius: 14px;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .public-app .nearby-card {
+    max-height: calc(100dvh - 92px - env(safe-area-inset-top));
+  }
+
+  .public-app .nearby-list {
+    max-height: min(46dvh, 340px);
+  }
+
+  .public-app .nearby-item-main,
+  .public-app .nearby-route-button,
+  .public-app .nearby-reset-button {
+    min-height: 44px;
+  }
+
+  .public-app .nearby-item-name {
+    font-size: 13px;
+  }
+
+  .public-app .nearby-item-category,
+  .public-app .nearby-item-distance,
+  .public-app .nearby-card-subtitle {
+    font-size: 12px;
+  }
+
+  .public-app .leaflet-control-zoom {
+    display: none;
+  }
+
+  .public-app .map-legend {
+    display: none;
+  }
+
+  .public-app .mobile-discovery-trigger {
     position: fixed;
     left: 50%;
-    bottom: calc(18px + env(safe-area-inset-bottom));
-    transform: translateX(-50%);
-    z-index: 1850;
+    bottom: calc(30px + env(safe-area-inset-bottom));
+    z-index: 1700;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
-    min-width: 220px;
-    max-width: calc(100vw - 32px);
-    min-height: 50px;
-    padding: 11px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.65);
+    gap: 10px;
+    min-width: 224px;
+    max-width: calc(100% - 32px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    min-height: 52px;
+    padding: 12px 21px;
+    border: 1px solid rgba(255, 255, 255, 0.26);
     border-radius: 999px;
-    background: rgba(29, 31, 39, 0.94);
+    background: linear-gradient(145deg, #183f3a 0%, #0d2f2b 100%);
     color: #fff;
-    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.28);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    font-family: var(--font-body);
-    font-size: 14px;
+    box-shadow: 0 14px 34px rgba(8, 38, 34, 0.31);
+    font-size: 13px;
     font-weight: 700;
-    line-height: 1;
+    line-height: 1.15;
     cursor: pointer;
     touch-action: manipulation;
-    transition: transform 0.25s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    transform: translateX(-50%);
+    transition: transform 0.24s ease, opacity 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .mobile-discovery-trigger:hover,
-  .mobile-discovery-trigger:focus-visible {
-    box-shadow: 0 12px 34px rgba(15, 23, 42, 0.34);
-    outline: none;
+  .public-app .mobile-discovery-trigger::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    margin-left: 2px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(245, 180, 0, 0.13);
   }
 
-  .mobile-discovery-trigger:active {
+  .public-app .mobile-discovery-trigger:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+  }
+
+  .public-app .mobile-discovery-trigger:active {
     transform: translateX(-50%) scale(0.98);
   }
 
-  .mobile-discovery-trigger svg {
-    flex-shrink: 0;
-  }
-
-  .app-container.discovery-open .mobile-discovery-trigger {
+  .public-app.discovery-open .mobile-discovery-trigger {
     opacity: 0;
     pointer-events: none;
     transform: translateX(-50%) translateY(12px);
   }
 
-  .business-panel {
-    position: fixed !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    max-width: none !important;
-    height: min(38vh, 460px) !important;
-    max-height: calc(100dvh - 82px) !important;
-    flex: none !important;
-    order: initial !important;
-    z-index: 1800 !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-    border: 0 !important;
-    border-radius: 24px 24px 0 0 !important;
-    box-shadow: 0 -14px 40px rgba(15, 23, 42, 0.22) !important;
-    transform: translateY(100%) !important;
+  .public-app.discovery-open .map-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1600;
+    background: rgba(10, 39, 35, 0.18);
+    pointer-events: none;
+  }
+
+  .public-app.discovery-open .nearby-panel {
     opacity: 0;
     pointer-events: none;
+  }
+
+  .public-app .business-panel {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 1800;
+    width: 100%;
+    max-width: none;
+    height: min(62dvh, 620px);
+    max-height: calc(100dvh - 72px - env(safe-area-inset-top));
+    flex: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 0;
+    border-radius: 24px 24px 0 0;
+    background: var(--bg-color);
+    box-shadow: 0 -18px 48px rgba(8, 38, 34, 0.25);
+    opacity: 0;
     visibility: hidden;
-    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.2s ease,
-                visibility 0s linear 0.34s;
+    pointer-events: none;
+    transform: translateY(102%);
+    transition:
+      transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.2s ease,
+      visibility 0s linear 0.34s;
   }
 
-  .business-panel.mobile-open {
-    transform: translateY(0) !important;
+  .public-app .business-panel.mobile-open {
     opacity: 1;
-    pointer-events: auto;
     visibility: visible;
-    transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.2s ease,
-                visibility 0s linear 0s;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition:
+      transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.2s ease,
+      visibility 0s linear 0s;
   }
 
-  .mobile-panel-header {
+  .public-app .mobile-panel-header {
     position: sticky;
     top: 0;
-    z-index: 4;
-    min-height: 44px;
+    z-index: 8;
+    min-height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.94);
-    border-bottom: 1px solid rgba(226, 232, 240, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 9px 16px;
+    border-bottom: 1px solid rgba(220, 230, 227, 0.86);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(14px);
   }
 
-  .mobile-panel-handle {
-    width: 42px;
+  .public-app .mobile-panel-handle {
+    display: block;
+    width: 44px;
     height: 5px;
     border-radius: 999px;
-    background: #cbd5e1;
+    background: #b8cac6;
   }
 
-  .mobile-panel-close {
+  .public-app .mobile-panel-close {
     position: absolute;
-    right: 12px;
-    top: 7px;
-    width: 32px;
-    height: 32px;
+    top: 4px;
+    right: calc(8px + env(safe-area-inset-right));
+    width: 44px;
+    height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border: 0;
     border-radius: 50%;
-    background: #f1f5f9;
-    color: var(--text-muted);
+    background: #edf3f1;
+    color: var(--primary-dark);
     cursor: pointer;
   }
 
-  .mobile-panel-close:active {
-    transform: scale(0.95);
-  }
-
-  .business-panel .community-collections,
-  .business-panel .business-results,
-  .business-panel .business-detail {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .business-panel .community-collections {
+  .public-app .mobile-panel-search {
+    position: sticky;
+    top: 52px;
+    z-index: 7;
+    display: block;
+    padding: 12px 16px;
     border-bottom: 1px solid var(--border-color);
+    background: rgba(244, 247, 246, 0.97);
+    backdrop-filter: blur(14px);
   }
 
-  .business-panel .collection-list {
+  .public-app .mobile-panel-search > label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--primary-dark);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .public-app .mobile-search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .public-app .mobile-search-box > svg {
+    position: absolute;
+    left: 13px;
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .public-app .mobile-search-box input {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 48px 10px 40px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--text-dark);
+    font-size: 16px;
+    outline: none;
+  }
+
+  .public-app .mobile-search-box input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(21, 95, 86, 0.1);
+  }
+
+  .public-app .mobile-search-box button {
+    position: absolute;
+    right: 2px;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-muted);
+  }
+
+  .public-app .community-collections,
+  .public-app .business-results {
+    padding: 16px;
+  }
+
+  .public-app .community-collections {
+    background: #f8fbfa;
+  }
+
+  .public-app .section-heading h2 {
+    font-size: 16px;
+  }
+
+  .public-app .eyebrow {
+    font-size: 10px;
+  }
+
+  .public-app .collection-list {
+    display: flex;
+    flex-direction: row;
     gap: 10px;
+    overflow-x: auto;
+    padding: 2px 0 6px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
   }
 
-  .business-panel .collection-card {
-    min-height: 82px;
+  .public-app .collection-list::-webkit-scrollbar {
+    display: none;
   }
 
-  .business-panel .business-card-list {
-    padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  .public-app .collection-card {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    flex: 0 0 232px;
+    min-height: 86px;
+    padding: 12px;
+    scroll-snap-align: start;
   }
 
-  .app-container.discovery-open .nearby-panel {
-    opacity: 0.35 !important;
-    pointer-events: none !important;
+  .public-app .collection-icon {
+    width: 40px;
+    height: 40px;
   }
 
-  .app-container.sidebar-open .business-panel {
-    visibility: hidden !important;
-    pointer-events: none !important;
+  .public-app .collection-copy strong,
+  .public-app .business-card-title {
+    font-size: 14px;
   }
 
-  /* The discovery sheet is fixed, so the map itself must use the full
-     mobile viewport. The base stylesheet's old 53dvh/56vh map height
-     otherwise leaves a large blank area under the Leaflet canvas. */
-  .app-container {
-    width: 100vw !important;
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    overflow: hidden !important;
+  .public-app .collection-copy span,
+  .public-app .business-card-category,
+  .public-app .business-card-address,
+  .public-app .business-card-location {
+    font-size: 12px;
   }
 
-  .main-content {
-    width: 100vw !important;
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
+  .public-app .results-heading {
+    top: 151px;
+    padding-top: 10px;
   }
 
-  .map-container,
-  #map-container {
-    width: 100% !important;
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    flex: 1 1 auto !important;
+  .public-app .business-card-main {
+    min-height: 124px;
+    padding: 14px 14px 14px 16px;
   }
 
-  #map-container .leaflet-container {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 100% !important;
+  .public-app .business-share-button {
+    width: 48px;
+  }
+
+  .public-app .business-card-list {
+    padding-bottom: 0;
+  }
+
+  .public-app .business-results {
+    padding-bottom: calc(28px + env(safe-area-inset-bottom));
+  }
+
+  .public-app .load-more-button {
+    min-height: 48px;
+    font-size: 13px;
+  }
+
+  .public-app .leaflet-control-attribution {
+    max-width: calc(100vw - 16px);
+    overflow: hidden;
+    font-size: 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
 @media (max-width: 380px) {
-  .mobile-discovery-trigger {
+  .public-app .mobile-discovery-trigger {
+    width: calc(100% - 32px);
     min-width: 0;
-    width: calc(100vw - 32px);
   }
 
-  .business-panel {
-    height: min(36vh, 400px) !important;
+  .public-app .business-panel {
+    height: min(66dvh, 610px);
+  }
+
+  .public-app .collection-card {
+    flex-basis: 214px;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .public-app .business-panel {
+    height: calc(100dvh - 72px);
+    max-height: none;
+  }
+
+  .public-app .nearby-card {
+    max-height: calc(100dvh - 72px);
+  }
+
+  .public-app .nearby-list {
+    max-height: 38dvh;
   }
 }

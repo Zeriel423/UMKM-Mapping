@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import Sidebar from './components/Sidebar';
 import MapView from './components/Map';
 import BusinessList from './components/BusinessList';
@@ -24,6 +24,15 @@ function App() {
   const [activeCollection, setActiveCollection] = useState(null);
   const [selectedBusinessId, setSelectedBusinessId] = useState(null);
   const [focusSelectedBusiness, setFocusSelectedBusiness] = useState(false);
+  const discoveryTriggerRef = useRef(null);
+
+  const closeDiscovery = useCallback((restoreFocus = true) => {
+    setDiscoveryOpen(false);
+
+    if (restoreFocus && window.matchMedia('(max-width: 768px)').matches) {
+      window.requestAnimationFrame(() => discoveryTriggerRef.current?.focus());
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,12 +57,12 @@ function App() {
     const closeOnEscape = (event) => {
       if (event.key === 'Escape') {
         setSidebarOpen(false);
-        setDiscoveryOpen(false);
+        closeDiscovery();
       }
     };
     window.addEventListener('keydown', closeOnEscape);
     return () => window.removeEventListener('keydown', closeOnEscape);
-  }, []);
+  }, [closeDiscovery]);
 
   useEffect(() => {
     if (rawData.length === 0) return undefined;
@@ -158,12 +167,12 @@ function App() {
     const businessId = String(business.id);
     setSelectedBusinessId(businessId);
     setFocusSelectedBusiness(focus);
-    setDiscoveryOpen(false);
+    closeDiscovery(false);
 
     const url = new URL(window.location.href);
     url.searchParams.set('umkm', businessId);
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
-  }, []);
+  }, [closeDiscovery]);
 
   const clearSelectedBusiness = useCallback(() => {
     setSelectedBusinessId(null);
@@ -342,7 +351,7 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="loading-screen">
+      <div className="loading-screen public-state-screen">
         <div className="loading-content">
           <Loader2 size={40} color="var(--primary-color)" className="animate-spin" />
           <h2>Memuat Data UMKM...</h2>
@@ -353,7 +362,7 @@ function App() {
 
   if (error) {
     return (
-      <div className="error-screen">
+      <div className="error-screen public-state-screen">
         <div className="error-content">
           <AlertTriangle size={48} color="#E63946" style={{ marginBottom: '1rem' }} />
           <h2>Gagal Memuat Data</h2>
@@ -365,7 +374,7 @@ function App() {
   }
 
   return (
-    <div className={`app-container ${sidebarOpen ? 'sidebar-open' : ''} ${discoveryOpen ? 'discovery-open' : ''}`}>
+    <div className={`app-container public-app ${sidebarOpen ? 'sidebar-open' : ''} ${discoveryOpen ? 'discovery-open' : ''}`}>
       <button className="sidebar-toggle" onClick={toggleSidebar} aria-label={sidebarOpen ? 'Tutup menu' : 'Buka menu'} aria-expanded={sidebarOpen} aria-controls="sidebar" id="sidebar-toggle">
         {sidebarOpen ? <X size={22} /> : <Menu size={22} />}
       </button>
@@ -391,6 +400,7 @@ function App() {
 
       <main className="main-content">
         <button
+          ref={discoveryTriggerRef}
           className="mobile-discovery-trigger"
           type="button"
           onClick={() => {
@@ -399,6 +409,7 @@ function App() {
           }}
           aria-label="Buka pencarian dan pilihan komunitas"
           aria-expanded={discoveryOpen}
+          aria-controls="business-panel"
         >
           <Search size={18} aria-hidden="true" />
           <span>Pencarian &amp; Komunitas</span>
@@ -415,17 +426,19 @@ function App() {
         />
 
         <BusinessList
-          key={`${searchQuery}-${productFilter}-${activeCollection?.id || 'all'}`}
           businesses={filteredData}
           allBusinesses={rawData}
+          resultsKey={`${searchQuery}\u0000${productFilter}\u0000${activeCollection?.id || 'all'}`}
           selectedBusiness={selectedBusiness}
           activeCollectionId={activeCollection?.id}
           onSelectCollection={selectCollection}
           onSelectBusiness={(business) => selectBusiness(business, true)}
           onClearSelectedBusiness={clearSelectedBusiness}
           onShareBusiness={shareBusiness}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
           isMobileOpen={discoveryOpen}
-          onMobileClose={() => setDiscoveryOpen(false)}
+          onMobileClose={closeDiscovery}
         />
       </main>
     </div>
