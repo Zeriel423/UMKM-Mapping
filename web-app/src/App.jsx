@@ -6,8 +6,8 @@ import { performKMeans, generateClusterColors } from './utils/kmeans';
 import {
   getAnalysisCoordinates,
   isMappableLocation,
-  normalizeBusinessLocation,
 } from './utils/location';
+import { loadPublicBusinesses } from './services/publicDataService';
 import { Loader2, AlertTriangle, Menu, X, Search } from 'lucide-react';
 
 const businessTitle = (business) => business.brand?.trim() || business.name || 'UMKM tanpa nama';
@@ -28,13 +28,11 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/data/umkm.json');
-        if (!response.ok) throw new Error(`HTTP ${response.status}: Gagal memuat data`);
-        const jsonData = await response.json();
+        const jsonData = await loadPublicBusinesses();
         if (!Array.isArray(jsonData) || jsonData.length === 0) {
           throw new Error('Data UMKM kosong atau format tidak valid');
         }
-        setRawData(jsonData.map(normalizeBusinessLocation));
+        setRawData(jsonData);
       } catch (err) {
         console.error('[App] Error loading data:', err);
         setError(err.message);

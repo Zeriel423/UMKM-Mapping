@@ -1,16 +1,60 @@
-# React + Vite
+# Zonasi UMKM Sulawesi Utara
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikasi Web GIS untuk pemetaan dan analisis zonasi UMKM menggunakan K-Means clustering.
 
-Currently, two official plugins are available:
+## Menjalankan aplikasi
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Website publik tersedia pada `/`. Panel pengelola tersedia pada `/admin`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Mengaktifkan panel admin
 
-## Expanding the ESLint configuration
+Tanpa konfigurasi backend, `/admin` menampilkan halaman persiapan dan ringkasan data JSON dalam mode baca-saja. Website publik tetap berfungsi seperti sebelumnya.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Untuk mengaktifkan login dan penyimpanan:
+
+1. Buat proyek Supabase.
+2. Jalankan [`supabase/migrations/20260823000000_admin_foundation.sql`](supabase/migrations/20260823000000_admin_foundation.sql) melalui SQL Editor.
+3. Buat pengguna melalui **Authentication → Users**.
+4. Daftarkan pengguna tersebut sebagai admin menggunakan contoh SQL pada bagian akhir migrasi.
+5. Salin `.env.example` menjadi `.env.local`, lalu isi Project URL dan publishable key.
+6. Buka `/admin`, masuk, lalu gunakan menu **Impor & Ekspor → Impor data awal**.
+7. Setelah impor awal selesai, pasang dua variabel yang sama pada pengaturan Environment Variables di Vercel dan lakukan deployment ulang.
+
+Ketika variabel Supabase sudah aktif, database menjadi satu-satunya sumber data website publik. Kegagalan database tidak akan diam-diam menampilkan kembali data JSON lama yang mungkin sudah dinonaktifkan oleh admin.
+
+Jangan memasukkan secret key atau service-role key ke file `.env` frontend. Akses tabel dibatasi menggunakan PostgreSQL Row Level Security.
+
+## Fitur admin
+
+- Login email dan kata sandi melalui Supabase Auth.
+- Dashboard kualitas dataset.
+- Tambah, edit, aktifkan, dan nonaktifkan data UMKM.
+- Verifikasi koordinat dengan pin peta yang dapat digeser.
+- Analisis K-Means dan penyimpanan snapshot input, hash dataset, WCSS, centroid, serta iterasi.
+- Impor atomik data awal/CSV tervalidasi dan ekspor CSV yang aman dibuka di spreadsheet.
+- Audit log otomatis untuk perubahan data UMKM.
+- Layout admin responsif yang terpisah dari CSS website publik.
+
+Status **lokasi tepat** hanya dapat diberikan setelah titik diperiksa dan dikonfirmasi melalui halaman verifikasi. Hasil analisis admin memakai data aktif, dipublikasikan, dan dapat dipetakan—sama dengan sumber data halaman publik.
+
+CSV hasil ekspor ditujukan untuk analisis dan pertukaran data, bukan pemulihan penuh database. Baris berstatus `tepat` harus diubah menjadi perkiraan/belum terverifikasi lalu diperiksa ulang sebelum dapat diimpor; bukti verifikasi tidak dipulihkan dari CSV.
+
+## Hak akses per peran
+
+- `superadmin` dan `admin`: mengelola UMKM, verifikasi, impor/ekspor, serta menyimpan hasil K-Means.
+- `verifikator`: membaca data dan memperbarui koordinat/status melalui alur verifikasi terbatas; tidak dapat mengarsipkan atau mengimpor data.
+- `viewer`: akses baca dashboard, data, analisis, dan riwayat; tidak memiliki operasi tulis.
+
+Pembatasan ini diterapkan pada antarmuka sekaligus Row Level Security/RPC database. Menyembunyikan tombol saja tidak dijadikan lapisan keamanan.
+
+## Pemeriksaan proyek
+
+```bash
+npm run lint
+npm run build
+```
