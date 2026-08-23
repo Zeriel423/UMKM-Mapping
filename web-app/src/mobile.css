@@ -4,6 +4,11 @@
    Desktop layout remains untouched.
    ========================================================= */
 
+/* Tombol ini hanya digunakan untuk membuka bottom sheet pada mobile. */
+.mobile-discovery-trigger {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .sidebar-toggle {
     top: calc(15px + env(safe-area-inset-top));
