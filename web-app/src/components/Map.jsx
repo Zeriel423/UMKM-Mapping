@@ -16,6 +16,7 @@ import {
   isMappableLocation,
   locationAccuracyLabel,
 } from "../utils/location";
+import MapInfoPanel from "./MapInfoPanel";
 
 // Make L available globally for leaflet.markercluster
 if (typeof window !== "undefined") {
@@ -524,54 +525,6 @@ const UserLocationFeature = ({ data }) => {
 };
 
 // =========================================================
-// MAP LEGEND
-// =========================================================
-
-const MapLegend = ({ colors, clusterStats }) => {
-  if (!colors || colors.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className="map-legend" id="map-legend">
-      <div className="map-legend-title">Legenda Zonasi</div>
-
-      <div className="map-legend-items">
-        {colors.map((color, idx) => (
-          <div key={idx} className="map-legend-item">
-            <span
-              className="map-legend-color"
-              style={{
-                backgroundColor: color,
-              }}
-            />
-
-            <span>
-              Wilayah {idx + 1}
-              {clusterStats && clusterStats[idx] && (
-                <span
-                  style={{
-                    color: "#94a3b8",
-                    marginLeft: "4px",
-                  }}
-                >
-                  ({clusterStats[idx].count})
-                </span>
-              )}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <div className="map-legend-centroid">
-        <span className="centroid-icon-preview" />
-        <span>Pusat cluster K-Means</span>
-      </div>
-    </div>
-  );
-};
-
-// =========================================================
 // MAIN MAP COMPONENT
 // =========================================================
 
@@ -581,6 +534,8 @@ const MapComponent = ({
   colors,
   clusterRadii,
   clusterStats,
+  locationStats,
+  overlayOpen = false,
   selectedBusiness,
   onSelectBusiness,
 }) => {
@@ -669,8 +624,13 @@ const MapComponent = ({
         ))}
       </MapContainer>
 
-      {/* Legend */}
-      <MapLegend colors={colors} clusterStats={clusterStats} />
+      <MapInfoPanel
+        key={overlayOpen ? "map-info-blocked" : "map-info-ready"}
+        colors={colors}
+        clusterStats={clusterStats}
+        locationStats={locationStats}
+        disabled={overlayOpen}
+      />
     </div>
   );
 };

@@ -194,8 +194,45 @@
     display: none;
   }
 
-  .public-app .map-legend {
-    display: none;
+  .public-app .map-info-control {
+    right: calc(16px + env(safe-area-inset-right));
+    bottom: calc(96px + env(safe-area-inset-bottom));
+    z-index: 1680;
+  }
+
+  .public-app .map-info-trigger {
+    min-width: 112px;
+    min-height: 48px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 12px;
+  }
+
+  .public-app .map-info-panel {
+    width: min(360px, calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right)));
+    max-height: min(58dvh, 500px);
+    border-radius: 17px;
+  }
+
+  .public-app .map-info-content {
+    padding: 14px;
+  }
+
+  .public-app .map-info-context,
+  .public-app .map-info-zone-item,
+  .public-app .map-info-accuracy-item {
+    font-size: 12px;
+  }
+
+  .public-app .map-info-note p {
+    font-size: 11px;
+  }
+
+  .public-app.sidebar-open .map-info-control,
+  .public-app.discovery-open .map-info-control {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .public-app .mobile-discovery-trigger {
@@ -521,5 +558,9 @@
 
   .public-app .nearby-list {
     max-height: 38dvh;
+  }
+
+  .public-app .map-info-panel {
+    max-height: calc(100dvh - 168px);
   }
 }

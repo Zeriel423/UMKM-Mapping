@@ -6,6 +6,7 @@ import { performKMeans, generateClusterColors } from './utils/kmeans';
 import {
   getAnalysisCoordinates,
   isMappableLocation,
+  LOCATION_ACCURACY,
 } from './utils/location';
 import { loadPublicBusinesses } from './services/publicDataService';
 import { Loader2, AlertTriangle, Menu, X, Search } from 'lucide-react';
@@ -129,6 +130,26 @@ function App() {
     () => filteredData.filter(isMappableLocation),
     [filteredData],
   );
+
+  const locationStats = useMemo(() => filteredData.reduce((stats, business) => {
+    if (isMappableLocation(business)) stats.mappable += 1;
+
+    if (business.location_accuracy === LOCATION_ACCURACY.EXACT) {
+      stats.exact += 1;
+    } else if (business.location_accuracy === LOCATION_ACCURACY.UNKNOWN) {
+      stats.unknown += 1;
+    } else {
+      stats.approximate += 1;
+    }
+
+    return stats;
+  }, {
+    total: filteredData.length,
+    mappable: 0,
+    exact: 0,
+    approximate: 0,
+    unknown: 0,
+  }), [filteredData]);
 
   const clusterResult = useMemo(() => {
     if (mappableFilteredData.length === 0) {
@@ -421,6 +442,8 @@ function App() {
           colors={colors}
           clusterRadii={clusterRadii}
           clusterStats={clusterStats}
+          locationStats={locationStats}
+          overlayOpen={sidebarOpen || discoveryOpen}
           selectedBusiness={focusSelectedBusiness ? selectedBusiness : null}
           onSelectBusiness={selectBusiness}
         />
