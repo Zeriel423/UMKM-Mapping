@@ -4,6 +4,7 @@ export const LOCATION_ACCURACY = {
   UNKNOWN: 'belum_terverifikasi',
 };
 
+// Mengubah nilai koordinat menjadi number valid atau null.
 const finiteNumber = (value) => {
   if (value === null || value === undefined || value === '') return null;
   const number = Number(value);
@@ -11,6 +12,7 @@ const finiteNumber = (value) => {
 };
 
 export const normalizeBusinessLocation = (business) => {
+  // Koordinat lama dipakai sebagai fallback untuk data sebelum pemisahan lokasi.
   const legacyLat = finiteNumber(business.lat);
   const legacyLng = finiteNumber(business.lng);
   const analysisLat = finiteNumber(business.analysis_lat) ?? legacyLat;
@@ -32,12 +34,14 @@ export const normalizeBusinessLocation = (business) => {
 };
 
 export const getAnalysisCoordinates = (business) => {
+  // Analisis spasial memakai pasangan koordinat analisis bila tersedia.
   const lat = finiteNumber(business.analysis_lat ?? business.lat);
   const lng = finiteNumber(business.analysis_lng ?? business.lng);
   return lat === null || lng === null ? null : { lat, lng };
 };
 
 export const getDisplayCoordinates = (business) => {
+  // Peta publik memakai koordinat tampilan bila admin sudah mengoreksinya.
   const lat = finiteNumber(business.display_lat ?? business.lat ?? business.analysis_lat);
   const lng = finiteNumber(business.display_lng ?? business.lng ?? business.analysis_lng);
   return lat === null || lng === null ? null : { lat, lng };
@@ -51,6 +55,7 @@ export const isMappableLocation = (business) =>
   && getAnalysisCoordinates(business) !== null;
 
 export const locationAccuracyLabel = (business) => {
+  // Mengubah status internal menjadi label yang dapat dipahami pengguna.
   if (isExactLocation(business)) return 'Lokasi terverifikasi';
   if (business.location_accuracy === LOCATION_ACCURACY.UNKNOWN) {
     return 'Lokasi belum terverifikasi';

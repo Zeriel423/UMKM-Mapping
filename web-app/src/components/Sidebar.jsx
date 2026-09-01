@@ -1,5 +1,6 @@
 import { MapPin, Info, Layers, Search, X } from 'lucide-react';
 
+// Menyediakan pencarian, filter, ringkasan data, dan kontrol analisis peta.
 const Sidebar = ({
   isOpen,
   kValue,
@@ -39,6 +40,7 @@ const Sidebar = ({
       </div>
 
       <section className="sidebar-discovery" aria-labelledby="sidebar-discovery-title">
+        {/* Bagian ini mengelompokkan kontrol untuk menemukan UMKM publik. */}
         <div className="sidebar-section-heading">
           <div>
             <span className="sidebar-section-kicker">TEMUKAN USAHA</span>
@@ -50,6 +52,7 @@ const Sidebar = ({
         <div className="search-box">
           <label className="visually-hidden" htmlFor="search-input">Cari UMKM</label>
           <Search size={16} className="search-icon" />
+          {/* Nilai input langsung memperbarui filter pencarian di komponen induk. */}
           <input
             id="search-input"
             className="search-input"
@@ -121,6 +124,7 @@ const Sidebar = ({
       </div>
 
       <details className="analysis-panel">
+        {/* Detail native menjaga kontrol K-Means tetap tersembunyi sampai dibutuhkan. */}
         <summary>
           <span className="analysis-summary-title"><Layers size={18} /> Analisis Zonasi K-Means</span>
           <span className="analysis-summary-hint">Atur dan lihat hasil</span>

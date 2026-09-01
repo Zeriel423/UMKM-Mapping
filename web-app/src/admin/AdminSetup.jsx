@@ -3,14 +3,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { loadStaticBusinesses } from '../services/publicDataService';
 import { LOCATION_ACCURACY } from '../utils/location';
 
+// Menampilkan panduan konfigurasi saat Supabase belum tersedia.
 const AdminSetup = () => {
   const [businesses, setBusinesses] = useState([]);
 
   useEffect(() => {
+    // Data statis memberi gambaran dataset tanpa membuka akses tulis.
     loadStaticBusinesses().then(setBusinesses).catch(() => setBusinesses([]));
   }, []);
 
   const stats = useMemo(() => ({
+    // Ringkasan dihitung ulang hanya ketika data statis berubah.
     total: businesses.length,
     exact: businesses.filter((item) => item.location_accuracy === LOCATION_ACCURACY.EXACT).length,
     approximate: businesses.filter((item) => item.location_accuracy === LOCATION_ACCURACY.APPROXIMATE).length,

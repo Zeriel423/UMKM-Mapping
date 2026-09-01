@@ -4,6 +4,7 @@ import { loadKMeansRuns, saveKMeansRun } from '../../services/umkmService';
 import { generateClusterColors, performKMeans } from '../../utils/kmeans';
 import { getAnalysisCoordinates, isMappableLocation } from '../../utils/location';
 
+// Menjaga urutan snapshot stabil sehingga hash dataset dapat direproduksi.
 const compareSnapshotPoints = (first, second) => {
   const firstId = Number(first.id);
   const secondId = Number(second.id);
@@ -18,12 +19,14 @@ const compareSnapshotPoints = (first, second) => {
   return first.lng - second.lng;
 };
 
+// Membuat fingerprint dataset yang disimpan bersama hasil analisis.
 const sha256 = async (value) => {
   const bytes = new TextEncoder().encode(JSON.stringify(value));
   const digest = await window.crypto.subtle.digest('SHA-256', bytes);
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
 };
 
+// Menjalankan analisis K-Means admin dan menyimpan riwayat bila peran mengizinkan.
 const KMeansPage = ({ businesses, canSave, notify }) => {
   const [kValue, setKValue] = useState(3);
   const [result, setResult] = useState(null);
@@ -31,6 +34,7 @@ const KMeansPage = ({ businesses, canSave, notify }) => {
   const [running, setRunning] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  // Hanya titik dengan koordinat analisis valid yang masuk ke algoritma.
   const analysisData = useMemo(
     () => businesses.filter((item) => (
       item.is_active === true
@@ -40,6 +44,7 @@ const KMeansPage = ({ businesses, canSave, notify }) => {
     [businesses],
   );
 
+  // Snapshot terurut dipakai sebagai input hash yang tidak berubah antar render.
   const analysisSnapshot = useMemo(
     () => analysisData
       .map((item) => {
@@ -50,6 +55,7 @@ const KMeansPage = ({ businesses, canSave, notify }) => {
     [analysisData],
   );
 
+  // Mengambil riwayat analisis terbaru setelah halaman dimuat atau data disimpan.
   const refreshHistory = async () => {
     try {
       setHistory(await loadKMeansRuns());
@@ -70,6 +76,7 @@ const KMeansPage = ({ businesses, canSave, notify }) => {
     return () => { active = false; };
   }, [notify]);
 
+  // Perhitungan dan hash dijalankan bersama agar hasil dapat diaudit.
   const runAnalysis = async () => {
     if (analysisSnapshot.length < kValue) {
       notify('Jumlah data valid lebih kecil daripada nilai K.', 'error');
@@ -119,6 +126,7 @@ const KMeansPage = ({ businesses, canSave, notify }) => {
     }
   };
 
+  // Hanya hasil yang telah dihitung yang dapat disimpan ke database.
   const saveResult = async () => {
     if (!result) return;
     if (!canSave) {

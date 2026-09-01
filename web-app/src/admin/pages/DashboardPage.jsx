@@ -2,6 +2,7 @@ import { AlertTriangle, CheckCircle2, MapPin, PackageSearch, Store } from 'lucid
 import { useMemo } from 'react';
 import { LOCATION_ACCURACY } from '../../utils/location';
 
+// Mengelompokkan data dengan Map agar ringkasan kategori tidak memakai pencarian berulang.
 const countBy = (items, getValue) => {
   const counts = new Map();
   items.forEach((item) => {
@@ -13,7 +14,9 @@ const countBy = (items, getValue) => {
     .sort((a, b) => b.count - a.count);
 };
 
+// Menyajikan indikator kualitas data dan pintasan alur kerja admin.
 const DashboardPage = ({ businesses, loading, onNavigate, canVerify }) => {
+  // Ringkasan hanya dihitung ulang ketika daftar bisnis berubah.
   const summary = useMemo(() => {
     const active = businesses.filter((item) => item.is_active !== false);
     return {

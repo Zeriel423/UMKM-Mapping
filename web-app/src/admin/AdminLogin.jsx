@@ -1,11 +1,14 @@
 import { AlertCircle, ArrowLeft, Database, LockKeyhole, LogIn } from 'lucide-react';
 import { useState } from 'react';
 
+// Menampilkan formulir autentikasi sebelum pengguna memasuki panel admin.
 const AdminLogin = ({ onSignIn, error, loading }) => {
+  // Nilai formulir disimpan lokal sampai pengguna mengirimkannya.
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const submit = async (event) => {
+    // Mencegah browser memuat ulang halaman saat form dikirim.
     event.preventDefault();
     await onSignIn(email, password);
   };

@@ -1,7 +1,9 @@
 import { CakeSlice, HeartPulse, UtensilsCrossed } from 'lucide-react';
 
+// Kelompok kurasi memetakan kebutuhan pengguna ke kode kategori UMKM.
 export const COMMUNITY_COLLECTIONS = [
   {
+    // Koleksi untuk camilan dan oleh-oleh.
     id: 'oleh-oleh',
     title: 'Oleh-oleh & Jajanan',
     description: 'Camilan dan hidangan khas untuk dibawa pulang.',
@@ -9,6 +11,7 @@ export const COMMUNITY_COLLECTIONS = [
     icon: CakeSlice,
   },
   {
+    // Koleksi untuk pesanan makanan bersama atau acara.
     id: 'pesan-untuk-acara',
     title: 'Pesan untuk Acara',
     description: 'Katering dan makanan untuk kebutuhan bersama.',
@@ -16,6 +19,7 @@ export const COMMUNITY_COLLECTIONS = [
     icon: UtensilsCrossed,
   },
   {
+    // Koleksi produk kesehatan dan bahan alami.
     id: 'alami-dan-sehat',
     title: 'Alami & Sehat',
     description: 'Jamu, olahan buah, dan pilihan bahan alami.',

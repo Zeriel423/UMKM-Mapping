@@ -1,5 +1,6 @@
 import { LOCATION_ACCURACY } from '../../utils/location.js';
 
+// Urutan kolom tetap agar file ekspor dapat diimpor kembali tanpa pemetaan ulang.
 const CSV_COLUMNS = [
   'id',
   'name',
@@ -19,8 +20,10 @@ const CSV_COLUMNS = [
 ];
 
 const ALLOWED_LOCATION_ACCURACY = new Set(Object.values(LOCATION_ACCURACY));
+// Membedakan angka negatif yang valid dari formula spreadsheet berbahaya.
 const NEGATIVE_NUMBER_PATTERN = /^-(?:(?:\d+(?:[.,]\d*)?)|(?:[.,]\d+))(?:[eE][+-]?\d+)?$/;
 
+// Membaca CSV karakter demi karakter agar koma dan baris baru di dalam kutip aman.
 const parseCsvRows = (text) => {
   const rows = [];
   let row = [];
@@ -31,6 +34,7 @@ const parseCsvRows = (text) => {
     const character = text[index];
     const next = text[index + 1];
 
+    // Dua tanda kutip di dalam nilai CSV mewakili satu karakter kutip literal.
     if (character === '"' && quoted && next === '"') {
       value += '"';
       index += 1;
@@ -62,6 +66,7 @@ const parseCsvRows = (text) => {
 const TRUE_VALUES = new Set(['true', '1', 'ya', 'yes', 'y', 'aktif', 'on']);
 const FALSE_VALUES = new Set(['false', '0', 'tidak', 'no', 'n', 'nonaktif', 'off']);
 
+// Mengubah variasi teks boolean menjadi nilai yang konsisten untuk database.
 const booleanValue = (value, label, rowNumber, errors, defaultValue = true) => {
   if (value === undefined || value === '') return defaultValue;
   const normalized = String(value).trim().toLowerCase();
@@ -73,6 +78,7 @@ const booleanValue = (value, label, rowNumber, errors, defaultValue = true) => {
 
 const isBlank = (value) => value === undefined || value === null || value === '';
 
+// Memvalidasi angka koordinat sekaligus menambahkan pesan kesalahan per baris.
 const parseCoordinate = (rawValue, label, minimum, maximum, rowNumber, errors) => {
   if (isBlank(rawValue)) return null;
 
@@ -90,6 +96,7 @@ const parseCoordinate = (rawValue, label, minimum, maximum, rowNumber, errors) =
 };
 
 const parseId = (rawValue, rowNumber, errors) => {
+  // ID kosong berarti database dapat membuat ID baru saat impor.
   if (isBlank(rawValue)) return undefined;
 
   if (!/^\d+$/.test(rawValue)) {
@@ -107,6 +114,7 @@ const parseId = (rawValue, rowNumber, errors) => {
 };
 
 const hasValidCoordinatePair = (lat, lng) => (
+  // Memastikan koordinat berada dalam batas geografis dunia.
   Number.isFinite(lat)
   && lat >= -90
   && lat <= 90
@@ -116,11 +124,13 @@ const hasValidCoordinatePair = (lat, lng) => (
 );
 
 export const parseBusinessCsv = (text) => {
+  // Mengubah CSV menjadi record UMKM dan mengumpulkan semua kesalahan validasi.
   if (typeof text !== 'string') throw new Error('Isi CSV tidak valid.');
 
   const rows = parseCsvRows(text.replace(/^\uFEFF/, ''));
   if (rows.length < 2) throw new Error('CSV tidak memiliki baris data.');
 
+  // Header dinormalisasi agar perbedaan kapital tidak mengubah nama kolom.
   const headers = rows[0].map((header) => header.trim().toLowerCase());
   const emptyHeaderIndexes = headers
     .map((header, index) => (header ? null : index + 1))
@@ -149,6 +159,7 @@ export const parseBusinessCsv = (text) => {
       errors.push(`Baris ${rowNumber}: terdapat ${cells.length - headers.length} kolom berlebih.`);
     }
 
+    // Setiap baris dipetakan ke nama kolom sehingga urutan kolom input bebas.
     const record = Object.fromEntries(
       headers.map((header, index) => [header, cells[index]?.trim() ?? '']),
     );
@@ -184,6 +195,7 @@ export const parseBusinessCsv = (text) => {
         `Baris ${rowNumber}: location_accuracy harus salah satu dari ${[...ALLOWED_LOCATION_ACCURACY].join(', ')}.`,
       );
     }
+    // Lokasi tepat selalu berasal dari proses verifikasi manual, bukan impor CSV.
     if (locationAccuracy === LOCATION_ACCURACY.EXACT) {
       errors.push(`Baris ${rowNumber}: status tepat hanya dapat diberikan melalui menu Verifikasi Lokasi.`);
     }
@@ -210,6 +222,7 @@ export const parseBusinessCsv = (text) => {
     };
   });
 
+  // ID duplikat dihentikan sebelum data dikirim ke transaksi impor.
   const duplicateIds = businesses
     .map((business) => business.id)
     .filter((id) => id !== undefined)
@@ -222,6 +235,7 @@ export const parseBusinessCsv = (text) => {
 };
 
 const spreadsheetSafeText = (value) => {
+  // Prefiks apostrof mencegah spreadsheet menjalankan nilai sebagai formula.
   const text = String(value ?? '');
   if (typeof value !== 'string') return text;
 
@@ -234,11 +248,13 @@ const spreadsheetSafeText = (value) => {
 };
 
 const csvCell = (value) => {
+  // Nilai dengan koma, kutip, atau baris baru harus dibungkus tanda kutip CSV.
   const text = spreadsheetSafeText(value);
   return /[",\r\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 };
 
 export const businessesToCsv = (businesses) => [
+  // Header dan setiap record dirakit menjadi teks CSV standar.
   CSV_COLUMNS.join(','),
   ...businesses.map((business) =>
     CSV_COLUMNS.map((column) => csvCell(business[column])).join(','),
@@ -246,6 +262,7 @@ export const businessesToCsv = (businesses) => [
 ].join('\r\n');
 
 export const downloadCsv = (filename, contents) => {
+  // Blob sementara memicu unduhan browser tanpa mengirim data ke server lain.
   const blob = new Blob([`\uFEFF${contents}`], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');

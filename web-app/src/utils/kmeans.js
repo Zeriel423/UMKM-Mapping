@@ -1,7 +1,9 @@
 // src/utils/kmeans.js
 
+// Radius bumi rata-rata untuk hasil jarak dalam kilometer.
 const EARTH_RADIUS_KM = 6371.0088;
 
+// Memilih koordinat analisis dari format lama maupun format database baru.
 const coordinatesOf = (point) => ({
   lat: Number(point.analysis_lat ?? point.lat),
   lng: Number(point.analysis_lng ?? point.lng),
@@ -22,6 +24,7 @@ const distance = (p1, p2) => {
   return EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
 
+// Membuat seed dari isi dataset agar hasil cluster dapat direproduksi.
 const createSeed = (data, k) => {
   let hash = 2166136261 ^ k;
   for (const point of data) {
@@ -35,6 +38,7 @@ const createSeed = (data, k) => {
   return hash >>> 0;
 };
 
+// Generator pseudoacak lokal agar algoritma tidak memakai Math.random global.
 const seededRandom = (seed) => {
   let value = seed;
   return () => {

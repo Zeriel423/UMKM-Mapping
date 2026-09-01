@@ -1,0 +1,3 @@
+﻿id,name,product_type,product_label,brand,owner,address,analysis_lat,analysis_lng,display_lat,display_lng,location_accuracy,location_area,is_active,published
+,[CONTOH - HAPUS BARIS INI] UMKM Tanpa Koordinat,A0007,"Roti, Kue & Biskuit",Brand Contoh,Nama Pemilik Contoh,"Alamat lengkap UMKM, Kecamatan Wanea, Kota Manado, Sulawesi Utara",,,,,belum_terverifikasi,"Kecamatan Wanea, Kota Manado",false,false
+,[CONTOH - HAPUS BARIS INI] UMKM Dengan Koordinat Perkiraan,A0009,Ikan & Olahan Laut,Brand Contoh,Nama Pemilik Contoh,"Alamat lengkap UMKM, Kecamatan Wenang, Kota Manado, Sulawesi Utara",1.4748,124.8421,1.4748,124.8421,perkiraan_kecamatan,"Kecamatan Wenang, Kota Manado",false,false

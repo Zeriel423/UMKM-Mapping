@@ -3,8 +3,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { saveBusiness, setBusinessActive } from '../../services/umkmService';
 import { LOCATION_ACCURACY, locationAccuracyLabel } from '../../utils/location';
 
+// Batas halaman menjaga tabel admin tetap ringan untuk dataset besar.
 const PAGE_SIZE = 30;
 
+// Nilai awal form saat admin membuat UMKM baru.
 const EMPTY_BUSINESS = {
   name: '',
   brand: '',
@@ -20,18 +22,21 @@ const EMPTY_BUSINESS = {
   published: true,
 };
 
+// Memetakan akurasi lokasi ke warna badge admin.
 const accuracyClass = (accuracy) => {
   if (accuracy === LOCATION_ACCURACY.EXACT) return 'admin-status-success';
   if (accuracy === LOCATION_ACCURACY.UNKNOWN) return 'admin-status-danger';
   return 'admin-status-warning';
 };
 
+// Dialog yang dipakai bersama untuk membuat atau memperbarui satu UMKM.
 const BusinessDialog = ({ business, onClose, onSaved, notify }) => {
   const [form, setForm] = useState(() => business ? { ...business } : { ...EMPTY_BUSINESS });
   const [saving, setSaving] = useState(false);
   const dialogRef = useRef(null);
   const hasExactLocation = business?.location_accuracy === LOCATION_ACCURACY.EXACT;
 
+  // Mengunci scroll halaman dan menangani Escape selama dialog aktif.
   useEffect(() => {
     const previousFocus = document.activeElement;
     document.body.classList.add('admin-dialog-open');
@@ -63,8 +68,10 @@ const BusinessDialog = ({ business, onClose, onSaved, notify }) => {
     };
   }, [onClose]);
 
+  // Mengubah satu field tanpa menimpa nilai form lainnya.
   const update = (field, value) => setForm((current) => ({ ...current, [field]: value }));
 
+  // Memvalidasi dan menyimpan data, lalu meminta halaman induk memuat ulang tabel.
   const submit = async (event) => {
     event.preventDefault();
     setSaving(true);
@@ -122,6 +129,7 @@ const BusinessDialog = ({ business, onClose, onSaved, notify }) => {
   );
 };
 
+// Menyediakan pencarian, filter, halaman, dan perubahan status UMKM.
 const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => {
   const [search, setSearch] = useState('');
   const [accuracy, setAccuracy] = useState('all');
@@ -130,6 +138,7 @@ const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => 
   const [editing, setEditing] = useState(undefined);
   const [busyId, setBusyId] = useState(null);
 
+  // Filter diterapkan sebelum paginasi agar jumlah halaman selalu akurat.
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
     return businesses.filter((business) => {
@@ -146,6 +155,7 @@ const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => 
   const currentPage = Math.min(page, pageCount);
   const visible = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
+  // Arsip non-destruktif mempertahankan data untuk audit dan pemulihan.
   const toggleActive = async (business) => {
     if (!canManage) return;
     const nextActive = business.is_active === false;

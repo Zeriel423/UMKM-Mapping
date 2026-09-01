@@ -18,14 +18,15 @@ import {
 } from "../utils/location";
 import MapInfoPanel from "./MapInfoPanel";
 
-// Make L available globally for leaflet.markercluster
+// Plugin markercluster membaca Leaflet dari window pada saat dimuat dinamis.
 if (typeof window !== "undefined") {
   window.L = L;
 }
 
-// Memoized icon cache to avoid re-creating on every render
+// Cache ikon mencegah pembuatan divIcon berulang untuk warna yang sama.
 const iconCache = {};
 
+// Membuat ikon kecil UMKM atau ikon centroid berdasarkan warna cluster.
 const getIcon = (color, isCentroid = false) => {
   const key = `${color}-${isCentroid}`;
   if (iconCache[key]) return iconCache[key];
@@ -89,7 +90,7 @@ const userLocationIcon = L.divIcon({
   iconAnchor: [9, 9],
 });
 
-// Menghitung jarak menggunakan Haversine formula
+// Menghitung jarak garis lurus antar koordinat dengan rumus Haversine.
 const calculateDistance = (lat1, lng1, lat2, lng2) => {
   const R = 6371; // Radius bumi dalam km
 
@@ -105,7 +106,7 @@ const calculateDistance = (lat1, lng1, lat2, lng2) => {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 };
 
-// Format jarak menjadi meter / kilometer
+// Menampilkan jarak pendek sebagai meter dan sisanya sebagai kilometer.
 const formatDistance = (distance) => {
   if (distance < 1) {
     return `${Math.round(distance * 1000)} m`;
@@ -114,6 +115,7 @@ const formatDistance = (distance) => {
   return `${distance.toFixed(1)} km`;
 };
 
+// Mencegah data UMKM menjadi HTML aktif ketika dimasukkan ke popup Leaflet.
 const escapeHtml = (value) => String(value ?? "")
   .replaceAll("&", "&amp;")
   .replaceAll("<", "&lt;")
@@ -121,6 +123,7 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll('"', "&quot;")
   .replaceAll("'", "&#039;");
 
+// Merakit HTML popup yang dipakai oleh marker Leaflet di luar tree React.
 const popupContent = (umkm, clusterColor) => `
   <div>
     <h3 style="color: ${clusterColor}">${escapeHtml(umkm.name || "UMKM")}</h3>
@@ -137,11 +140,13 @@ const popupContent = (umkm, clusterColor) => `
 // MARKER CLUSTER LAYER
 // =========================================================
 
+// Membuat layer marker yang dikelompokkan untuk menjaga peta tetap responsif.
 const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
   const map = useMap();
   const clusterGroupRef = useRef(null);
   const mcLoadedRef = useRef(false);
 
+  // Layer lama dibersihkan sebelum data atau warna cluster diganti.
   useEffect(() => {
     if (!map || !data || data.length === 0) return;
 
@@ -268,6 +273,7 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
 
 // Brings a shared-link or list selection into view without taking over the
 // map until the visitor explicitly selects a business.
+// Mengarahkan peta ke UMKM yang dipilih dari daftar atau tautan berbagi.
 const SelectedBusinessController = ({ business }) => {
   const map = useMap();
 
@@ -287,6 +293,7 @@ const SelectedBusinessController = ({ business }) => {
 // USER LOCATION + UMKM TERDEKAT
 // =========================================================
 
+// Menggunakan lokasi browser untuk mencari lima UMKM terdekat.
 const UserLocationFeature = ({ data }) => {
   const map = useMap();
 
@@ -299,6 +306,7 @@ const UserLocationFeature = ({ data }) => {
   const [error, setError] = useState("");
 
   // Cari lokasi pengguna
+  // Permintaan geolokasi hanya dimulai setelah pengguna menekan tombol.
   const findNearest = () => {
     if (!navigator.geolocation) {
       setError("Browser Anda tidak mendukung fitur lokasi.");
@@ -369,6 +377,7 @@ const UserLocationFeature = ({ data }) => {
   };
 
   // Reset
+  // Menghapus hasil terdekat tanpa memengaruhi filter atau marker UMKM.
   const clearLocation = () => {
     setUserLocation(null);
     setNearest([]);
@@ -376,6 +385,7 @@ const UserLocationFeature = ({ data }) => {
   };
 
   // Fokus ke UMKM
+  // Memusatkan peta ke UMKM yang dipilih dari daftar lokasi terdekat.
   const focusUmkm = (umkm) => {
     const coordinates = getDisplayCoordinates(umkm);
     if (!coordinates) return;
@@ -384,6 +394,7 @@ const UserLocationFeature = ({ data }) => {
     });
   };
 
+  // Membuka Google Maps dengan koordinat analisis atau alamat sebagai fallback.
   const openMap = (umkm) => {
     const coordinates = getAnalysisCoordinates(umkm);
     const destination = coordinates
@@ -528,6 +539,7 @@ const UserLocationFeature = ({ data }) => {
 // MAIN MAP COMPONENT
 // =========================================================
 
+// Menyatukan tile map, marker cluster, zona, dan kontrol informasi peta.
 const MapComponent = ({
   data,
   centroids,

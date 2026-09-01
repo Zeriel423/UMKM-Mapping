@@ -5,6 +5,7 @@ import { MapContainer, Marker, TileLayer, useMap } from 'react-leaflet';
 import { verifyBusinessLocation } from '../../services/umkmService';
 import { getAnalysisCoordinates, LOCATION_ACCURACY, locationAccuracyLabel } from '../../utils/location';
 
+// Pin khusus membedakan titik yang sedang diverifikasi dari marker biasa.
 const markerIcon = L.divIcon({
   className: 'admin-map-pin',
   html: '<span></span>',
@@ -12,6 +13,7 @@ const markerIcon = L.divIcon({
   iconAnchor: [14, 34],
 });
 
+// Memusatkan peta saat admin memilih UMKM atau memperbarui koordinat.
 const MapFocus = ({ lat, lng }) => {
   const map = useMap();
   useEffect(() => {
@@ -20,8 +22,10 @@ const MapFocus = ({ lat, lng }) => {
   return null;
 };
 
+// Memastikan lokasi tepat hanya diberikan melalui alur verifikasi eksplisit.
 const VerificationPage = ({ businesses, refresh, notify }) => {
   const [includeVerified, setIncludeVerified] = useState(false);
+  // Secara default hanya usaha yang belum tepat yang masuk antrean verifikasi.
   const candidates = useMemo(() => businesses.filter((business) =>
     business.is_active !== false
     && (includeVerified || business.location_accuracy !== LOCATION_ACCURACY.EXACT),
@@ -31,6 +35,7 @@ const VerificationPage = ({ businesses, refresh, notify }) => {
   const [draft, setDraft] = useState(null);
   const [saving, setSaving] = useState(false);
 
+  // Pencarian membatasi antrean tanpa mengubah data sumber.
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
     return candidates.filter((business) => !query || [business.brand, business.name, business.address, business.location_area]
@@ -62,6 +67,7 @@ const VerificationPage = ({ businesses, refresh, notify }) => {
     ? { lat: latitude, lng: longitude }
     : initialPoint;
 
+  // Memulai draft baru dari koordinat analisis agar perubahan belum langsung tersimpan.
   const selectBusiness = (business) => {
     const point = getAnalysisCoordinates(business) || { lat: 1.4748, lng: 124.8421 };
     setSelectedId(business.id);
@@ -73,6 +79,7 @@ const VerificationPage = ({ businesses, refresh, notify }) => {
     });
   };
 
+  // Menggabungkan perubahan form dengan draft lokasi yang sedang diperiksa.
   const updateDraft = (updates) => setDraft((current) => ({
     coordinates,
     accuracy,
@@ -82,6 +89,7 @@ const VerificationPage = ({ businesses, refresh, notify }) => {
     ...updates,
   }));
 
+  // Persetujuan eksplisit diperlukan sebelum lokasi tepat disimpan.
   const save = async () => {
     if (!selected) return;
     if (!coordinatesValid) {

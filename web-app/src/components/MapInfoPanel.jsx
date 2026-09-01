@@ -1,8 +1,10 @@
 import { AlertCircle, CheckCircle2, Info, MapPin, Target, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
+// Memformat angka statistik dengan pemisah ribuan Indonesia.
 const formatNumber = (value) => Number(value || 0).toLocaleString('id-ID');
 
+// Menampilkan ringkasan zonasi dan ketelitian lokasi di atas peta.
 const MapInfoPanel = ({
   colors = [],
   clusterStats = [],
@@ -20,16 +22,19 @@ const MapInfoPanel = ({
   const unknown = Number(locationStats.unknown || 0);
 
   const openPanel = () => {
+    // Fokus berpindah ke tombol tutup agar panel dapat dipakai dengan keyboard.
     setIsOpen(true);
     window.requestAnimationFrame(() => closeRef.current?.focus());
   };
 
   const closePanel = () => {
+    // Fokus dikembalikan ke pemicu setelah panel ditutup.
     setIsOpen(false);
     window.requestAnimationFrame(() => triggerRef.current?.focus());
   };
 
   useEffect(() => {
+    // Escape menutup panel informasi tanpa mengubah posisi peta.
     if (!isOpen) return undefined;
 
     const closeOnEscape = (event) => {

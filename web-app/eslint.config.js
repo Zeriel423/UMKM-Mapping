@@ -5,8 +5,10 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
+  // Output produksi tidak perlu diperiksa karena dibentuk ulang oleh Vite.
   globalIgnores(['dist']),
   {
+    // Aturan ini hanya berlaku untuk source JavaScript dan JSX aplikasi.
     files: ['**/*.{js,jsx}'],
     extends: [
       js.configs.recommended,

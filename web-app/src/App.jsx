@@ -11,9 +11,12 @@ import {
 import { loadPublicBusinesses } from './services/publicDataService';
 import { Loader2, AlertTriangle, Menu, X, Search } from 'lucide-react';
 
+// Menentukan nama usaha yang diprioritaskan pada daftar dan popup.
 const businessTitle = (business) => business.brand?.trim() || business.name || 'UMKM tanpa nama';
 
+// Mengelola data publik, filter, zonasi, dan interaksi peta.
 function App() {
+  // State berikut memisahkan data sumber, filter, dan status antarmuka.
   const [rawData, setRawData] = useState([]);
   const [kValue, setKValue] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,6 +30,7 @@ function App() {
   const [focusSelectedBusiness, setFocusSelectedBusiness] = useState(false);
   const discoveryTriggerRef = useRef(null);
 
+  // Menutup discovery sheet dan mengembalikan fokus ke tombol pemicunya.
   const closeDiscovery = useCallback((restoreFocus = true) => {
     setDiscoveryOpen(false);
 
@@ -35,6 +39,7 @@ function App() {
     }
   }, []);
 
+  // Memuat data dari Supabase atau JSON lokal sesuai konfigurasi aplikasi.
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,6 +59,7 @@ function App() {
     fetchData();
   }, []);
 
+  // Escape menutup drawer dan discovery sheet tanpa memakai mouse.
   useEffect(() => {
     const closeOnEscape = (event) => {
       if (event.key === 'Escape') {
@@ -65,6 +71,7 @@ function App() {
     return () => window.removeEventListener('keydown', closeOnEscape);
   }, [closeDiscovery]);
 
+  // Parameter ?umkm= membuka detail usaha ketika tautan dibagikan.
   useEffect(() => {
     if (rawData.length === 0) return undefined;
 
@@ -81,6 +88,7 @@ function App() {
     return () => window.removeEventListener('popstate', syncSelectedBusinessFromUrl);
   }, [rawData]);
 
+  // Membuat daftar kategori beserta jumlah usaha untuk filter sidebar.
   const productTypes = useMemo(() => {
     if (rawData.length === 0) return [];
     const typeMap = new Map();
@@ -93,6 +101,7 @@ function App() {
     return Array.from(typeMap.values()).sort((a, b) => b.count - a.count);
   }, [rawData]);
 
+  // Menerapkan koleksi, kategori, dan teks pencarian pada data sumber.
   const filteredData = useMemo(() => {
     let result = rawData;
 
@@ -116,21 +125,25 @@ function App() {
     return result;
   }, [rawData, searchQuery, productFilter, activeCollection]);
 
+  // Detail usaha dicari dari data penuh agar tautan tetap valid saat filter berubah.
   const selectedBusiness = useMemo(
     () => rawData.find((business) => String(business.id) === String(selectedBusinessId)) || null,
     [rawData, selectedBusinessId],
   );
 
+  // Menghitung titik valid tanpa memaksa komponen peta menghitung ulang sendiri.
   const mappableCount = useMemo(
     () => rawData.filter(isMappableLocation).length,
     [rawData],
   );
 
+  // K-Means hanya menerima usaha yang memiliki koordinat analisis valid.
   const mappableFilteredData = useMemo(
     () => filteredData.filter(isMappableLocation),
     [filteredData],
   );
 
+  // Merangkum kualitas lokasi untuk panel informasi peta.
   const locationStats = useMemo(() => filteredData.reduce((stats, business) => {
     if (isMappableLocation(business)) stats.mappable += 1;
 
@@ -151,6 +164,7 @@ function App() {
     unknown: 0,
   }), [filteredData]);
 
+  // Menghindari K-Means saat hasil filter tidak memiliki titik peta.
   const clusterResult = useMemo(() => {
     if (mappableFilteredData.length === 0) {
       return { clusteredData: [], centroids: [], colors: [], clusterStats: [], clusterRadii: [], iterations: 0, wcss: 0 };
@@ -176,6 +190,7 @@ function App() {
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
 
+  // Drawer menu dan discovery sheet tidak boleh terbuka bersamaan di mobile.
   const toggleSidebar = useCallback(() => {
     setSidebarOpen((isOpen) => {
       const nextOpen = !isOpen;
@@ -184,6 +199,7 @@ function App() {
     });
   }, []);
 
+  // Menyimpan pilihan di URL supaya detail dapat dibagikan atau dibuka ulang.
   const selectBusiness = useCallback((business, focus = false) => {
     const businessId = String(business.id);
     setSelectedBusinessId(businessId);
@@ -195,6 +211,7 @@ function App() {
     window.history.pushState({}, '', `${url.pathname}${url.search}${url.hash}`);
   }, [closeDiscovery]);
 
+  // Menghapus parameter detail tanpa memuat ulang halaman.
   const clearSelectedBusiness = useCallback(() => {
     setSelectedBusinessId(null);
     setFocusSelectedBusiness(false);
@@ -207,6 +224,7 @@ function App() {
   // Leaflet owns the popup. Direct marker clicks must never trigger another
   // flyTo because that can close the popup that Leaflet just opened.
   // List/community selections keep the existing flyTo + popup behavior.
+  // Parameter ?umkm= membuka detail usaha ketika tautan dibagikan.
   useEffect(() => {
     if (!selectedBusiness) return undefined;
 
@@ -336,16 +354,19 @@ function App() {
     };
   }, [selectedBusiness, focusSelectedBusiness]);
 
+  // Filter kategori menggantikan koleksi kurasi yang sedang aktif.
   const selectProductFilter = useCallback((filter) => {
     setActiveCollection(null);
     setProductFilter(filter);
   }, []);
 
+  // Koleksi memakai beberapa kode kategori sehingga filter tunggal dibersihkan.
   const selectCollection = useCallback((collection) => {
     setProductFilter('');
     setActiveCollection(collection);
   }, []);
 
+  // Native share dipakai bila tersedia, lalu clipboard menjadi fallback desktop.
   const shareBusiness = useCallback(async (business) => {
     const title = business.brand?.trim() || business.name || 'UMKM';
     const url = new URL(window.location.href);

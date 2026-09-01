@@ -23,6 +23,7 @@ import KMeansPage from './pages/KMeansPage';
 import VerificationPage from './pages/VerificationPage';
 import './admin.css';
 
+// Konfigurasi navigasi dan izin minimum setiap halaman admin.
 const NAV_ITEMS = [
   { path: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/admin/umkm', label: 'Data UMKM', icon: Store },
@@ -32,6 +33,7 @@ const NAV_ITEMS = [
   { path: '/admin/riwayat', label: 'Riwayat', icon: History },
 ];
 
+// Label peran disajikan dalam bahasa antarmuka, bukan kode database.
 const ROLE_LABELS = {
   superadmin: 'Superadmin',
   admin: 'Admin',
@@ -39,11 +41,13 @@ const ROLE_LABELS = {
   viewer: 'Pembaca',
 };
 
+// Menormalkan URL agar hanya rute admin yang dikenal yang dapat ditampilkan.
 const normalizedAdminPath = () => {
   const path = window.location.pathname.replace(/\/$/, '') || '/admin';
   return NAV_ITEMS.some((item) => item.path === path) ? path : '/admin';
 };
 
+// Membungkus navigasi, data bersama, dan halaman yang boleh diakses admin.
 const AdminWorkspace = ({ profile, onSignOut }) => {
   const [route, setRoute] = useState(normalizedAdminPath);
   const [businesses, setBusinesses] = useState([]);
@@ -57,6 +61,7 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
   const sidebarWasOpen = useRef(false);
   const canManage = ['superadmin', 'admin'].includes(profile.role);
   const canVerify = canManage || profile.role === 'verifikator';
+  // Item navigasi disaring dari peran pengguna yang sudah terautentikasi.
   const visibleNavItems = useMemo(() => NAV_ITEMS.filter((item) => (
     !item.access
     || (item.access === 'manage' && canManage)
@@ -64,11 +69,13 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
   )), [canManage, canVerify]);
   const activeRoute = visibleNavItems.some((item) => item.path === route) ? route : '/admin';
 
+  // Toast menyampaikan hasil operasi tanpa berpindah halaman.
   const notify = useCallback((message, type = 'success') => {
     setToast({ message, type });
     window.setTimeout(() => setToast(null), 4000);
   }, []);
 
+  // Memuat ulang data pusat yang dipakai oleh seluruh halaman admin.
   const refresh = useCallback(async () => {
     setLoading(true);
     try {
@@ -83,6 +90,7 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
     }
   }, [notify]);
 
+  // Data awal dimuat ketika workspace admin sudah tersedia.
   useEffect(() => {
     let active = true;
     loadAdminBusinesses()
@@ -146,6 +154,7 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
     return () => document.body.classList.remove('admin-drawer-open');
   }, [compactNavigation, sidebarOpen]);
 
+  // Navigasi memakai History API agar aplikasi tetap satu halaman.
   const navigate = useCallback((path) => {
     window.history.pushState({}, '', path);
     setRoute(path);
@@ -153,6 +162,7 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  // Halaman dirender dari rute aktif dan izin pengguna saat ini.
   const page = useMemo(() => {
     if (dataError && activeRoute !== '/admin/riwayat') {
       return (
@@ -197,6 +207,7 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
   );
 };
 
+// Mengelola sesi Supabase dan memutuskan layar autentikasi atau workspace.
 const AdminApp = () => {
   const [session, setSession] = useState(null);
   const [profile, setProfile] = useState(undefined);
@@ -206,6 +217,7 @@ const AdminApp = () => {
   const [profileError, setProfileError] = useState('');
   const [profileRetry, setProfileRetry] = useState(0);
 
+  // Menandai body agar gaya admin tidak memengaruhi halaman publik.
   useEffect(() => {
     document.body.classList.add('admin-page');
     return () => document.body.classList.remove('admin-page');
@@ -259,6 +271,7 @@ const AdminApp = () => {
     return () => { active = false; };
   }, [profileRetry, session]);
 
+  // Mengirim kredensial ke Supabase Auth lalu menampilkan kesalahan bila gagal.
   const signIn = async (email, password) => {
     setLoginLoading(true);
     setAuthError('');
@@ -267,6 +280,7 @@ const AdminApp = () => {
     setLoginLoading(false);
   };
 
+  // Mengakhiri sesi dan mengarahkan pengguna kembali ke halaman login admin.
   const signOut = async () => {
     await supabase.auth.signOut();
     window.history.replaceState({}, '', '/admin/login');

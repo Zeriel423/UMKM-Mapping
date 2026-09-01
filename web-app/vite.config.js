@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
+// Mengaktifkan transformasi JSX dan Fast Refresh untuk aplikasi React.
 export default defineConfig({
   plugins: [react()],
 })

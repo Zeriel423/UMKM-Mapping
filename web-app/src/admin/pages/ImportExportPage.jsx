@@ -4,12 +4,14 @@ import { importBusinessesAtomically } from '../../services/umkmService';
 import { loadStaticBusinesses } from '../../services/publicDataService';
 import { businessesToCsv, downloadCsv, parseBusinessCsv } from '../utils/csv';
 
+// Menangani pratinjau, validasi, impor transaksi, dan ekspor CSV.
 const ImportExportPage = ({ businesses, refresh, notify }) => {
   const [preview, setPreview] = useState(null);
   const [filename, setFilename] = useState('');
   const [progress, setProgress] = useState(null);
   const [importing, setImporting] = useState(false);
 
+  // Membaca file lokal lalu memvalidasi seluruh baris sebelum impor diizinkan.
   const readCsv = async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -23,6 +25,7 @@ const ImportExportPage = ({ businesses, refresh, notify }) => {
     }
   };
 
+  // Mengirim record valid sebagai satu transaksi database dan memperbarui progres.
   const runImport = async (records, sourceName) => {
     if (!records.length) return;
     const recordsWithId = records.filter((record) => record.id !== undefined && record.id !== null).length;
@@ -50,6 +53,7 @@ const ImportExportPage = ({ businesses, refresh, notify }) => {
     }
   };
 
+  // Memindahkan data JSON awal ke database untuk konfigurasi pertama kali.
   const seedStaticData = async () => {
     try {
       const staticBusinesses = await loadStaticBusinesses();
@@ -59,6 +63,7 @@ const ImportExportPage = ({ businesses, refresh, notify }) => {
     }
   };
 
+  // Menghasilkan CSV dari data aktif tanpa permintaan jaringan tambahan.
   const exportData = () => {
     const date = new Date().toISOString().slice(0, 10);
     downloadCsv(`data-umkm-${date}.csv`, businessesToCsv(businesses));

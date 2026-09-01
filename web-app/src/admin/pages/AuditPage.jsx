@@ -2,16 +2,19 @@ import { History, RefreshCw } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { loadAuditLogs } from '../../services/umkmService';
 
+// Mengubah kode audit database menjadi label yang mudah dibaca admin.
 const ACTION_LABELS = {
   INSERT: 'Data ditambahkan',
   UPDATE: 'Data diperbarui',
   DELETE: 'Data dihapus',
 };
 
+// Menampilkan perubahan data terbaru untuk kebutuhan penelusuran.
 const AuditPage = ({ notify }) => {
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Memuat audit log dan menyampaikan kegagalan ke toast bersama.
   const load = async () => {
     setLoading(true);
     try {
