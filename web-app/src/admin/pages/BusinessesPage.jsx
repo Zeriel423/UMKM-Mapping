@@ -1,4 +1,4 @@
-import { Archive, CheckCircle2, Edit3, Plus, RotateCcw, Search, X } from 'lucide-react';
+import { AlertTriangle, Archive, CheckCircle2, Edit3, Plus, RotateCcw, Search, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { saveBusiness, setBusinessActive } from '../../services/umkmService';
 import { LOCATION_ACCURACY, locationAccuracyLabel } from '../../utils/location';
@@ -129,6 +129,47 @@ const BusinessDialog = ({ business, onClose, onSaved, notify }) => {
   );
 };
 
+const DeactivateBusinessDialog = ({ business, onClose, onConfirm, busy }) => {
+  const dialogRef = useRef(null);
+
+  useEffect(() => {
+    const previousFocus = document.activeElement;
+    document.body.classList.add('admin-dialog-open');
+    window.requestAnimationFrame(() => dialogRef.current?.querySelector('button:last-child')?.focus());
+
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape' && !busy) onClose();
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.classList.remove('admin-dialog-open');
+      window.removeEventListener('keydown', closeOnEscape);
+      previousFocus?.focus?.();
+    };
+  }, [busy, onClose]);
+
+  const businessName = business.brand || business.name;
+
+  return (
+    <div className="admin-dialog-backdrop" role="presentation" onMouseDown={(event) => {
+      if (event.target === event.currentTarget && !busy) onClose();
+    }}>
+      <section ref={dialogRef} className="admin-dialog admin-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="deactivate-business-title">
+        <div className="admin-confirm-icon"><AlertTriangle size={24} aria-hidden="true" /></div>
+        <div>
+          <p className="admin-eyebrow">KONFIRMASI STATUS</p>
+          <h2 id="deactivate-business-title">Nonaktifkan UMKM?</h2>
+          <p>Apakah Anda yakin ingin menonaktifkan <strong>{businessName}</strong>? Data tidak akan tampil di peta publik dan dapat diaktifkan kembali kapan saja.</p>
+        </div>
+        <div className="admin-dialog-actions">
+          <button className="admin-secondary-button" type="button" onClick={onClose} disabled={busy}>Batal</button>
+          <button className="admin-danger-button" type="button" onClick={onConfirm} disabled={busy}><Archive size={18} /> {busy ? 'Menonaktifkan...' : 'Nonaktifkan'}</button>
+        </div>
+      </section>
+    </div>
+  );
+};
+
 // Menyediakan pencarian, filter, halaman, dan perubahan status UMKM.
 const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => {
   const [search, setSearch] = useState('');
@@ -136,6 +177,7 @@ const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => 
   const [activity, setActivity] = useState('active');
   const [page, setPage] = useState(1);
   const [editing, setEditing] = useState(undefined);
+  const [deactivating, setDeactivating] = useState(null);
   const [busyId, setBusyId] = useState(null);
 
   // Filter diterapkan sebelum paginasi agar jumlah halaman selalu akurat.
@@ -156,9 +198,8 @@ const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => 
   const visible = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   // Arsip non-destruktif mempertahankan data untuk audit dan pemulihan.
-  const toggleActive = async (business) => {
+  const updateActivity = async (business, nextActive) => {
     if (!canManage) return;
-    const nextActive = business.is_active === false;
     setBusyId(business.id);
     try {
       await setBusinessActive(business.id, nextActive);
@@ -169,6 +210,14 @@ const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => 
     } finally {
       setBusyId(null);
     }
+  };
+
+  const toggleActive = (business) => {
+    if (business.is_active === false) {
+      updateActivity(business, true);
+      return;
+    }
+    setDeactivating(business);
   };
 
   return (
@@ -212,6 +261,10 @@ const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => 
       </section>
 
       {canManage && editing !== undefined && <BusinessDialog business={editing} onClose={() => setEditing(undefined)} onSaved={refresh} notify={notify} />}
+      {deactivating && <DeactivateBusinessDialog business={deactivating} onClose={() => setDeactivating(null)} onConfirm={async () => {
+        await updateActivity(deactivating, false);
+        setDeactivating(null);
+      }} busy={busyId === deactivating.id} />}
     </div>
   );
 };

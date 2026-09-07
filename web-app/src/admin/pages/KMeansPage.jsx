@@ -26,6 +26,33 @@ const sha256 = async (value) => {
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
 };
 
+const ClusterInfographic = ({ clusterStats, total }) => {
+  const circumference = 2 * Math.PI * 68;
+
+  return (
+    <section className="admin-cluster-infographic" aria-labelledby="cluster-infographic-title">
+      <div className="admin-infographic-chart" role="img" aria-label={`Distribusi ${total.toLocaleString('id-ID')} UMKM ke dalam ${clusterStats.length} cluster`}>
+        <svg viewBox="0 0 180 180" aria-hidden="true">
+          <circle className="admin-infographic-track" cx="90" cy="90" r="68" />
+          {clusterStats.map((stat, index) => {
+            const length = (stat.count / total) * circumference;
+            const offset = clusterStats
+              .slice(0, index)
+              .reduce((sum, item) => sum + ((item.count / total) * circumference), 0);
+            return <circle key={stat.cluster} className="admin-infographic-segment" cx="90" cy="90" r="68" stroke={stat.color} strokeDasharray={`${length} ${circumference - length}`} strokeDashoffset={-offset} />;
+          })}
+        </svg>
+        <div><strong>{total.toLocaleString('id-ID')}</strong><span>UMKM dianalisis</span></div>
+      </div>
+      <div className="admin-infographic-copy">
+        <p className="admin-eyebrow">INFOGRAFIS CLUSTER</p>
+        <h3 id="cluster-infographic-title">Sebaran hasil K-Means</h3>
+        <p>Proporsi setiap lingkaran warna menunjukkan jumlah UMKM pada cluster terkait.</p>
+      </div>
+    </section>
+  );
+};
+
 // Menjalankan analisis K-Means admin dan menyimpan riwayat bila peran mengizinkan.
 const KMeansPage = ({ businesses, canSave, notify }) => {
   const [kValue, setKValue] = useState(3);
@@ -181,6 +208,7 @@ const KMeansPage = ({ businesses, canSave, notify }) => {
           {result ? (
             <>
               <div className="admin-result-metrics"><div><span>WCSS</span><strong>{result.wcss.toFixed(2)} km²</strong></div><div><span>Iterasi</span><strong>{result.iterations}</strong></div><div><span>Nilai K</span><strong>{result.kValue}</strong></div></div>
+              <ClusterInfographic clusterStats={result.clusterStats} total={result.inputSnapshot.length} />
               <div className="admin-cluster-list">
                 {result.clusterStats.map((stat) => <div key={stat.cluster}><span className="admin-color-dot" style={{ background: stat.color }} /><span>Wilayah {stat.cluster}</span><strong>{stat.count.toLocaleString('id-ID')} UMKM</strong></div>)}
               </div>

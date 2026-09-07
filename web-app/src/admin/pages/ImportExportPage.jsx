@@ -70,6 +70,11 @@ const ImportExportPage = ({ businesses, refresh, notify }) => {
     notify('File CSV berhasil dibuat.', 'success');
   };
 
+  const downloadTemplate = () => {
+    downloadCsv('template-tambah-umkm.csv', businessesToCsv([]));
+    notify('Template CSV berhasil dibuat.', 'success');
+  };
+
   return (
     <div className="admin-page-stack">
       <div className="admin-page-heading">
@@ -88,7 +93,10 @@ const ImportExportPage = ({ businesses, refresh, notify }) => {
           <div className="admin-action-icon"><FileSpreadsheet size={24} /></div>
           <h2>Impor CSV</h2>
           <p>Kolom minimal: <code>name</code> dan <code>address</code>. Koordinat akan diperiksa sebelum impor.</p>
-          <label className="admin-file-button"><Upload size={18} /> Pilih file CSV<input type="file" accept=".csv,text/csv" onChange={readCsv} /></label>
+          <div className="admin-action-actions">
+            <label className="admin-file-button"><Upload size={18} /> Pilih file CSV<input type="file" accept=".csv,text/csv" onChange={readCsv} /></label>
+            <button className="admin-secondary-button" type="button" onClick={downloadTemplate}><Download size={18} /> Unduh template CSV</button>
+          </div>
         </article>
 
         <article className="admin-panel admin-action-card">
