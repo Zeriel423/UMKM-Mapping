@@ -18,7 +18,7 @@ Tanpa konfigurasi backend, `/admin` menampilkan halaman persiapan dan ringkasan 
 Untuk mengaktifkan login dan penyimpanan:
 
 1. Buat proyek Supabase.
-2. Jalankan [`supabase/migrations/20260823000000_admin_foundation.sql`](supabase/migrations/20260823000000_admin_foundation.sql) melalui SQL Editor.
+2. Jalankan seluruh migrasi di folder [`supabase/migrations`](supabase/migrations) melalui SQL Editor sesuai urutan nama file.
 3. Buat pengguna melalui **Authentication → Users**.
 4. Daftarkan pengguna tersebut sebagai admin menggunakan contoh SQL pada bagian akhir migrasi.
 5. Salin `.env.example` menjadi `.env.local`, lalu isi Project URL dan publishable key.
@@ -38,6 +38,7 @@ Jangan memasukkan secret key atau service-role key ke file `.env` frontend. Akse
 - Analisis K-Means dan penyimpanan snapshot input, hash dataset, WCSS, centroid, serta iterasi.
 - Impor atomik data awal/CSV tervalidasi dan ekspor CSV yang aman dibuka di spreadsheet.
 - Audit log otomatis untuk perubahan data UMKM.
+- Formulir pengajuan UMKM dari halaman peta, dengan peninjauan setujui/tolak oleh admin.
 - Layout admin responsif yang terpisah dari CSS website publik.
 
 Status **lokasi tepat** hanya dapat diberikan setelah titik diperiksa dan dikonfirmasi melalui halaman verifikasi. Hasil analisis admin memakai data aktif, dipublikasikan, dan dapat dipetakan—sama dengan sumber data halaman publik.
@@ -51,6 +52,12 @@ CSV hasil ekspor ditujukan untuk analisis dan pertukaran data, bukan pemulihan p
 - `viewer`: akses baca dashboard, data, analisis, dan riwayat; tidak memiliki operasi tulis.
 
 Pembatasan ini diterapkan pada antarmuka sekaligus Row Level Security/RPC database. Menyembunyikan tombol saja tidak dijadikan lapisan keamanan.
+
+## Pengajuan dari publik
+
+Tombol **Daftarkan UMKM** pada peta membuka formulir untuk nama usaha, pemilik, kontak, kategori, alamat, dan titik lokasi opsional. Pengajuan hanya dapat dibuat; data pengajuan tidak dapat dibaca kembali oleh pengunjung.
+
+Admin dan superadmin meninjau pengajuan melalui **Pengajuan UMKM**. Saat disetujui, aplikasi membuat data UMKM baru dan menandai pengajuan sebagai disetujui dalam satu transaksi. Lokasi yang dikirim pelaku berstatus perkiraan dan tetap dapat diperiksa lagi melalui menu Verifikasi Lokasi.
 
 ## Pemeriksaan proyek
 

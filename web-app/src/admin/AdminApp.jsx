@@ -1,6 +1,7 @@
 import {
   ArrowLeftRight,
   BarChart3,
+  ClipboardCheck,
   History,
   LayoutDashboard,
   LogOut,
@@ -20,6 +21,7 @@ import BusinessesPage from './pages/BusinessesPage';
 import DashboardPage from './pages/DashboardPage';
 import ImportExportPage from './pages/ImportExportPage';
 import KMeansPage from './pages/KMeansPage';
+import SubmissionsPage from './pages/SubmissionsPage';
 import VerificationPage from './pages/VerificationPage';
 import './admin.css';
 
@@ -30,6 +32,7 @@ const NAV_ITEMS = [
   { path: '/admin/verifikasi', label: 'Verifikasi Lokasi', icon: MapPinned, access: 'verify' },
   { path: '/admin/kmeans', label: 'Analisis K-Means', icon: BarChart3 },
   { path: '/admin/impor', label: 'Impor & Ekspor', icon: ArrowLeftRight, access: 'manage' },
+  { path: '/admin/pengajuan', label: 'Pengajuan UMKM', icon: ClipboardCheck, access: 'manage' },
   { path: '/admin/riwayat', label: 'Riwayat', icon: History },
 ];
 
@@ -164,7 +167,7 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
 
   // Halaman dirender dari rute aktif dan izin pengguna saat ini.
   const page = useMemo(() => {
-    if (dataError && activeRoute !== '/admin/riwayat') {
+    if (dataError && activeRoute !== '/admin/riwayat' && activeRoute !== '/admin/pengajuan') {
       return (
         <div className="admin-page-stack">
           <div className="admin-page-heading"><div><p className="admin-eyebrow">KONEKSI DATA</p><h1>Data admin tidak dapat dimuat</h1><p>Operasi pengelolaan dinonaktifkan agar data yang sebenarnya tidak tertimpa.</p></div></div>
@@ -176,6 +179,7 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
     if (activeRoute === '/admin/verifikasi' && canVerify) return <VerificationPage businesses={businesses} refresh={refresh} notify={notify} />;
     if (activeRoute === '/admin/kmeans') return <KMeansPage businesses={businesses} notify={notify} canSave={canManage} />;
     if (activeRoute === '/admin/impor' && canManage) return <ImportExportPage businesses={businesses} refresh={refresh} notify={notify} />;
+    if (activeRoute === '/admin/pengajuan' && canManage) return <SubmissionsPage notify={notify} />;
     if (activeRoute === '/admin/riwayat') return <AuditPage notify={notify} />;
     return <DashboardPage businesses={businesses} loading={loading} onNavigate={navigate} canVerify={canVerify} />;
   }, [activeRoute, businesses, canManage, canVerify, dataError, loading, navigate, notify, refresh]);

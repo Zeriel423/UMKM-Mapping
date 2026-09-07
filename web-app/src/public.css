@@ -884,6 +884,320 @@
   line-height: 1.5;
 }
 
+.public-app .map-submission-trigger {
+  position: absolute;
+  right: calc(var(--results-panel-width) + 18px);
+  bottom: 92px;
+  z-index: 950;
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px 15px;
+  border: 1px solid rgba(220, 230, 227, 0.96);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--primary-dark);
+  box-shadow: 0 10px 26px rgba(13, 70, 63, 0.16);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+.public-app .map-submission-trigger:hover {
+  border-color: #9abdb7;
+  background: var(--primary-color);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.public-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: rgba(8, 38, 34, 0.6);
+  backdrop-filter: blur(5px);
+}
+
+.public-dialog {
+  width: min(720px, 100%);
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  border: 1px solid #d8e6e3;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 26px 70px rgba(7, 33, 29, 0.3);
+}
+
+.public-dialog-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid #e2ece9;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+}
+
+.public-dialog-heading {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.public-dialog-heading > span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  background: #e4f2ef;
+  color: var(--primary-color);
+}
+
+.public-dialog-heading p {
+  margin: 0;
+  color: var(--primary-color);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.public-dialog-heading h2 {
+  margin: 2px 0 0;
+  color: var(--text-dark);
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 750;
+}
+
+.public-dialog-close {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 11px;
+  background: #edf3f1;
+  color: var(--primary-dark);
+  cursor: pointer;
+}
+
+.public-dialog-close:hover:not(:disabled) {
+  background: #dfece9;
+}
+
+.public-submission-form,
+.public-submission-unavailable,
+.public-submission-success {
+  padding: 22px;
+}
+
+.public-submission-intro {
+  margin: 0 0 18px;
+  color: #5c716d;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.public-submission-grid,
+.public-location-coordinates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.public-submission-grid label,
+.public-location-coordinates label,
+.public-submission-notes {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  color: #38524f;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.public-submission-grid input,
+.public-submission-grid textarea,
+.public-location-coordinates input,
+.public-submission-notes textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 11px;
+  border: 1px solid #d7e2df;
+  border-radius: 10px;
+  outline: 0;
+  background: #fff;
+  color: #1e302d;
+  font: inherit;
+  font-size: 13px;
+}
+
+.public-submission-grid textarea,
+.public-submission-notes textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+
+.public-submission-grid input:focus,
+.public-submission-grid textarea:focus,
+.public-location-coordinates input:focus,
+.public-submission-notes textarea:focus {
+  border-color: #388b81;
+  box-shadow: 0 0 0 3px rgba(56, 139, 129, 0.12);
+}
+
+.public-submission-full {
+  grid-column: 1 / -1;
+}
+
+.public-location-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px 16px;
+  margin: 17px 0;
+  padding: 15px;
+  border: 1px solid #d7e8e4;
+  border-radius: 13px;
+  background: #f2f8f6;
+}
+
+.public-location-fields strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #285d56;
+  font-size: 12px;
+}
+
+.public-location-fields p {
+  margin: 4px 0 0;
+  color: #667a76;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.public-location-button,
+.public-cancel-button,
+.public-submit-button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.public-location-button,
+.public-cancel-button {
+  border-color: #cbdeda;
+  background: #fff;
+  color: #245b54;
+}
+
+.public-location-button:hover:not(:disabled),
+.public-cancel-button:hover:not(:disabled) {
+  border-color: #91bcb6;
+  background: #e9f4f1;
+}
+
+.public-submit-button {
+  background: var(--primary-color);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(21, 95, 86, 0.18);
+}
+
+.public-submit-button:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.public-location-button:disabled,
+.public-cancel-button:disabled,
+.public-submit-button:disabled,
+.public-dialog-close:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+}
+
+.public-location-coordinates {
+  grid-column: 1 / -1;
+}
+
+.public-submission-notes {
+  margin-top: 16px;
+}
+
+.public-submission-error {
+  margin-top: 16px;
+  padding: 11px 12px;
+  border: 1px solid #f0bebe;
+  border-radius: 10px;
+  background: #fff0f0;
+  color: #943535;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.public-submission-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 19px;
+}
+
+.public-submission-unavailable,
+.public-submission-success {
+  text-align: center;
+}
+
+.public-submission-unavailable h3,
+.public-submission-success h3 {
+  margin: 0;
+  color: var(--text-dark);
+  font-family: var(--font-body);
+  font-size: 18px;
+}
+
+.public-submission-unavailable p,
+.public-submission-success p {
+  max-width: 390px;
+  margin: 8px auto 0;
+  color: #657875;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.public-submission-success svg {
+  margin-bottom: 12px;
+  color: #168064;
+}
+
+.public-submission-success .public-submit-button {
+  margin-top: 20px;
+}
+
 @keyframes map-info-enter {
   from {
     opacity: 0;

@@ -415,6 +415,28 @@ body.admin-page.admin-drawer-open {
   transform: translateY(-1px);
 }
 
+.admin-danger-button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 1px solid #c85555;
+  border-radius: 10px;
+  background: #fff0f0;
+  color: #9b3434;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-danger-button:hover:not(:disabled) {
+  border-color: #af3d3d;
+  background: #fee1e1;
+}
+
 .admin-secondary-button,
 .admin-file-button {
   border-color: #cfddda;
@@ -429,7 +451,8 @@ body.admin-page.admin-drawer-open {
 }
 
 .admin-primary-button:disabled,
-.admin-secondary-button:disabled {
+.admin-secondary-button:disabled,
+.admin-danger-button:disabled {
   cursor: not-allowed;
   opacity: 0.55;
 }
@@ -552,6 +575,96 @@ body.admin-page.admin-drawer-open {
   align-items: end;
   gap: 14px;
   padding: 15px;
+}
+
+.admin-submissions-filter {
+  display: flex;
+  align-items: end;
+}
+
+.admin-submissions-filter .admin-compact-field {
+  width: min(260px, 100%);
+}
+
+.admin-submission-phone,
+.admin-submission-coordinates,
+.admin-submission-linked {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.admin-submission-phone {
+  font-weight: 650;
+}
+
+.admin-submission-coordinates,
+.admin-submission-linked {
+  margin-top: 5px;
+  color: #54726d;
+}
+
+.admin-submission-linked {
+  color: #1b6b61;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.admin-compact-action {
+  min-height: 34px;
+  padding: 6px 9px;
+  font-size: 10px;
+}
+
+.admin-review-dialog {
+  width: min(560px, 100%);
+}
+
+.admin-review-summary {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  margin-bottom: 18px;
+  padding: 12px;
+  border: 1px solid #d9e6e3;
+  border-radius: 11px;
+  background: #f3f8f7;
+}
+
+.admin-review-summary > svg {
+  width: 38px;
+  height: 38px;
+  padding: 9px;
+  border-radius: 10px;
+  background: #e0f0ec;
+  color: #1b6b61;
+}
+
+.admin-review-summary div {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.admin-review-summary strong,
+.admin-review-summary span,
+.admin-review-summary small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-review-summary strong {
+  color: #244943;
+  font-size: 12px;
+}
+
+.admin-review-summary span,
+.admin-review-summary small {
+  color: #6d807c;
+  font-size: 10px;
 }
 
 .admin-search-field {

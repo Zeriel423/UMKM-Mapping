@@ -9,7 +9,8 @@ import {
   LOCATION_ACCURACY,
 } from './utils/location';
 import { loadPublicBusinesses } from './services/publicDataService';
-import { Loader2, AlertTriangle, Menu, X, Search } from 'lucide-react';
+import { Loader2, AlertTriangle, Menu, X, Search, Store } from 'lucide-react';
+import BusinessSubmissionForm from './components/BusinessSubmissionForm';
 
 // Menentukan nama usaha yang diprioritaskan pada daftar dan popup.
 const businessTitle = (business) => business.brand?.trim() || business.name || 'UMKM tanpa nama';
@@ -23,6 +24,7 @@ function App() {
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
+  const [submissionOpen, setSubmissionOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [productFilter, setProductFilter] = useState('');
   const [activeCollection, setActiveCollection] = useState(null);
@@ -65,6 +67,7 @@ function App() {
       if (event.key === 'Escape') {
         setSidebarOpen(false);
         closeDiscovery();
+        setSubmissionOpen(false);
       }
     };
     window.addEventListener('keydown', closeOnEscape);
@@ -189,6 +192,7 @@ function App() {
   const { clusteredData, centroids, colors, clusterStats, clusterRadii, iterations, wcss } = clusterResult;
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
+  const closeSubmission = useCallback(() => setSubmissionOpen(false), []);
 
   // Drawer menu dan discovery sheet tidak boleh terbuka bersamaan di mobile.
   const toggleSidebar = useCallback(() => {
@@ -469,6 +473,20 @@ function App() {
           onSelectBusiness={selectBusiness}
         />
 
+        <button
+          className="map-submission-trigger"
+          type="button"
+          aria-label="Daftarkan UMKM"
+          onClick={() => {
+            setSidebarOpen(false);
+            closeDiscovery(false);
+            setSubmissionOpen(true);
+          }}
+        >
+          <Store size={19} aria-hidden="true" />
+          <span>Daftarkan UMKM</span>
+        </button>
+
         <BusinessList
           businesses={filteredData}
           allBusinesses={rawData}
@@ -485,6 +503,7 @@ function App() {
           onMobileClose={closeDiscovery}
         />
       </main>
+      {submissionOpen && <BusinessSubmissionForm onClose={closeSubmission} />}
     </div>
   );
 }

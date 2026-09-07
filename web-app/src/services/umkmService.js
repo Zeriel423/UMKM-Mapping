@@ -263,3 +263,60 @@ export const loadAuditLogs = async () => {
   if (error) throw error;
   return data || [];
 };
+
+export const submitBusinessSubmission = async (submission) => {
+  ensureConfigured();
+  const businessName = cleanText(submission.business_name);
+  const ownerName = cleanText(submission.owner_name);
+  const phone = cleanText(submission.phone);
+  const category = cleanText(submission.category);
+  const address = cleanText(submission.address);
+  const latitude = nullableNumber(submission.latitude);
+  const longitude = nullableNumber(submission.longitude);
+
+  if (!businessName || !ownerName || !phone || !category || !address) {
+    throw new Error('Lengkapi seluruh data usaha yang wajib diisi.');
+  }
+  validateCoordinatePair(latitude, longitude, 'Lokasi usaha');
+
+  const { error } = await supabase
+    .from('umkm_submissions')
+    .insert({
+      business_name: businessName,
+      owner_name: ownerName,
+      phone,
+      category,
+      address,
+      latitude,
+      longitude,
+      notes: cleanText(submission.notes),
+    });
+  if (error) throw error;
+};
+
+export const loadUmkmSubmissions = async ({ status = 'all', page = 1, pageSize = 30 } = {}) => {
+  ensureConfigured();
+  const from = Math.max(0, page - 1) * pageSize;
+  let query = supabase
+    .from('umkm_submissions')
+    .select('*', { count: 'exact' })
+    .order('created_at', { ascending: false })
+    .range(from, from + pageSize - 1);
+
+  if (status !== 'all') query = query.eq('status', status);
+
+  const { data, count, error } = await query;
+  if (error) throw error;
+  return { data: data || [], count: count || 0 };
+};
+
+export const reviewUmkmSubmission = async (id, decision, reviewNote = '') => {
+  ensureConfigured();
+  const { data, error } = await supabase.rpc('review_umkm_submission', {
+    p_submission_id: id,
+    p_decision: decision,
+    p_review_note: cleanText(reviewNote),
+  });
+  if (error) throw error;
+  return data;
+};

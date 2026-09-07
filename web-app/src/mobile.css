@@ -110,6 +110,7 @@
 
   .public-app.sidebar-open .nearby-panel,
   .public-app.sidebar-open .mobile-discovery-trigger,
+  .public-app.sidebar-open .map-submission-trigger,
   .public-app.sidebar-open .business-panel {
     visibility: hidden;
     opacity: 0;
@@ -208,6 +209,21 @@
     font-size: 12px;
   }
 
+  .public-app .map-submission-trigger {
+    position: fixed;
+    right: calc(16px + env(safe-area-inset-right));
+    bottom: calc(158px + env(safe-area-inset-bottom));
+    z-index: 1750;
+    width: 48px;
+    min-height: 48px;
+    padding: 0;
+    border-radius: 14px;
+  }
+
+  .public-app .map-submission-trigger span {
+    display: none;
+  }
+
   .public-app .map-info-panel {
     width: min(360px, calc(100vw - 32px - env(safe-area-inset-left) - env(safe-area-inset-right)));
     max-height: min(58dvh, 500px);
@@ -233,6 +249,53 @@
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
+  }
+
+  .public-app.discovery-open .map-submission-trigger {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .public-dialog-backdrop {
+    align-items: end;
+    padding: 0;
+  }
+
+  .public-dialog {
+    width: 100%;
+    max-height: calc(100dvh - 36px);
+    border-radius: 20px 20px 0 0;
+  }
+
+  .public-dialog-header,
+  .public-submission-form,
+  .public-submission-unavailable,
+  .public-submission-success {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .public-submission-grid,
+  .public-location-coordinates {
+    grid-template-columns: 1fr;
+  }
+
+  .public-submission-full {
+    grid-column: auto;
+  }
+
+  .public-location-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .public-location-button {
+    width: 100%;
+  }
+
+  .public-submission-actions {
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
   }
 
   .public-app .mobile-discovery-trigger {
