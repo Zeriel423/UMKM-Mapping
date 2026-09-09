@@ -25,6 +25,8 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
   const [submissionOpen, setSubmissionOpen] = useState(false);
+  const [showZoneAreas, setShowZoneAreas] = useState(true);
+  const [selectedZone, setSelectedZone] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [productFilter, setProductFilter] = useState('');
   const [activeCollection, setActiveCollection] = useState(null);
@@ -189,7 +191,33 @@ function App() {
     };
   }, [mappableFilteredData, kValue]);
 
-  const { clusteredData, centroids, colors, clusterStats, clusterRadii, iterations, wcss } = clusterResult;
+  const { clusteredData, centroids, colors, clusterStats, iterations, wcss } = clusterResult;
+  const activeZone = selectedZone !== null && clusterStats[selectedZone] ? selectedZone : null;
+
+  const zoneFilteredBusinesses = useMemo(() => (
+    activeZone === null
+      ? clusteredData
+      : clusteredData.filter((business) => Number(business.cluster) === activeZone)
+  ), [activeZone, clusteredData]);
+
+  const selectedZoneSummary = useMemo(() => {
+    if (activeZone === null) return null;
+
+    const businesses = clusteredData.filter((business) => Number(business.cluster) === activeZone);
+    const categories = businesses.reduce((counts, business) => {
+      const label = business.product_label || business.product_type || 'Kategori belum tersedia';
+      counts.set(label, (counts.get(label) || 0) + 1);
+      return counts;
+    }, new Map());
+    const [dominantCategory] = [...categories.entries()]
+      .sort((first, second) => second[1] - first[1] || first[0].localeCompare(second[0], 'id-ID'));
+
+    return {
+      count: businesses.length,
+      dominantCategory: dominantCategory?.[0] || 'Belum tersedia',
+      centroid: centroids[activeZone] || null,
+    };
+  }, [activeZone, centroids, clusteredData]);
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const closeSubmission = useCallback(() => setSubmissionOpen(false), []);
@@ -433,8 +461,13 @@ function App() {
         setKValue={setKValue}
         totalData={rawData.length}
         mappableCount={mappableCount}
-        filteredCount={filteredData.length}
+        filteredCount={zoneFilteredBusinesses.length}
         clusterStats={clusterStats}
+        selectedZone={activeZone}
+        onSelectZone={(index) => setSelectedZone((current) => (current === index ? null : index))}
+        selectedZoneSummary={selectedZoneSummary}
+        showZoneAreas={showZoneAreas}
+        setShowZoneAreas={setShowZoneAreas}
         iterations={iterations}
         wcss={wcss}
         searchQuery={searchQuery}
@@ -462,11 +495,12 @@ function App() {
         </button>
 
         <MapView
-          data={clusteredData}
+          data={zoneFilteredBusinesses}
           centroids={centroids}
           colors={colors}
-          clusterRadii={clusterRadii}
           clusterStats={clusterStats}
+          activeZoneIndex={activeZone}
+          showZoneAreas={showZoneAreas}
           locationStats={locationStats}
           overlayOpen={sidebarOpen || discoveryOpen}
           selectedBusiness={focusSelectedBusiness ? selectedBusiness : null}
@@ -488,9 +522,9 @@ function App() {
         </button>
 
         <BusinessList
-          businesses={filteredData}
+          businesses={zoneFilteredBusinesses}
           allBusinesses={rawData}
-          resultsKey={`${searchQuery}\u0000${productFilter}\u0000${activeCollection?.id || 'all'}`}
+          resultsKey={`${searchQuery}\u0000${productFilter}\u0000${activeCollection?.id || 'all'}\u0000${activeZone ?? 'all'}`}
           selectedBusiness={selectedBusiness}
           activeCollectionId={activeCollection?.id}
           onSelectCollection={selectCollection}

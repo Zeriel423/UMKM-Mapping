@@ -594,6 +594,16 @@ body.admin-page.admin-drawer-open {
   gap: 5px;
 }
 
+.admin-submission-photo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  color: #1b6b61;
+  font-size: 10px;
+  font-weight: 700;
+}
+
 .admin-submission-phone {
   font-weight: 650;
 }

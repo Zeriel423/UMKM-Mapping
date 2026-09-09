@@ -3,6 +3,9 @@ import { LOCATION_ACCURACY, normalizeBusinessLocation } from '../utils/location'
 
 // Batas halaman Supabase agar seluruh dataset dapat dimuat bertahap.
 const PAGE_SIZE = 1000;
+const SUBMISSION_PHOTO_BUCKET = 'umkm-submission-photos';
+const SUBMISSION_PHOTO_MAX_BYTES = 5 * 1024 * 1024;
+const SUBMISSION_PHOTO_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 // Kolom yang aman dan diperlukan untuk halaman publik.
 const PUBLIC_FIELDS = [
   'id',
@@ -279,7 +282,25 @@ export const submitBusinessSubmission = async (submission) => {
   }
   validateCoordinatePair(latitude, longitude, 'Lokasi usaha');
 
-  const { error } = await supabase
+  let photoPath = null;
+  const photo = submission.photo;
+  if (photo) {
+    if (!SUBMISSION_PHOTO_TYPES.has(photo.type)) {
+      throw new Error('Foto harus berformat JPG, PNG, atau WebP.');
+    }
+    if (photo.size > SUBMISSION_PHOTO_MAX_BYTES) {
+      throw new Error('Ukuran foto maksimal 5 MB.');
+    }
+
+    const extension = photo.type === 'image/jpeg' ? 'jpg' : photo.type.split('/')[1];
+    photoPath = `submissions/${crypto.randomUUID()}.${extension}`;
+    const { error: uploadError } = await supabase.storage
+      .from(SUBMISSION_PHOTO_BUCKET)
+      .upload(photoPath, photo, { cacheControl: '3600', contentType: photo.type, upsert: false });
+    if (uploadError) throw uploadError;
+  }
+
+  const { data, error } = await supabase
     .from('umkm_submissions')
     .insert({
       business_name: businessName,
@@ -290,8 +311,13 @@ export const submitBusinessSubmission = async (submission) => {
       latitude,
       longitude,
       notes: cleanText(submission.notes),
-    });
+      photo_path: photoPath,
+      photo_kind: photoPath ? cleanText(submission.photo_kind) : null,
+    })
+    .select('tracking_code')
+    .single();
   if (error) throw error;
+  return data;
 };
 
 export const loadUmkmSubmissions = async ({ status = 'all', page = 1, pageSize = 30 } = {}) => {
@@ -307,7 +333,35 @@ export const loadUmkmSubmissions = async ({ status = 'all', page = 1, pageSize =
 
   const { data, count, error } = await query;
   if (error) throw error;
-  return { data: data || [], count: count || 0 };
+  const rows = data || [];
+  const photoPaths = rows.map((submission) => submission.photo_path).filter(Boolean);
+  if (!photoPaths.length) return { data: rows, count: count || 0 };
+
+  const { data: signedUrls, error: signedUrlError } = await supabase.storage
+    .from(SUBMISSION_PHOTO_BUCKET)
+    .createSignedUrls(photoPaths, 60 * 60);
+  if (signedUrlError) throw signedUrlError;
+
+  const photoUrls = new Map((signedUrls || []).map((item) => [item.path, item.signedUrl]));
+  return {
+    data: rows.map((submission) => ({ ...submission, photo_url: photoUrls.get(submission.photo_path) || '' })),
+    count: count || 0,
+  };
+};
+
+export const trackBusinessSubmission = async (trackingCode) => {
+  ensureConfigured();
+  const code = cleanText(trackingCode);
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(code)) {
+    throw new Error('Kode pelacakan tidak valid.');
+  }
+
+  const { data, error } = await supabase
+    .rpc('get_umkm_submission_status', { p_tracking_code: code })
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) throw new Error('Pengajuan dengan kode tersebut tidak ditemukan.');
+  return data;
 };
 
 export const reviewUmkmSubmission = async (id, decision, reviewNote = '') => {

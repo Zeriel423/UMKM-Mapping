@@ -119,7 +119,7 @@ const MapInfoPanel = ({
 
               <div className="map-info-centroid">
                 <span className="centroid-icon-preview" aria-hidden="true" />
-                <span>Lingkaran besar menandai pusat cluster.</span>
+                <span>Area berwarna menunjukkan persebaran anggota cluster; titik bundar menandai pusatnya.</span>
               </div>
             </section>
 

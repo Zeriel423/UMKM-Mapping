@@ -289,8 +289,21 @@
     grid-template-columns: 1fr;
   }
 
+  .public-status-panel,
+  .public-photo-field {
+    grid-template-columns: 1fr;
+  }
+
   .public-location-button {
     width: 100%;
+  }
+
+  .public-location-picker-map {
+    height: 230px;
+  }
+
+  .public-location-search {
+    grid-template-columns: 1fr;
   }
 
   .public-submission-actions {

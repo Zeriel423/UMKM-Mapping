@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
   Circle,
+  Polygon,
   ZoomControl,
   useMap,
 } from "react-leaflet";
@@ -113,6 +114,32 @@ const formatDistance = (distance) => {
   }
 
   return `${distance.toFixed(1)} km`;
+};
+
+const crossProduct = (origin, first, second) => (
+  (first.lng - origin.lng) * (second.lat - origin.lat)
+  - (first.lat - origin.lat) * (second.lng - origin.lng)
+);
+
+const convexHull = (points) => {
+  const uniquePoints = [...new Map(points.map((point) => [`${point.lat},${point.lng}`, point])).values()]
+    .sort((first, second) => first.lng - second.lng || first.lat - second.lat);
+  if (uniquePoints.length < 3) return [];
+
+  const lower = [];
+  uniquePoints.forEach((point) => {
+    while (lower.length >= 2 && crossProduct(lower.at(-2), lower.at(-1), point) <= 0) lower.pop();
+    lower.push(point);
+  });
+
+  const upper = [];
+  [...uniquePoints].reverse().forEach((point) => {
+    while (upper.length >= 2 && crossProduct(upper.at(-2), upper.at(-1), point) <= 0) upper.pop();
+    upper.push(point);
+  });
+
+  const hull = lower.slice(0, -1).concat(upper.slice(0, -1));
+  return hull.length >= 3 ? hull.map((point) => [point.lat, point.lng]) : [];
 };
 
 // Mencegah data UMKM menjadi HTML aktif ketika dimasukkan ke popup Leaflet.
@@ -544,8 +571,9 @@ const MapComponent = ({
   data,
   centroids,
   colors,
-  clusterRadii,
   clusterStats,
+  activeZoneIndex = null,
+  showZoneAreas = true,
   locationStats,
   overlayOpen = false,
   selectedBusiness,
@@ -554,6 +582,12 @@ const MapComponent = ({
   const defaultCenter = [1.2, 124.5];
 
   const zoomLevel = 8;
+  const zonePolygons = useMemo(() => centroids.map((_, index) => convexHull(
+    data
+      .filter((business) => Number(business.cluster) === index)
+      .map(getAnalysisCoordinates)
+      .filter(Boolean),
+  )), [centroids, data]);
 
   return (
     <div className="map-container" id="map-container">
@@ -582,8 +616,8 @@ const MapComponent = ({
         {/* Marker UMKM */}
         <MarkerClusterLayer data={data} colors={colors} onSelectBusiness={onSelectBusiness} />
 
-        {/* Centroid dan radius cluster */}
-        {centroids.map((centroid, idx) => (
+        {/* Centroid dan area persebaran cluster */}
+        {showZoneAreas && centroids.map((centroid, idx) => (activeZoneIndex !== null && idx !== activeZoneIndex ? null : (
           <React.Fragment key={`centroid-${idx}`}>
             <Marker
               position={[centroid.lat, centroid.lng]}
@@ -618,23 +652,18 @@ const MapComponent = ({
               </Popup>
             </Marker>
 
-            <Circle
-              center={[centroid.lat, centroid.lng]}
-              radius={
-                clusterRadii && clusterRadii[idx]
-                  ? Math.min(clusterRadii[idx] * 0.7, 50000)
-                  : 2000
-              }
+            {zonePolygons[idx]?.length >= 3 && <Polygon
+              positions={zonePolygons[idx]}
+              interactive={false}
               pathOptions={{
                 color: colors[idx],
                 fillColor: colors[idx],
-                fillOpacity: 0.06,
-                weight: 1.5,
-                dashArray: "6, 4",
+                fillOpacity: 0.09,
+                weight: 1.7,
               }}
-            />
+            />}
           </React.Fragment>
-        ))}
+        )))}
       </MapContainer>
 
       <MapInfoPanel

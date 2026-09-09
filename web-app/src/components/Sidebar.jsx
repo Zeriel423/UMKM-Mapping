@@ -1,4 +1,4 @@
-import { MapPin, Info, Layers, Search, X } from 'lucide-react';
+import { Eye, EyeOff, MapPin, Info, Layers, Search, X } from 'lucide-react';
 
 // Menyediakan pencarian, filter, ringkasan data, dan kontrol analisis peta.
 const Sidebar = ({
@@ -8,6 +8,11 @@ const Sidebar = ({
   totalData,
   mappableCount,
   clusterStats,
+  selectedZone,
+  onSelectZone,
+  selectedZoneSummary,
+  showZoneAreas,
+  setShowZoneAreas,
 
   iterations,
   wcss,
@@ -146,6 +151,23 @@ const Sidebar = ({
             <span className="control-hint">Geser untuk mengubah jumlah wilayah zonasi.</span>
           </div>
 
+          <div className="zone-visibility-control">
+            <div>
+              <strong>Area zonasi wilayah</strong>
+              <span>Tampilkan batas polygon hasil K-Means pada peta.</span>
+            </div>
+            <button
+              className={showZoneAreas ? 'active' : ''}
+              type="button"
+              role="switch"
+              aria-checked={showZoneAreas}
+              onClick={() => setShowZoneAreas((visible) => !visible)}
+            >
+              {showZoneAreas ? <Eye size={17} /> : <EyeOff size={17} />}
+              {showZoneAreas ? 'Aktif' : 'Nonaktif'}
+            </button>
+          </div>
+
           {clusterStats && clusterStats.length > 0 && (
             <div className="zone-stats-section animate-fade-in">
               <div className="zone-stats-header">
@@ -154,19 +176,32 @@ const Sidebar = ({
 
               <div className="zone-stats-list">
                 {clusterStats.map((stat, index) => (
-                  <div
+                  <button
+                    type="button"
                     key={index}
-                    className="zone-stat-item"
+                    className={`zone-stat-item ${selectedZone === index ? 'selected' : ''}`}
                     style={{ borderLeftColor: stat.color }}
+                    onClick={() => onSelectZone(index)}
+                    aria-pressed={selectedZone === index}
                   >
                     <span className="zone-stat-label">
                       <span className="zone-color-dot" style={{ backgroundColor: stat.color }} />
                       Wilayah {index + 1}
                     </span>
                     <span className="zone-stat-count">{stat.count.toLocaleString('id-ID')} UMKM</span>
-                  </div>
+                  </button>
                 ))}
               </div>
+
+              {selectedZoneSummary && (
+                <div className="zone-selection-summary">
+                  <div><span>Zona terpilih</span><strong>Wilayah {selectedZone + 1}</strong></div>
+                  <div><span>Jumlah UMKM</span><strong>{selectedZoneSummary.count.toLocaleString('id-ID')}</strong></div>
+                  <div><span>Kategori dominan</span><strong>{selectedZoneSummary.dominantCategory}</strong></div>
+                  <div><span>Pusat aktivitas</span><strong>{selectedZoneSummary.centroid ? `${selectedZoneSummary.centroid.lat.toFixed(5)}, ${selectedZoneSummary.centroid.lng.toFixed(5)}` : 'Belum tersedia'}</strong></div>
+                  <button type="button" onClick={() => onSelectZone(selectedZone)}>Tampilkan semua zona</button>
+                </div>
+              )}
 
               <div className="algo-info">
                 <div className="algo-info-row">

@@ -1,4 +1,4 @@
-import { Check, ClipboardCheck, Loader2, MapPin, Phone, Send, Store, X } from 'lucide-react';
+import { Check, ClipboardCheck, Image, Loader2, MapPin, Phone, Send, Store, X } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { loadUmkmSubmissions, reviewUmkmSubmission } from '../../services/umkmService';
 
@@ -80,7 +80,7 @@ const ReviewDialog = ({ submission, decision, onClose, onReviewed, notify }) => 
         </div>
 
         <form className="admin-form" onSubmit={submit}>
-          <label className="admin-field"><span>{isApproval ? 'Catatan untuk pengajuan' : 'Alasan penolakan'}</span><textarea rows="4" value={reviewNote} onChange={(event) => setReviewNote(event.target.value)} maxLength="1000" placeholder={isApproval ? 'Opsional' : 'Jelaskan perbaikan yang diperlukan'} /></label>
+          <label className="admin-field"><span>{isApproval ? 'Catatan untuk pengajuan' : 'Alasan penolakan *'}</span><textarea rows="4" value={reviewNote} onChange={(event) => setReviewNote(event.target.value)} maxLength="1000" placeholder={isApproval ? 'Opsional' : 'Jelaskan perbaikan yang diperlukan'} required={!isApproval} /></label>
           <div className="admin-dialog-actions">
             <button className="admin-secondary-button" type="button" onClick={onClose} disabled={saving}>Batal</button>
             <button className={isApproval ? 'admin-primary-button' : 'admin-danger-button'} type="submit" disabled={saving}>{saving ? <Loader2 className="animate-spin" size={18} /> : <Check size={18} />} {saving ? 'Memproses...' : isApproval ? 'Setujui' : 'Tolak'}</button>
@@ -167,7 +167,7 @@ const SubmissionsPage = ({ notify }) => {
               <tbody>
                 {submissions.map((submission) => (
                   <tr key={submission.id}>
-                    <td><strong>{submission.business_name}</strong><small>{submission.owner_name}</small><small>{submission.category}</small></td>
+                    <td><strong>{submission.business_name}</strong><small>{submission.owner_name}</small><small>{submission.category}</small>{submission.photo_url && <a className="admin-submission-photo" href={submission.photo_url} target="_blank" rel="noreferrer"><Image size={13} aria-hidden="true" /> Foto {submission.photo_kind === 'place' ? 'tempat usaha' : 'produk'}</a>}</td>
                     <td><span className="admin-submission-phone"><Phone size={14} aria-hidden="true" />{submission.phone}</span>{submission.notes && <small>{submission.notes}</small>}</td>
                     <td><span>{submission.address}</span>{submission.latitude !== null && <small className="admin-submission-coordinates"><MapPin size={13} aria-hidden="true" />{Number(submission.latitude).toFixed(5)}, {Number(submission.longitude).toFixed(5)}</small>}</td>
                     <td>{formatDate(submission.created_at)}</td>
