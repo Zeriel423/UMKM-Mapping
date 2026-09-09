@@ -285,7 +285,8 @@
   .public-dialog-header,
   .public-submission-form,
   .public-submission-unavailable,
-  .public-submission-success {
+  .public-submission-success,
+  .public-tracking-screen {
     padding-right: 16px;
     padding-left: 16px;
   }

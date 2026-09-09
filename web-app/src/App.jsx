@@ -554,7 +554,7 @@ function App() {
           onMobileClose={closeDiscovery}
         />
       </main>
-      {submissionOpen && <BusinessSubmissionForm initialMode={submissionMode} onClose={closeSubmission} />}
+      {submissionOpen && <BusinessSubmissionForm initialMode={submissionMode} onChangeMode={setSubmissionMode} onClose={closeSubmission} />}
     </div>
   );
 }

@@ -50,7 +50,7 @@ const LocationPickerFocus = ({ coordinates }) => {
   return null;
 };
 
-const BusinessSubmissionForm = ({ initialMode = 'submit', onClose }) => {
+const BusinessSubmissionForm = ({ initialMode = 'submit', onChangeMode, onClose }) => {
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -64,7 +64,6 @@ const BusinessSubmissionForm = ({ initialMode = 'submit', onClose }) => {
   const [trackingCode, setTrackingCode] = useState('');
   const [photo, setPhoto] = useState(null);
   const [photoKind, setPhotoKind] = useState('product');
-  const [trackerOpen, setTrackerOpen] = useState(initialMode === 'tracking');
   const [trackerCode, setTrackerCode] = useState('');
   const [trackingResult, setTrackingResult] = useState(null);
   const [trackingError, setTrackingError] = useState('');
@@ -235,6 +234,8 @@ const BusinessSubmissionForm = ({ initialMode = 'submit', onClose }) => {
     }
   };
 
+  const isTrackingMode = initialMode === 'tracking';
+
   return (
     <div className="public-dialog-backdrop" role="presentation" onMouseDown={(event) => {
       if (event.target === event.currentTarget && !saving) onClose();
@@ -243,7 +244,7 @@ const BusinessSubmissionForm = ({ initialMode = 'submit', onClose }) => {
         <div className="public-dialog-header">
           <div className="public-dialog-heading">
             <span><Store size={21} aria-hidden="true" /></span>
-            <div><p>DAFTARKAN USAHA</p><h2 id="submission-form-title">Pengajuan UMKM</h2></div>
+            <div><p>{isTrackingMode ? 'LACAK PENDAFTARAN' : 'DAFTARKAN USAHA'}</p><h2 id="submission-form-title">{isTrackingMode ? 'Lacak Pengajuan UMKM' : 'Pengajuan UMKM'}</h2></div>
           </div>
           <button className="public-dialog-close" type="button" onClick={onClose} disabled={saving} aria-label="Tutup formulir"><X size={21} /></button>
         </div>
@@ -262,22 +263,25 @@ const BusinessSubmissionForm = ({ initialMode = 'submit', onClose }) => {
             <button className="public-copy-code-button" type="button" onClick={copyTrackingCode}><Copy size={16} aria-hidden="true" /> {codeCopied ? 'Kode tersalin' : 'Salin kode'}</button>
             <button className="public-submit-button" type="button" onClick={onClose}>Selesai</button>
           </div>
+        ) : isTrackingMode ? (
+          <div className="public-tracking-screen">
+            <p className="public-submission-intro">Masukkan kode pelacakan yang diterima setelah mengirim pengajuan UMKM.</p>
+            <div className="public-status-panel" role="search">
+              <label><span>Kode pelacakan</span><input value={trackerCode} onChange={(event) => setTrackerCode(event.target.value)} placeholder="Masukkan kode dari pengajuan Anda" autoComplete="off" /></label>
+              <button type="button" onClick={checkSubmissionStatus} disabled={trackingLoading}>{trackingLoading ? 'Memeriksa...' : 'Cek status'}</button>
+              {trackingError && <p className="public-submission-error" role="alert">{trackingError}</p>}
+              {trackingResult && <div className={`public-tracking-result public-tracking-${trackingResult.status}`}><strong>{trackingResult.status === 'pending' ? 'Menunggu tinjauan' : trackingResult.status === 'approved' ? 'Disetujui' : 'Ditolak'}</strong><span>{trackingResult.business_name}</span>{trackingResult.status === 'rejected' && <p><b>Alasan penolakan:</b> {trackingResult.review_note || 'Admin belum menyertakan alasan.'}</p>}</div>}
+              <button className="public-recovery-trigger" type="button" onClick={() => setRecoveryOpen((current) => !current)} aria-expanded={recoveryOpen}>Lupa kode pelacakan?</button>
+              {recoveryOpen && <div className="public-recovery-panel"><p>Masukkan data yang sama seperti saat mendaftar. Admin akan memeriksa kecocokan data lalu menghubungi WhatsApp Anda.</p><label><span>Nama usaha</span><input value={recoveryForm.business_name} onChange={(event) => setRecoveryForm((current) => ({ ...current, business_name: event.target.value }))} maxLength="160" /></label><label><span>Nama pemilik</span><input value={recoveryForm.owner_name} onChange={(event) => setRecoveryForm((current) => ({ ...current, owner_name: event.target.value }))} maxLength="120" /></label><label><span>Nomor WhatsApp</span><input type="tel" value={recoveryForm.phone} onChange={(event) => setRecoveryForm((current) => ({ ...current, phone: event.target.value }))} maxLength="40" /></label><button type="button" onClick={submitRecoveryRequest} disabled={recoverySaving}>{recoverySaving ? 'Mengirim...' : 'Kirim permintaan'}</button>{recoveryMessage && <p className="public-recovery-message" role="status">{recoveryMessage}</p>}</div>}
+            </div>
+            <button className="public-switch-mode-button" type="button" onClick={() => onChangeMode('submit')}>Belum mendaftar? Daftarkan UMKM</button>
+          </div>
         ) : (
           <form className="public-submission-form" onSubmit={submit}>
             <p className="public-submission-intro">Isi data usaha Anda. Titik lokasi bersifat opsional dan akan diverifikasi oleh admin.</p>
-            <button className="public-status-trigger" type="button" onClick={() => setTrackerOpen((current) => !current)} aria-expanded={trackerOpen}>
-              <ClipboardCheck size={17} aria-hidden="true" /> Lacak status pengajuan UMKM
+            <button className="public-status-trigger" type="button" onClick={() => onChangeMode('tracking')}>
+              <ClipboardCheck size={17} aria-hidden="true" /> Sudah mendaftar? Lacak pengajuan Anda
             </button>
-            {trackerOpen && (
-              <div className="public-status-panel" role="search">
-                <label><span>Kode pelacakan</span><input value={trackerCode} onChange={(event) => setTrackerCode(event.target.value)} placeholder="Masukkan kode dari pengajuan Anda" /></label>
-                <button type="button" onClick={checkSubmissionStatus} disabled={trackingLoading}>{trackingLoading ? 'Memeriksa...' : 'Cek status'}</button>
-                {trackingError && <p className="public-submission-error" role="alert">{trackingError}</p>}
-                {trackingResult && <div className={`public-tracking-result public-tracking-${trackingResult.status}`}><strong>{trackingResult.status === 'pending' ? 'Menunggu tinjauan' : trackingResult.status === 'approved' ? 'Disetujui' : 'Ditolak'}</strong><span>{trackingResult.business_name}</span>{trackingResult.status === 'rejected' && <p><b>Alasan penolakan:</b> {trackingResult.review_note || 'Admin belum menyertakan alasan.'}</p>}</div>}
-                <button className="public-recovery-trigger" type="button" onClick={() => setRecoveryOpen((current) => !current)} aria-expanded={recoveryOpen}>Lupa kode pelacakan?</button>
-                {recoveryOpen && <div className="public-recovery-panel"><p>Masukkan data yang sama seperti saat mendaftar. Admin akan memeriksa kecocokan data lalu menghubungi WhatsApp Anda.</p><label><span>Nama usaha</span><input value={recoveryForm.business_name} onChange={(event) => setRecoveryForm((current) => ({ ...current, business_name: event.target.value }))} maxLength="160" /></label><label><span>Nama pemilik</span><input value={recoveryForm.owner_name} onChange={(event) => setRecoveryForm((current) => ({ ...current, owner_name: event.target.value }))} maxLength="120" /></label><label><span>Nomor WhatsApp</span><input type="tel" value={recoveryForm.phone} onChange={(event) => setRecoveryForm((current) => ({ ...current, phone: event.target.value }))} maxLength="40" /></label><button type="button" onClick={submitRecoveryRequest} disabled={recoverySaving}>{recoverySaving ? 'Mengirim...' : 'Kirim permintaan'}</button>{recoveryMessage && <p className="public-recovery-message" role="status">{recoveryMessage}</p>}</div>}
-              </div>
-            )}
             <div className="public-submission-grid">
               <label><span>Nama usaha *</span><input value={form.business_name} onChange={(event) => update('business_name', event.target.value)} maxLength="160" required /></label>
               <label><span>Nama pemilik *</span><input value={form.owner_name} onChange={(event) => update('owner_name', event.target.value)} maxLength="120" required /></label>

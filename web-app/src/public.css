@@ -1030,7 +1030,7 @@
 .public-app .map-tracking-trigger {
   position: absolute;
   right: calc(var(--results-panel-width) + 18px);
-  bottom: 38px;
+  bottom: 146px;
   z-index: 950;
   min-height: 42px;
   display: inline-flex;
@@ -1150,7 +1150,8 @@
 
 .public-submission-form,
 .public-submission-unavailable,
-.public-submission-success {
+.public-submission-success,
+.public-tracking-screen {
   padding: 22px;
 }
 
@@ -1173,6 +1174,21 @@
   font: inherit;
   font-size: 11px;
   font-weight: 700;
+  cursor: pointer;
+}
+
+.public-switch-mode-button {
+  min-height: 42px;
+  display: block;
+  margin: 16px auto 0;
+  padding: 8px 12px;
+  border: 0;
+  background: transparent;
+  color: #1d786d;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: underline;
   cursor: pointer;
 }
 
