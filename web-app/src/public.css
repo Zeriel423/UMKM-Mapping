@@ -1027,6 +1027,33 @@
   backdrop-filter: blur(12px);
 }
 
+.public-app .map-tracking-trigger {
+  position: absolute;
+  right: calc(var(--results-panel-width) + 18px);
+  bottom: 38px;
+  z-index: 950;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border: 1px solid #176d63;
+  border-radius: 12px;
+  background: #176d63;
+  color: #fff;
+  box-shadow: 0 9px 22px rgba(13, 70, 63, 0.19);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.public-app .map-tracking-trigger:hover {
+  background: #104f48;
+  transform: translateY(-1px);
+}
+
 .public-app .map-submission-trigger:hover {
   border-color: #9abdb7;
   background: var(--primary-color);
@@ -1135,6 +1162,9 @@
 }
 
 .public-status-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   margin: -5px 0 16px;
   padding: 0;
   border: 0;
@@ -1201,6 +1231,58 @@
   margin: 0;
 }
 
+.public-recovery-trigger {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  color: #1d786d;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.public-recovery-panel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  padding: 11px;
+  border: 1px solid #cbdeda;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.public-recovery-panel > p,
+.public-recovery-message {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #607671;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.public-recovery-panel button {
+  grid-column: 1 / -1;
+  min-height: 38px;
+  border: 1px solid #1d786d;
+  border-radius: 8px;
+  background: #fff;
+  color: #1d786d;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.public-recovery-panel button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .public-tracking-result {
   display: grid;
   gap: 3px;
@@ -1264,6 +1346,24 @@
   border-radius: 8px;
   color: #1e5d54;
   font-size: 11px;
+}
+
+.public-copy-code-button {
+  min-height: 39px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 11px auto 0;
+  padding: 8px 12px;
+  border: 1px solid #8db8b1;
+  border-radius: 9px;
+  background: #fff;
+  color: #1e5d54;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .public-submission-grid,

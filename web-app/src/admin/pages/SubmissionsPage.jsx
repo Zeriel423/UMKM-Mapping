@@ -1,6 +1,6 @@
-import { Check, ClipboardCheck, Image, Loader2, MapPin, Phone, Send, Store, X } from 'lucide-react';
+import { Check, ClipboardCheck, Copy, Image, Loader2, MapPin, Phone, Send, Store, X } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { loadUmkmSubmissions, reviewUmkmSubmission } from '../../services/umkmService';
+import { loadSubmissionRecoveryRequests, loadUmkmSubmissions, resolveSubmissionTrackingRecovery, reviewUmkmSubmission } from '../../services/umkmService';
 
 const PAGE_SIZE = 30;
 
@@ -99,6 +99,19 @@ const SubmissionsPage = ({ notify }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [review, setReview] = useState(null);
+  const [recoveryRequests, setRecoveryRequests] = useState([]);
+  const [recoveryLoading, setRecoveryLoading] = useState(true);
+
+  const loadRecoveryRequests = useCallback(async () => {
+    setRecoveryLoading(true);
+    try {
+      setRecoveryRequests(await loadSubmissionRecoveryRequests());
+    } catch (loadError) {
+      notify(loadError.message || 'Permintaan pemulihan tidak dapat dimuat.', 'error');
+    } finally {
+      setRecoveryLoading(false);
+    }
+  }, [notify]);
 
   const loadSubmissions = useCallback(async () => {
     setLoading(true);
@@ -113,6 +126,23 @@ const SubmissionsPage = ({ notify }) => {
       setLoading(false);
     }
   }, [page, status]);
+
+  useEffect(() => {
+    let active = true;
+    Promise.resolve()
+      .then(() => loadSubmissionRecoveryRequests())
+      .then((requests) => {
+        if (active) setRecoveryRequests(requests);
+      })
+      .catch((loadError) => {
+        if (active) notify(loadError.message || 'Permintaan pemulihan tidak dapat dimuat.', 'error');
+      })
+      .finally(() => {
+        if (active) setRecoveryLoading(false);
+      });
+
+    return () => { active = false; };
+  }, [notify]);
 
   useEffect(() => {
     let active = true;
@@ -148,6 +178,25 @@ const SubmissionsPage = ({ notify }) => {
     setPage(1);
   };
 
+  const copyTrackingCode = async (code) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      notify('Kode pelacakan disalin. Kirim melalui WhatsApp setelah data pemohon cocok.', 'success');
+    } catch {
+      notify('Kode belum dapat disalin. Salin secara manual dari data pengajuan.', 'error');
+    }
+  };
+
+  const resolveRecoveryRequest = async (id) => {
+    try {
+      await resolveSubmissionTrackingRecovery(id);
+      await loadRecoveryRequests();
+      notify('Permintaan ditandai selesai.', 'success');
+    } catch (resolveError) {
+      notify(resolveError.message || 'Permintaan belum dapat diperbarui.', 'error');
+    }
+  };
+
   return (
     <div className="admin-page-stack">
       <div className="admin-page-heading">
@@ -172,7 +221,7 @@ const SubmissionsPage = ({ notify }) => {
                     <td><span>{submission.address}</span>{submission.latitude !== null && <small className="admin-submission-coordinates"><MapPin size={13} aria-hidden="true" />{Number(submission.latitude).toFixed(5)}, {Number(submission.longitude).toFixed(5)}</small>}</td>
                     <td>{formatDate(submission.created_at)}</td>
                     <td><span className={`admin-status-badge ${statusClass[submission.status]}`}>{statusLabel[submission.status]}</span>{submission.review_note && <small>{submission.review_note}</small>}</td>
-                    <td>{submission.status === 'pending' ? <div className="admin-row-actions"><button className="admin-primary-button admin-compact-action" type="button" onClick={() => setReview({ submission, decision: 'approved' })}>Setujui</button><button className="admin-danger-button admin-compact-action" type="button" onClick={() => setReview({ submission, decision: 'rejected' })}>Tolak</button></div> : submission.approved_umkm_id ? <span className="admin-submission-linked"><Send size={14} aria-hidden="true" /> ID {submission.approved_umkm_id}</span> : '-'}</td>
+                    <td><div className="admin-row-actions"><button className="admin-copy-code" type="button" onClick={() => copyTrackingCode(submission.tracking_code)}><Copy size={13} aria-hidden="true" /> Salin kode</button><code className="admin-tracking-code">{submission.tracking_code}</code>{submission.status === 'pending' ? <><button className="admin-primary-button admin-compact-action" type="button" onClick={() => setReview({ submission, decision: 'approved' })}>Setujui</button><button className="admin-danger-button admin-compact-action" type="button" onClick={() => setReview({ submission, decision: 'rejected' })}>Tolak</button></> : submission.approved_umkm_id ? <span className="admin-submission-linked"><Send size={14} aria-hidden="true" /> ID {submission.approved_umkm_id}</span> : null}</div></td>
                   </tr>
                 ))}
               </tbody>
@@ -181,6 +230,11 @@ const SubmissionsPage = ({ notify }) => {
         )}
         {!loading && !error && submissions.length === 0 && <div className="admin-empty-state"><ClipboardCheck size={28} aria-hidden="true" /><p>Belum ada pengajuan pada status ini.</p></div>}
         <div className="admin-pagination"><button className="admin-secondary-button" type="button" disabled={currentPage <= 1 || loading} onClick={() => setPage(currentPage - 1)}>Sebelumnya</button><button className="admin-secondary-button" type="button" disabled={currentPage >= pageCount || loading} onClick={() => setPage(currentPage + 1)}>Berikutnya</button></div>
+      </section>
+
+      <section className="admin-panel admin-recovery-panel">
+        <div className="admin-recovery-heading"><div><p className="admin-eyebrow">PEMULIHAN KODE</p><h2>Lupa kode pelacakan</h2><p>Pastikan nama usaha, pemilik, dan nomor WhatsApp cocok dengan pengajuan sebelum mengirim ulang kode.</p></div></div>
+        {recoveryLoading ? <div className="admin-empty-state">Memuat permintaan pemulihan...</div> : recoveryRequests.length === 0 ? <div className="admin-empty-state"><p>Belum ada permintaan pemulihan kode.</p></div> : <div className="admin-table-scroll"><table className="admin-table"><thead><tr><th>Pemohon</th><th>WhatsApp</th><th>Diajukan</th><th>Status</th><th>Tindakan</th></tr></thead><tbody>{recoveryRequests.map((request) => <tr key={request.id}><td><strong>{request.business_name}</strong><small>{request.owner_name}</small></td><td><span className="admin-submission-phone"><Phone size={14} aria-hidden="true" />{request.phone}</span></td><td>{formatDate(request.created_at)}</td><td><span className={`admin-status-badge ${request.status === 'resolved' ? 'admin-status-success' : 'admin-status-warning'}`}>{request.status === 'resolved' ? 'Selesai' : 'Menunggu'}</span></td><td>{request.status === 'pending' && <button className="admin-secondary-button admin-compact-action" type="button" onClick={() => resolveRecoveryRequest(request.id)}>Tandai selesai</button>}</td></tr>)}</tbody></table></div>}
       </section>
 
       {review && <ReviewDialog submission={review.submission} decision={review.decision} onClose={() => setReview(null)} onReviewed={loadSubmissions} notify={notify} />}

@@ -9,7 +9,7 @@ import {
   LOCATION_ACCURACY,
 } from './utils/location';
 import { loadPublicBusinesses } from './services/publicDataService';
-import { Loader2, AlertTriangle, Menu, X, Search, Store } from 'lucide-react';
+import { Loader2, AlertTriangle, ClipboardCheck, Menu, X, Search, Store } from 'lucide-react';
 import BusinessSubmissionForm from './components/BusinessSubmissionForm';
 
 // Menentukan nama usaha yang diprioritaskan pada daftar dan popup.
@@ -25,6 +25,7 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
   const [submissionOpen, setSubmissionOpen] = useState(false);
+  const [submissionMode, setSubmissionMode] = useState('submit');
   const [showZoneAreas, setShowZoneAreas] = useState(true);
   const [selectedZone, setSelectedZone] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -514,11 +515,27 @@ function App() {
           onClick={() => {
             setSidebarOpen(false);
             closeDiscovery(false);
+            setSubmissionMode('submit');
             setSubmissionOpen(true);
           }}
         >
           <Store size={19} aria-hidden="true" />
           <span>Daftarkan UMKM</span>
+        </button>
+
+        <button
+          className="map-tracking-trigger"
+          type="button"
+          aria-label="Lacak pengajuan UMKM"
+          onClick={() => {
+            setSidebarOpen(false);
+            closeDiscovery(false);
+            setSubmissionMode('tracking');
+            setSubmissionOpen(true);
+          }}
+        >
+          <ClipboardCheck size={19} aria-hidden="true" />
+          <span>Lacak Pengajuan</span>
         </button>
 
         <BusinessList
@@ -537,7 +554,7 @@ function App() {
           onMobileClose={closeDiscovery}
         />
       </main>
-      {submissionOpen && <BusinessSubmissionForm onClose={closeSubmission} />}
+      {submissionOpen && <BusinessSubmissionForm initialMode={submissionMode} onClose={closeSubmission} />}
     </div>
   );
 }

@@ -111,6 +111,7 @@
   .public-app.sidebar-open .nearby-panel,
   .public-app.sidebar-open .mobile-discovery-trigger,
   .public-app.sidebar-open .map-submission-trigger,
+  .public-app.sidebar-open .map-tracking-trigger,
   .public-app.sidebar-open .business-panel {
     visibility: hidden;
     opacity: 0;
@@ -220,7 +221,19 @@
     border-radius: 14px;
   }
 
-  .public-app .map-submission-trigger span {
+  .public-app .map-tracking-trigger {
+    position: fixed;
+    right: calc(16px + env(safe-area-inset-right));
+    bottom: calc(214px + env(safe-area-inset-bottom));
+    z-index: 1750;
+    width: 48px;
+    min-height: 48px;
+    padding: 0;
+    border-radius: 14px;
+  }
+
+  .public-app .map-submission-trigger span,
+  .public-app .map-tracking-trigger span {
     display: none;
   }
 
@@ -251,7 +264,8 @@
     pointer-events: none;
   }
 
-  .public-app.discovery-open .map-submission-trigger {
+  .public-app.discovery-open .map-submission-trigger,
+  .public-app.discovery-open .map-tracking-trigger {
     visibility: hidden;
     opacity: 0;
     pointer-events: none;
@@ -290,7 +304,8 @@
   }
 
   .public-status-panel,
-  .public-photo-field {
+  .public-photo-field,
+  .public-recovery-panel {
     grid-template-columns: 1fr;
   }
 

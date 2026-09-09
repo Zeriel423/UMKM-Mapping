@@ -364,6 +364,44 @@ export const trackBusinessSubmission = async (trackingCode) => {
   return data;
 };
 
+export const requestSubmissionTrackingRecovery = async (request) => {
+  ensureConfigured();
+  const businessName = cleanText(request.business_name);
+  const ownerName = cleanText(request.owner_name);
+  const phone = cleanText(request.phone);
+  if (!businessName || !ownerName || !phone) {
+    throw new Error('Nama usaha, nama pemilik, dan nomor WhatsApp wajib diisi.');
+  }
+
+  const { error } = await supabase
+    .from('umkm_submission_recovery_requests')
+    .insert({ business_name: businessName, owner_name: ownerName, phone });
+  if (error) throw error;
+};
+
+export const loadSubmissionRecoveryRequests = async () => {
+  ensureConfigured();
+  const { data, error } = await supabase
+    .from('umkm_submission_recovery_requests')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100);
+  if (error) throw error;
+  return data || [];
+};
+
+export const resolveSubmissionTrackingRecovery = async (id) => {
+  ensureConfigured();
+  const { data, error } = await supabase
+    .from('umkm_submission_recovery_requests')
+    .update({ status: 'resolved', handled_at: new Date().toISOString() })
+    .eq('id', id)
+    .select('id,status')
+    .single();
+  if (error) throw error;
+  return data;
+};
+
 export const reviewUmkmSubmission = async (id, decision, reviewNote = '') => {
   ensureConfigured();
   const { data, error } = await supabase.rpc('review_umkm_submission', {

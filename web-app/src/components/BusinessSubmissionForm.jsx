@@ -1,9 +1,9 @@
 import L from 'leaflet';
-import { CheckCircle2, ImagePlus, Loader2, MapPin, Search, Send, Store, X } from 'lucide-react';
+import { CheckCircle2, ClipboardCheck, Copy, ImagePlus, Loader2, MapPin, Search, Send, Store, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { isSupabaseConfigured } from '../lib/supabase';
-import { submitBusinessSubmission, trackBusinessSubmission } from '../services/umkmService';
+import { requestSubmissionTrackingRecovery, submitBusinessSubmission, trackBusinessSubmission } from '../services/umkmService';
 
 const EMPTY_FORM = {
   business_name: '',
@@ -50,7 +50,7 @@ const LocationPickerFocus = ({ coordinates }) => {
   return null;
 };
 
-const BusinessSubmissionForm = ({ onClose }) => {
+const BusinessSubmissionForm = ({ initialMode = 'submit', onClose }) => {
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -64,11 +64,16 @@ const BusinessSubmissionForm = ({ onClose }) => {
   const [trackingCode, setTrackingCode] = useState('');
   const [photo, setPhoto] = useState(null);
   const [photoKind, setPhotoKind] = useState('product');
-  const [trackerOpen, setTrackerOpen] = useState(false);
+  const [trackerOpen, setTrackerOpen] = useState(initialMode === 'tracking');
   const [trackerCode, setTrackerCode] = useState('');
   const [trackingResult, setTrackingResult] = useState(null);
   const [trackingError, setTrackingError] = useState('');
   const [trackingLoading, setTrackingLoading] = useState(false);
+  const [recoveryOpen, setRecoveryOpen] = useState(false);
+  const [recoveryForm, setRecoveryForm] = useState({ business_name: '', owner_name: '', phone: '' });
+  const [recoverySaving, setRecoverySaving] = useState(false);
+  const [recoveryMessage, setRecoveryMessage] = useState('');
+  const [codeCopied, setCodeCopied] = useState(false);
   const dialogRef = useRef(null);
   const savingRef = useRef(false);
   const locationSearchCache = useRef(new Map());
@@ -205,6 +210,31 @@ const BusinessSubmissionForm = ({ onClose }) => {
     }
   };
 
+  const submitRecoveryRequest = async (event) => {
+    event.preventDefault();
+    setRecoverySaving(true);
+    setRecoveryMessage('');
+    try {
+      await requestSubmissionTrackingRecovery(recoveryForm);
+      setRecoveryMessage('Permintaan terkirim. Admin akan memverifikasi data dan menghubungi nomor WhatsApp Anda.');
+      setRecoveryForm({ business_name: '', owner_name: '', phone: '' });
+    } catch (recoveryError) {
+      setRecoveryMessage(recoveryError.message || 'Permintaan belum dapat dikirim.');
+    } finally {
+      setRecoverySaving(false);
+    }
+  };
+
+  const copyTrackingCode = async () => {
+    try {
+      await navigator.clipboard.writeText(trackingCode);
+      setCodeCopied(true);
+      window.setTimeout(() => setCodeCopied(false), 2200);
+    } catch {
+      setCodeCopied(false);
+    }
+  };
+
   return (
     <div className="public-dialog-backdrop" role="presentation" onMouseDown={(event) => {
       if (event.target === event.currentTarget && !saving) onClose();
@@ -229,13 +259,14 @@ const BusinessSubmissionForm = ({ onClose }) => {
             <h3>Pengajuan terkirim</h3>
             <p>Admin akan meninjau data usaha Anda sebelum dipublikasikan pada peta. Simpan kode pelacakan berikut untuk melihat hasil tinjauan.</p>
             <code className="public-tracking-code">{trackingCode}</code>
+            <button className="public-copy-code-button" type="button" onClick={copyTrackingCode}><Copy size={16} aria-hidden="true" /> {codeCopied ? 'Kode tersalin' : 'Salin kode'}</button>
             <button className="public-submit-button" type="button" onClick={onClose}>Selesai</button>
           </div>
         ) : (
           <form className="public-submission-form" onSubmit={submit}>
             <p className="public-submission-intro">Isi data usaha Anda. Titik lokasi bersifat opsional dan akan diverifikasi oleh admin.</p>
             <button className="public-status-trigger" type="button" onClick={() => setTrackerOpen((current) => !current)} aria-expanded={trackerOpen}>
-              Cek status pendaftaran
+              <ClipboardCheck size={17} aria-hidden="true" /> Lacak status pengajuan UMKM
             </button>
             {trackerOpen && (
               <div className="public-status-panel" role="search">
@@ -243,6 +274,8 @@ const BusinessSubmissionForm = ({ onClose }) => {
                 <button type="button" onClick={checkSubmissionStatus} disabled={trackingLoading}>{trackingLoading ? 'Memeriksa...' : 'Cek status'}</button>
                 {trackingError && <p className="public-submission-error" role="alert">{trackingError}</p>}
                 {trackingResult && <div className={`public-tracking-result public-tracking-${trackingResult.status}`}><strong>{trackingResult.status === 'pending' ? 'Menunggu tinjauan' : trackingResult.status === 'approved' ? 'Disetujui' : 'Ditolak'}</strong><span>{trackingResult.business_name}</span>{trackingResult.status === 'rejected' && <p><b>Alasan penolakan:</b> {trackingResult.review_note || 'Admin belum menyertakan alasan.'}</p>}</div>}
+                <button className="public-recovery-trigger" type="button" onClick={() => setRecoveryOpen((current) => !current)} aria-expanded={recoveryOpen}>Lupa kode pelacakan?</button>
+                {recoveryOpen && <div className="public-recovery-panel"><p>Masukkan data yang sama seperti saat mendaftar. Admin akan memeriksa kecocokan data lalu menghubungi WhatsApp Anda.</p><label><span>Nama usaha</span><input value={recoveryForm.business_name} onChange={(event) => setRecoveryForm((current) => ({ ...current, business_name: event.target.value }))} maxLength="160" /></label><label><span>Nama pemilik</span><input value={recoveryForm.owner_name} onChange={(event) => setRecoveryForm((current) => ({ ...current, owner_name: event.target.value }))} maxLength="120" /></label><label><span>Nomor WhatsApp</span><input type="tel" value={recoveryForm.phone} onChange={(event) => setRecoveryForm((current) => ({ ...current, phone: event.target.value }))} maxLength="40" /></label><button type="button" onClick={submitRecoveryRequest} disabled={recoverySaving}>{recoverySaving ? 'Mengirim...' : 'Kirim permintaan'}</button>{recoveryMessage && <p className="public-recovery-message" role="status">{recoveryMessage}</p>}</div>}
               </div>
             )}
             <div className="public-submission-grid">

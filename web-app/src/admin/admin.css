@@ -627,6 +627,51 @@ body.admin-page.admin-drawer-open {
   font-size: 10px;
 }
 
+.admin-copy-code {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  border: 1px solid #c7dcd7;
+  border-radius: 7px;
+  background: #fff;
+  color: #24655b;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-tracking-code {
+  display: block;
+  max-width: 150px;
+  overflow-wrap: anywhere;
+  color: #6e817c;
+  font-size: 9px;
+}
+
+.admin-recovery-panel {
+  padding: 0;
+  overflow: hidden;
+}
+
+.admin-recovery-heading {
+  padding: 18px 18px 8px;
+}
+
+.admin-recovery-heading h2 {
+  margin: 2px 0 4px;
+  color: #244943;
+  font-size: 17px;
+}
+
+.admin-recovery-heading p:not(.admin-eyebrow) {
+  margin: 0;
+  color: #70837f;
+  font-size: 11px;
+}
+
 .admin-review-dialog {
   width: min(560px, 100%);
 }
