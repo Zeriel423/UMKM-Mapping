@@ -53,6 +53,7 @@ const normalizedAdminPath = () => {
 // Membungkus navigasi, data bersama, dan halaman yang boleh diakses admin.
 const AdminWorkspace = ({ profile, onSignOut }) => {
   const [route, setRoute] = useState(normalizedAdminPath);
+  const [dashboardFilters, setDashboardFilters] = useState({});
   const [businesses, setBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dataError, setDataError] = useState('');
@@ -158,7 +159,8 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
   }, [compactNavigation, sidebarOpen]);
 
   // Navigasi memakai History API agar aplikasi tetap satu halaman.
-  const navigate = useCallback((path) => {
+  const navigate = useCallback((path, filters = {}) => {
+    setDashboardFilters(filters);
     window.history.pushState({}, '', path);
     setRoute(path);
     setSidebarOpen(false);
@@ -175,14 +177,14 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
         </div>
       );
     }
-    if (activeRoute === '/admin/umkm') return <BusinessesPage businesses={businesses} loading={loading} refresh={refresh} notify={notify} canManage={canManage} />;
+    if (activeRoute === '/admin/umkm') return <BusinessesPage initialFilters={dashboardFilters} businesses={businesses} loading={loading} refresh={refresh} notify={notify} canManage={canManage} />;
     if (activeRoute === '/admin/verifikasi' && canVerify) return <VerificationPage businesses={businesses} refresh={refresh} notify={notify} />;
     if (activeRoute === '/admin/kmeans') return <KMeansPage businesses={businesses} notify={notify} canSave={canManage} />;
     if (activeRoute === '/admin/impor' && canManage) return <ImportExportPage businesses={businesses} refresh={refresh} notify={notify} />;
-    if (activeRoute === '/admin/pengajuan' && canManage) return <SubmissionsPage notify={notify} />;
+    if (activeRoute === '/admin/pengajuan' && canManage) return <SubmissionsPage initialSection={dashboardFilters.section} notify={notify} />;
     if (activeRoute === '/admin/riwayat') return <AuditPage notify={notify} />;
-    return <DashboardPage businesses={businesses} loading={loading} onNavigate={navigate} canVerify={canVerify} />;
-  }, [activeRoute, businesses, canManage, canVerify, dataError, loading, navigate, notify, refresh]);
+    return <DashboardPage businesses={businesses} loading={loading} onNavigate={navigate} canVerify={canVerify} canManage={canManage} />;
+  }, [activeRoute, businesses, canManage, canVerify, dashboardFilters, dataError, loading, navigate, notify, refresh]);
 
   return (
     <div className={`admin-shell ${sidebarOpen ? 'admin-sidebar-open' : ''}`}>

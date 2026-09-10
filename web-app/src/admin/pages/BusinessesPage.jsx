@@ -1,7 +1,7 @@
 import { AlertTriangle, Archive, CheckCircle2, Edit3, Plus, RotateCcw, Search, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { saveBusiness, setBusinessActive } from '../../services/umkmService';
-import { LOCATION_ACCURACY, locationAccuracyLabel } from '../../utils/location';
+import { getAnalysisCoordinates, LOCATION_ACCURACY, locationAccuracyLabel } from '../../utils/location';
 
 // Batas halaman menjaga tabel admin tetap ringan untuk dataset besar.
 const PAGE_SIZE = 30;
@@ -171,10 +171,11 @@ const DeactivateBusinessDialog = ({ business, onClose, onConfirm, busy }) => {
 };
 
 // Menyediakan pencarian, filter, halaman, dan perubahan status UMKM.
-const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => {
+const BusinessesPage = ({ businesses, loading, refresh, notify, canManage, initialFilters = {} }) => {
   const [search, setSearch] = useState('');
-  const [accuracy, setAccuracy] = useState('all');
-  const [activity, setActivity] = useState('active');
+  const [accuracy, setAccuracy] = useState(initialFilters.accuracy || 'all');
+  const [activity, setActivity] = useState(initialFilters.activity || 'active');
+  const [quality, setQuality] = useState(initialFilters.quality || 'all');
   const [page, setPage] = useState(1);
   const [editing, setEditing] = useState(undefined);
   const [deactivating, setDeactivating] = useState(null);
@@ -189,9 +190,14 @@ const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => 
       const matchesAccuracy = accuracy === 'all' || business.location_accuracy === accuracy;
       const matchesActivity = activity === 'all'
         || (activity === 'active' ? business.is_active !== false : business.is_active === false);
-      return matchesQuery && matchesAccuracy && matchesActivity;
+      const point = getAnalysisCoordinates(business);
+      const matchesQuality = quality === 'all'
+        || (quality === 'category' && !business.product_label?.trim() && !business.product_type?.trim())
+        || (quality === 'unverified' && business.location_accuracy !== LOCATION_ACCURACY.EXACT)
+        || (quality === 'coordinates' && (!point || Math.abs(point.lat) > 90 || Math.abs(point.lng) > 180));
+      return matchesQuery && matchesAccuracy && matchesActivity && matchesQuality;
     });
-  }, [businesses, search, accuracy, activity]);
+  }, [businesses, search, accuracy, activity, quality]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, pageCount);
@@ -230,6 +236,7 @@ const BusinessesPage = ({ businesses, loading, refresh, notify, canManage }) => 
       {!canManage && <div className="admin-alert">Peran Anda memiliki akses baca. Penambahan, penyuntingan, dan pengarsipan data hanya tersedia untuk admin.</div>}
 
       <section className="admin-panel admin-toolbar">
+        <label className="admin-compact-field"><span>Kualitas data</span><select value={quality} onChange={(event) => { setQuality(event.target.value); setPage(1); }}><option value="all">Semua kualitas</option><option value="coordinates">Koordinat kosong/tidak valid</option><option value="category">Kategori belum diisi</option><option value="unverified">Lokasi perlu diperiksa</option></select></label>
         <label className="admin-search-field"><Search size={18} /><input aria-label="Cari usaha, pemilik, atau alamat" type="search" value={search} onChange={(event) => { setSearch(event.target.value); setPage(1); }} placeholder="Cari usaha, pemilik, atau alamat..." /></label>
         <label className="admin-compact-field"><span>Status lokasi</span><select value={accuracy} onChange={(event) => { setAccuracy(event.target.value); setPage(1); }}><option value="all">Semua</option><option value={LOCATION_ACCURACY.EXACT}>Tepat</option><option value={LOCATION_ACCURACY.APPROXIMATE}>Perkiraan</option><option value={LOCATION_ACCURACY.UNKNOWN}>Belum terverifikasi</option></select></label>
         <label className="admin-compact-field"><span>Status data</span><select value={activity} onChange={(event) => { setActivity(event.target.value); setPage(1); }}><option value="active">Aktif</option><option value="inactive">Nonaktif</option><option value="all">Semua</option></select></label>

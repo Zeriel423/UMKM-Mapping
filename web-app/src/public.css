@@ -1765,6 +1765,7 @@
   left: 18px;
   z-index: 1000;
   width: min(320px, calc(100% - 36px));
+  pointer-events: auto;
 }
 
 .public-app .nearby-trigger {
@@ -1823,6 +1824,9 @@
 .public-app .nearby-list {
   max-height: 285px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 .public-app .nearby-empty {

@@ -1,0 +1,170 @@
+{
+  "input": "D:\\projek UMKM\\gis-umkm-mapping-main\\Skripsi_GIS_format_mengikuti_BISINDO.docx",
+  "fonts_by_char_count": {
+    "Times New Roman": 88253
+  },
+  "direct_run_formatting_runs": 1312,
+  "direct_paragraph_formatting_paragraphs": 770,
+  "heading_like_paragraphs_not_heading_style": [
+    {
+      "para_index": 1,
+      "text": "SKRIPSI",
+      "style": "Normal"
+    },
+    {
+      "para_index": 6,
+      "text": "PUTRA FEBRIAN",
+      "style": "Normal"
+    },
+    {
+      "para_index": 7,
+      "text": "NIM. 22024129",
+      "style": "Normal"
+    },
+    {
+      "para_index": 8,
+      "text": "POLITEKNIK NEGERI MANADO",
+      "style": "Normal"
+    },
+    {
+      "para_index": 9,
+      "text": "JURUSAN TEKNIK ELEKTRO",
+      "style": "Normal"
+    },
+    {
+      "para_index": 10,
+      "text": "PROGRAM STUDI D-IV TEKNIK INFORMATIKA",
+      "style": "Normal"
+    },
+    {
+      "para_index": 11,
+      "text": "2026",
+      "style": "Normal"
+    },
+    {
+      "para_index": 15,
+      "text": "SKRIPSI",
+      "style": "Normal"
+    },
+    {
+      "para_index": 20,
+      "text": "PUTRA FEBRIAN",
+      "style": "Normal"
+    },
+    {
+      "para_index": 21,
+      "text": "NIM. 22024129",
+      "style": "Normal"
+    },
+    {
+      "para_index": 23,
+      "text": "POLITEKNIK NEGERI MANADO",
+      "style": "Normal"
+    },
+    {
+      "para_index": 24,
+      "text": "JURUSAN TEKNIK ELEKTRO",
+      "style": "Normal"
+    },
+    {
+      "para_index": 25,
+      "text": "PROGRAM STUDI D-IV TEKNIK INFORMATIKA",
+      "style": "Normal"
+    },
+    {
+      "para_index": 26,
+      "text": "2026",
+      "style": "Normal"
+    },
+    {
+      "para_index": 28,
+      "text": "HALAMAN PENGESAHAN",
+      "style": "Normal"
+    },
+    {
+      "para_index": 37,
+      "text": "PERNYATAAN KEASLIAN TULISAN",
+      "style": "Normal"
+    },
+    {
+      "para_index": 42,
+      "text": "ABSTRAK",
+      "style": "Normal"
+    },
+    {
+      "para_index": 47,
+      "text": "ABSTRACT",
+      "style": "Normal"
+    },
+    {
+      "para_index": 52,
+      "text": "KATA PENGANTAR",
+      "style": "Normal"
+    },
+    {
+      "para_index": 66,
+      "text": "\nPUTRA FEBRIAN",
+      "style": "Normal"
+    }
+  ],
+  "examples": {
+    "direct_paragraph_formatting": [
+      {
+        "para_index": 1,
+        "text": "SKRIPSI",
+        "style": "Normal"
+      },
+      {
+        "para_index": 5,
+        "text": "Disusun:",
+        "style": "Normal"
+      },
+      {
+        "para_index": 7,
+        "text": "NIM. 22024129",
+        "style": "Normal"
+      },
+      {
+        "para_index": 14,
+        "text": "",
+        "style": "Normal"
+      },
+      {
+        "para_index": 15,
+        "text": "SKRIPSI",
+        "style": "Normal"
+      }
+    ],
+    "direct_run_formatting": [
+      {
+        "para_index": 1,
+        "run_text": "SKRIPSI",
+        "style": "Normal"
+      },
+      {
+        "para_index": 2,
+        "run_text": "IMPLEMENTASI ALGORITMA K-MEANS CLUSTERING PADA WEB GIS UNTUK PEMETAAN DAN ANALIS",
+        "style": "Normal"
+      },
+      {
+        "para_index": 2,
+        "run_text": "KM DI SULAWESI UTARA",
+        "style": "Normal"
+      },
+      {
+        "para_index": 6,
+        "run_text": "PUTRA FEBRIAN",
+        "style": "Normal"
+      },
+      {
+        "para_index": 7,
+        "run_text": "NIM. ",
+        "style": "Normal"
+      }
+    ]
+  },
+  "notes": [
+    "Direct formatting is not always wrong, but it often causes inconsistent output when templates change.",
+    "Heading-like paragraphs not using Heading styles can break TOC and accessibility."
+  ]
+}

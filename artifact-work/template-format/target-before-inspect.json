@@ -1,0 +1,4414 @@
+{
+  "path": "D:\\projek UMKM\\gis-umkm-mapping-main\\Skripsi_GIS_diperbarui_sesuai_proyek_pembaruan.docx",
+  "sections": [
+    {
+      "index": 1,
+      "width": 8.268,
+      "height": 11.693,
+      "top_margin": 1.575,
+      "bottom_margin": 1.181,
+      "left_margin": 1.575,
+      "right_margin": 1.181,
+      "header_distance": 0.492,
+      "footer_distance": 0.492,
+      "different_first_page": false
+    },
+    {
+      "index": 2,
+      "width": 8.268,
+      "height": 11.693,
+      "top_margin": 1.575,
+      "bottom_margin": 1.181,
+      "left_margin": 1.575,
+      "right_margin": 1.181,
+      "header_distance": 0.492,
+      "footer_distance": 0.492,
+      "different_first_page": false
+    }
+  ],
+  "front_matter": [
+    {
+      "index": 0,
+      "text": "SKRIPSI",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.333,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "SKRIPSI",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "text": "IMPLEMENTASI ALGORITMA K-MEANS CLUSTERING PADA WEB GIS UNTUK PEMETAAN DAN ANALISIS ZONASI PERSEBARAN UMKM DI SULAWESI UTARA",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "IMPLEMENTASI ALGORITMA K-MEANS CLUSTERING PADA WEB GIS UNTUK PEMETAAN DAN ANALISIS ZONASI PERSEBARAN UM",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "KM DI SULAWESI UTARA",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "text": "",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": []
+    },
+    {
+      "index": 3,
+      "text": "",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "text": "Disusun:",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.111,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Disusun:",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "text": "PUTRA FEBRIAN",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "PUTRA FEBRIAN",
+          "font": null,
+          "size": 13.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "text": "NIM. 22024129",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.389,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "NIM. ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "2",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "2024129",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "text": "POLITEKNIK NEGERI MANADO",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "POLITEKNIK NEGERI MANADO",
+          "font": null,
+          "size": 13.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "text": "JURUSAN TEKNIK ELEKTRO",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "JURUSAN TEKNIK ELEKTRO",
+          "font": null,
+          "size": 13.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "text": "PROGRAM STUDI D-IV TEKNIK INFORMATIKA",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "PROGRAM STUDI D-IV TEKNIK INFORMATIKA",
+          "font": null,
+          "size": 13.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "text": "2026",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "2026",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "text": "",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "text": "IMPLEMENTASI ALGORITMA K-MEANS CLUSTERING PADA WEB GIS UNTUK PEMETAAN DAN ANALISIS ZONASI PERSEBARAN UMKM DI SULAWESI UTARA",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "IMPLEMENTASI ALGORITMA K-MEANS CLUSTERING PADA WEB GIS UNTUK PEMETAAN DAN ANALISIS ZONASI PERSEBARAN UM",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "KM DI SULAWESI UTARA",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "text": "",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.25,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": []
+    },
+    {
+      "index": 14,
+      "text": "SKRIPSI",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.25,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "SKRIPSI",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "text": "Disusun untuk melengkapi salah satu syarat kelulusan",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Disusun untuk melengkapi salah satu syarat kelulusan",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "text": "Program Sarjana Terapan Program Studi D-IV Teknik Informatika",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Program Sarjana Terapan Program Studi D-IV Teknik Informatika",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "text": "Jurusan Teknik Elektro di Politeknik Negeri Manado",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.25,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Jurusan Teknik Elektro di Politeknik Negeri Manado",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "text": "Disusun:",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Disusun:",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 19,
+      "text": "PUTRA FEBRIAN",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "PUTRA FEB",
+          "font": null,
+          "size": 13.0,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "RIAN",
+          "font": null,
+          "size": 13.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 20,
+      "text": "NIM. 22024129",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.25,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "NIM. ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "22024129",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "text": "",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "text": "POLITEKNIK NEGERI MANADO",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "POLITEKNIK NEGERI MANADO",
+          "font": null,
+          "size": 13.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "text": "JURUSAN TEKNIK ELEKTRO",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "JURUSAN TEKNIK ELEKTRO",
+          "font": null,
+          "size": 13.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 24,
+      "text": "PROGRAM STUDI D-IV TEKNIK INFORMATIKA",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "PROGRAM STUDI D-IV TEKNIK INFORMATIKA",
+          "font": null,
+          "size": 13.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 25,
+      "text": "2026",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "2026",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 26,
+      "text": "",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 27,
+      "text": "HALAMAN PENGESAHAN",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": 1.25,
+      "space_after": 0.389,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "HALAMAN PENGESAHAN",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 28,
+      "text": "IMPLEMENTASI ALGORITMA K-MEANS CLUSTERING PADA WEB GIS UNTUK PEMETAAN DAN ANALISIS ZONASI PERSEBARAN UMKM DI SULAWESI UTARA",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.361,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "IMPLEMENTASI ALGORITMA K-MEANS CLUSTERING PADA WEB GIS UNTUK PEMETAAN DAN ANALISIS ZONASI PERSEBARAN UMKM DI SULAWESI UTARA",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 29,
+      "text": "SKRIPSI",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.278,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "SKRIPSI",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 30,
+      "text": "Disusun oleh :",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.083,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Disusun oleh :",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 31,
+      "text": "PUTRA FEBRIAN",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "PUTRA FEBRIAN",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 32,
+      "text": "NIM : 22024129",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.389,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "NIM : 22024129",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "text": "Telah dipertahankan dalam Ujian Skripsi di depan Tim Penguji dan dinyatakan telah memenuhi syarat",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.389,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Telah dipertahankan dalam Ujian Skripsi di depan Tim Penguji dan dinyatakan telah memenuhi syarat",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 34,
+      "text": "Disahkan oleh :",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.167,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Disahkan",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "oleh :",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 35,
+      "text": "",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 36,
+      "text": "PERNYATAAN KEASLIAN TULISAN",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.25,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "PERNYATAAN KEASLIAN TULISAN",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 37,
+      "text": "Yang bertanda tangan di bawah ini:",
+      "style": "Normal",
+      "alignment": "LEFT (0)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Yang bertanda tangan di bawah ini:",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 38,
+      "text": "menyatakan dengan sebenarnya bahwa skripsi yang saya tulis ini merupakan hasil karya saya sendiri. Segala kutipan, data, kode sumber, dokumentasi perangkat lunak, dan rujukan yang digunakan telah dicantumkan sumbernya sesuai dengan kaidah penulisan ilmiah. Apabila di kemudian hari terbukti terdapat pelanggaran akademik, saya bersedia menerima sanksi sesuai ketentuan yang berlaku.",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "menyatakan dengan sebenarnya bahwa skripsi yang saya tulis ini merupakan hasil karya saya sendiri. Segala kutipan, data, kode sumber, dokumentasi perangkat lunak, dan rujukan yang digunakan telah dicantumkan sumbernya sesuai dengan kaidah penulisan ilmiah. Apabila di kemudian hari terbukti terdapat pelanggaran akademik, saya bersedia menerima sanksi sesuai ketentuan yang berlaku.",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 39,
+      "text": "Manado, Agustus 2026\nYang membuat pernyataan,\n\n\nPUTRA FEBRIAN\nNIM. 22024129",
+      "style": "Normal",
+      "alignment": "RIGHT (2)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "Manado, Agustus 2026",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\nYang membuat pernyataan,",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\n",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\n",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\n",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "PUTRA FEBRIAN",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\nNIM. ",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "22024129",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 40,
+      "text": "",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 41,
+      "text": "ABSTRAK",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.167,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "ABSTRAK",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 42,
+      "text": "PUTRA FEBRIAN, Implementasi Algoritma K-means Clustering pada Web GIS Untuk Pemetaan dan Analisis Zonasi Persebaran UMKM di Sulawesi Utara (dibimbing oleh Pembimbing I dan Pembimbing II).",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "PUTRA FEBRIAN, ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "Implementasi",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "Algoritma",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": " K-means Clustering pada Web GIS Untuk ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "Pemetaan",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": " dan ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "Analisis",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "Zonasi",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": " Persebaran UMKM di Sulawesi Utara ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "(",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "dibimbing",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": " oleh ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "Pembimbing",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": " I dan Pembimbing II).",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 43,
+      "text": "Data Usaha Mikro, Kecil, dan Menengah (UMKM) yang tersebar pada wilayah yang luas sulit dimanfaatkan untuk analisis kewilayahan apabila hanya disajikan dalam bentuk tabel. Penelitian ini mengembangkan sistem informasi geografis berbasis web untuk memetakan UMKM di Provinsi Sulawesi Utara dan membentuk zonasi spasial menggunakan K-Means. Aplikasi menggunakan React 19, Vite 8, Leaflet, Supabase PostgreSQL, autentikasi, Row Level Security, dan penyimpanan objek privat. Layanan publik mencakup pencarian, filter, koleksi kategori, UMKM terdekat, rute, berbagi tautan, pengajuan UMKM dengan foto dan titik lokasi opsional, pelacakan status, serta permintaan pemulihan kode. Panel admin menyediakan pengelolaan data, filter kualitas, verifikasi koordinat, peninjauan pengajuan, impor dan ekspor CSV, audit, serta penyimpanan hasil analisis. Klasterisasi menerapkan K-Means++ deterministik, jarak Haversine, WCSS, radius klaster, snapshot input, dan hash SHA-256. Snapshot JSON proyek tanggal 10 September 2026 memuat 1.802 record; 1.743 lokasi perkiraan dapat dianalisis dan 59 lokasi belum terverifikasi dikecualikan. Eksekusi K=2 sampai K=10 menghasilkan kurva WCSS yang tidak monoton pada K=9, sehingga nilai K optimal belum dapat ditetapkan hanya dari elbow pada satu inisialisasi per K. Pemeriksaan teknis menunjukkan lint dan build produksi berhasil, sedangkan pengujian integrasi Supabase dan black-box lintas perangkat tetap perlu didokumentasikan pada lingkungan final.",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Data Usaha Mikro, Kecil, dan Menengah (UMKM) yang tersebar pada wilayah yang luas sulit dimanfaatkan untuk analisis kewilayahan apabila hanya disajikan dalam bentuk tabel. Penelitian ini mengembangkan sistem informasi geografis berbasis web untuk memetakan UMKM di Provinsi Sulawesi Utara dan membentuk zonasi spasial menggunakan K-Means. Aplikasi menggunakan React 19, Vite 8, Leaflet, Supabase PostgreSQL, autentikasi, Row Level Security, dan penyimpanan objek privat. Layanan publik mencakup pencarian, filter, koleksi kategori, UMKM terdekat, rute, berbagi tautan, pengajuan UMKM dengan foto dan titik lokasi opsional, pelacakan status, serta permintaan pemulihan kode. Panel admin menyediakan pengelolaan data, filter kualitas, verifikasi koordinat, peninjauan pengajuan, impor dan ekspor CSV, audit, serta penyimpanan hasil analisis. Klasterisasi menerapkan K-Means++ deterministik, jarak Haversine, WCSS, radius klaster, snapshot input, dan hash SHA-256. Snapshot JSON proyek tanggal 10 September 2026 memuat 1.802 record; 1.743 lokasi perkiraan dapat dianalisis dan 59 lokasi belum terverifikasi dikecualikan. Eksekusi K=2 sampai K=10 menghasilkan kurva WCSS yang tidak monoton pada K=9, sehingga nilai K optimal belum dapat ditetapkan hanya dari elbow pada satu inisialisasi per K. Pemeriksaan teknis menunjukkan lint dan build produksi berhasil, sedangkan pengujian integrasi Supabase dan black-box lintas perangkat tetap perlu didokumentasikan pada lingkungan final.",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 44,
+      "text": "Kata kunci: UMKM, Sistem Informasi Geografis, K-Means, Haversine, pengajuan publik, kualitas data spasial, Supabase.",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Kata kunci: UMKM, Sistem Informasi Geografis, K-Means, Haversine, pengajuan publik, kualitas data spasial, Supabase.",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 45,
+      "text": "",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 46,
+      "text": "ABSTRACT",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.167,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "ABSTRACT",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 47,
+      "text": "PUTRA FEBRIAN, Implementation of K-Means Clustering Algorithm for Mapping and Zoning Analysis of MSME Distribution in North Sulawesi  (supervised by Advisor I and Advisor II).",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "PUTRA FEBRIAN, ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "Implementation of K-Means Clustering Algorithm for Mapping and Zoning Analysis of MSME Distribution in North ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "Sulawesi",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": " ",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": " (",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        },
+        {
+          "text": "supervised by Advisor I and Advisor II).",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 48,
+      "text": "Micro, Small, and Medium Enterprise (MSME) data distributed over a wide area are difficult to use for regional analysis when presented only as tables. This research develops a web-based geographic information system for mapping MSMEs in North Sulawesi Province and producing spatial zones with K-Means. The application uses React 19, Vite 8, Leaflet, Supabase PostgreSQL, authentication, Row Level Security, and private object storage. Public services include search, filters, curated category collections, nearby MSMEs, directions, link sharing, MSME submissions with an optional photo and location, status tracking, and tracking-code recovery requests. The administration panel supports data management, quality filters, coordinate verification, submission review, CSV import and export, audit history, and stored analysis runs. Clustering uses deterministic K-Means++ initialization, Haversine distance, WCSS, cluster radii, input snapshots, and SHA-256 dataset hashes. The local project snapshot dated September 10, 2026 contains 1,802 records: 1,743 district-estimated locations are analyzable and 59 unverified locations are excluded. Runs for K=2 through K=10 produced a non-monotonic WCSS sequence at K=9, so an optimal K cannot be established from a single-seed elbow curve alone. Linting and the production build completed successfully, while final Supabase integration and cross-device black-box tests still require documented execution in the deployment environment.",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Micro, Small, and Medium Enterprise (MSME) data distributed over a wide area are difficult to use for regional analysis when presented only as tables. This research develops a web-based geographic information system for mapping MSMEs in North Sulawesi Province and producing spatial zones with K-Means. The application uses React 19, Vite 8, Leaflet, Supabase PostgreSQL, authentication, Row Level Security, and private object storage. Public services include search, filters, curated category collections, nearby MSMEs, directions, link sharing, MSME submissions with an optional photo and location, status tracking, and tracking-code recovery requests. The administration panel supports data management, quality filters, coordinate verification, submission review, CSV import and export, audit history, and stored analysis runs. Clustering uses deterministic K-Means++ initialization, Haversine distance, WCSS, cluster radii, input snapshots, and SHA-256 dataset hashes. The local project snapshot dated September 10, 2026 contains 1,802 records: 1,743 district-estimated locations are analyzable and 59 unverified locations are excluded. Runs for K=2 through K=10 produced a non-monotonic WCSS sequence at K=9, so an optimal K cannot be established from a single-seed elbow curve alone. Linting and the production build completed successfully, while final Supabase integration and cross-device black-box tests still require documented execution in the deployment environment.",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 49,
+      "text": "Keywords: MSME, Geographic Information System, K-Means, Haversine, public submission, spatial data quality, Supabase.",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Keywords: MSME, Geographic Information System, K-Means, Haversine, public submission, spatial data quality, Supabase.",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 50,
+      "text": "",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 51,
+      "text": "KATA PENGANTAR",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.167,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "KATA PENGANTAR",
+          "font": null,
+          "size": 14.0,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 52,
+      "text": "Puji syukur dipanjatkan ke hadirat Tuhan Yang Maha Esa atas rahmat dan karunia-Nya sehingga skripsi berjudul “Implementasi Algoritma K-Means Clustering pada Web GIS untuk Pemetaan dan Analisis Zonasi Persebaran UMKM di Sulawesi Utara” dapat disusun. Penelitian ini berfokus pada pemetaan UMKM, layanan pengajuan publik, pengelolaan kualitas koordinat, dan analisis zonasi berbasis klaster spasial.",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": 0.492,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Puji syukur dipanjatkan ke hadirat Tuhan Yang Maha Esa atas rahmat dan karunia-Nya sehingga skripsi berjudul “Implementasi Algoritma K-Means Clustering pada Web GIS untuk Pemetaan dan Analisis Zonasi Persebaran UMKM di Sulawesi Utara” dapat disusun. Penelitian ini berfokus pada pemetaan UMKM, layanan pengajuan publik, pengelolaan kualitas koordinat, dan analisis zonasi berbasis klaster spasial.",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 53,
+      "text": "Penulis menyadari bahwa tanpa bantuan dan bimbingan dari berbagai pihak, skripsi ini sulit diselesaikan. Oleh karena itu, penulis menyampaikan ucapan terima kasih kepada:\n1. Direktur Politeknik Negeri Manado;\n2. Ketua Jurusan Teknik Elektro;\n3. Koordinator Program Studi D-IV Teknik Informatika;\n4. Ketua Pelaksana Ujian Skripsi beserta seluruh panitia;\n5. Dosen Pembimbing I dan Dosen Pembimbing II atas arahan, bimbingan, dan masukan selama penyusunan skripsi ini;\n6. Seluruh dosen dan staf pengajar Program Studi D-IV Teknik Informatika atas ilmu, arahan, dan dukungan akademik;\n7. YBLI Yayasan Bina Lentera Insan selaku mitra penelitian yang telah mendukung pelaksanaan penelitian ini;\n8. Orang tua, keluarga, sahabat, dan rekan-rekan yang telah membantu penulis menyelesaikan skripsi ini.",
+      "style": "Normal",
+      "alignment": "LEFT (0)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Penulis menyadari bahwa tanpa bantuan dan bimbingan dari berbagai pihak, skripsi ini sulit diselesaikan. Oleh karena itu, penulis menyampaikan ucapan terima kasih kepada:\n1. Direktur Politeknik Negeri Manado;\n2. Ketua Jurusan Teknik Elektro;\n3. Koordinator Program Studi D-IV Teknik Informatika;\n4. Ketua Pelaksana Ujian Skripsi beserta seluruh panitia;\n5. Dosen Pembimbing I dan Dosen Pembimbing II atas arahan, bimbingan, dan masukan selama penyusunan skripsi ini;\n6. Seluruh dosen dan staf pengajar Program Studi D-IV Teknik Informatika atas ilmu, arahan, dan dukungan akademik;\n7. YBLI Yayasan Bina Lentera Insan selaku mitra penelitian yang telah mendukung pelaksanaan penelitian ini;\n8. Orang tua, keluarga, sahabat, dan rekan-rekan yang telah membantu penulis menyelesaikan skripsi ini.",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 54,
+      "text": "Penulis menyadari bahwa penelitian ini masih dapat disempurnakan melalui verifikasi koordinat lapangan, pengujian integrasi pada lingkungan produksi, dan evaluasi pengguna. Kritik dan saran yang membangun sangat diharapkan.",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "Penulis menyadari bahwa penelitian ini masih dapat disempurnakan melalui verifikasi koordinat lapangan, pengujian integrasi pada lingkungan produksi, dan evaluasi pengguna. Kritik dan saran yang membangun sangat diharapkan.",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 55,
+      "text": "Manado, Agustus 2026\nPenulis,\n\n\nPUTRA FEBRIAN",
+      "style": "Normal",
+      "alignment": "RIGHT (2)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "Manado, Agustus 2026",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\nPenulis,",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\n",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\n",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "\n",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        },
+        {
+          "text": "PUTRA FEBRIAN",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 56,
+      "text": "",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": null,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 57,
+      "text": "DAFTAR ISI",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.111,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "DAFTAR ISI",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 58,
+      "text": "HALAMAN JUDUL\ti",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "HALAMAN JUDUL\ti",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 59,
+      "text": "HALAMAN PENGESAHAN\tiii",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "HALAMAN PENGESAHAN\tiii",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 60,
+      "text": "PERNYATAAN KEASLIAN TULISAN\tiv",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "PERNYATAAN KEASLIAN TULISAN\tiv",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 61,
+      "text": "ABSTRAK\tv",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "ABSTRAK\tv",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 62,
+      "text": "ABSTRACT\tvi",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "ABSTRACT\tvi",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 63,
+      "text": "KATA PENGANTAR\tvii",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "KATA PENGANTAR\tvii",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 64,
+      "text": "DAFTAR ISI\tix",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "DAFTAR ISI\tix",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 65,
+      "text": "DAFTAR GAMBAR\txi",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "DAFTAR GAMBAR\txi",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 66,
+      "text": "DAFTAR TABEL\txii",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "DAFTAR TABEL\txii",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 67,
+      "text": "BAB I PENDAHULUAN\t1",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "BAB I PENDAHULUAN\t1",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 68,
+      "text": "1.1 Latar Belakang Masalah\t1",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "1.1 Latar Belakang Masalah\t1",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 69,
+      "text": "1.2 Rumusan Masalah\t5",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "1.2 Rumusan Masalah\t5",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 70,
+      "text": "1.3 Tujuan Penelitian\t6",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "1.3 Tujuan Penelitian\t6",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 71,
+      "text": "1.4 Manfaat Penelitian\t7",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "1.4 Manfaat Penelitian\t7",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 72,
+      "text": "1.5 Batasan Masalah\t7",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "1.5 Batasan Masalah\t7",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 73,
+      "text": "1.6 Sistematika Penulisan\t8",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "1.6 Sistematika Penulisan\t8",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 74,
+      "text": "BAB II TINJAUAN PUSTAKA\t10",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "BAB II TINJAUAN PUSTAKA\t10",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 75,
+      "text": "2.1 Usaha Mikro, Kecil, dan Menengah (UMKM)\t10",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.1 Usaha Mikro, Kecil, dan Menengah (UMKM)\t10",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 76,
+      "text": "2.2 Sistem Informasi Geografis\t11",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.2 Sistem Informasi Geografis\t11",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 77,
+      "text": "2.3 Web Mapping, Layanan Publik, dan Leaflet\t12",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.3 Web Mapping, Layanan Publik, dan Leaflet\t12",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 78,
+      "text": "2.4 Kualitas Data Spasial dan Verifikasi Koordinat\t13",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.4 Kualitas Data Spasial dan Verifikasi Koordinat\t13",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 79,
+      "text": "2.5 Algoritma K-Means\t15",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.5 Algoritma K-Means\t15",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 80,
+      "text": "2.6 K-Means++\t16",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.6 K-Means++\t16",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 81,
+      "text": "2.7 Jarak Haversine\t17",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.7 Jarak Haversine\t17",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 82,
+      "text": "2.8 Within-Cluster Sum of Squares dan Elbow Method\t18",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.8 Within-Cluster Sum of Squares dan Elbow Method\t18",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 83,
+      "text": "2.9 React, Vite, dan Supabase\t18",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.9 React, Vite, dan Supabase\t18",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 84,
+      "text": "2.10 Reproduksibilitas Analisis\t20",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.10 Reproduksibilitas Analisis\t20",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 85,
+      "text": "2.11 Penelitian dan Literatur Relevan\t21",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.11 Penelitian dan Literatur Relevan\t21",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 86,
+      "text": "2.12 Rangkuman dan Celah Penelitian\t23",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "2.12 Rangkuman dan Celah Penelitian\t23",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 87,
+      "text": "BAB III METODOLOGI PENELITIAN\t24",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "BAB III METODOLOGI PENELITIAN\t24",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 88,
+      "text": "3.1 Jenis dan Pendekatan Penelitian\t24",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.1 Jenis dan Pendekatan Penelitian\t24",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 89,
+      "text": "3.2 Tempat dan Waktu Penelitian\t24",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.2 Tempat dan Waktu Penelitian\t24",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 90,
+      "text": "3.3 Tahapan Penelitian\t26",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3 Tahapan Penelitian\t26",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 91,
+      "text": "3.3.1 Analisis Kebutuhan Fungsional\t27",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.1 Analisis Kebutuhan Fungsional\t27",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 92,
+      "text": "3.3.2 Kebutuhan Non-Fungsional\t27",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.2 Kebutuhan Non-Fungsional\t27",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 93,
+      "text": "3.3.3 Perancangan Arsitektur Sistem\t28",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.3 Perancangan Arsitektur Sistem\t28",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 94,
+      "text": "3.3.4 Perancangan Basis Data\t30",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.4 Perancangan Basis Data\t30",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 95,
+      "text": "3.3.5 Perancangan Hak Akses dan Use Case\t32",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.5 Perancangan Hak Akses dan Use Case\t32",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 96,
+      "text": "3.3.6 Metode Verifikasi Lokasi\t33",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.6 Metode Verifikasi Lokasi\t33",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 97,
+      "text": "3.3.7 Metode K-Means Spasial\t34",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.7 Metode K-Means Spasial\t34",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 98,
+      "text": "3.3.8 Rumus Haversine\t35",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.8 Rumus Haversine\t35",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 99,
+      "text": "3.3.9 Evaluasi Nilai K dan WCSS\t36",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.9 Evaluasi Nilai K dan WCSS\t36",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 100,
+      "text": "3.3.10 Metode Evaluasi Kualitas Data\t36",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.10 Metode Evaluasi Kualitas Data\t36",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 101,
+      "text": "3.3.11 Reproduksibilitas dan Audit Eksperimen\t36",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.11 Reproduksibilitas dan Audit Eksperimen\t36",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 102,
+      "text": "3.3.12 Batas Interpretasi dan Etika Data\t37",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.394,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.3.12 Batas Interpretasi dan Etika Data\t37",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 103,
+      "text": "3.4 Perangkat Keras dan Perangkat Lunak\t38",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.4 Perangkat Keras dan Perangkat Lunak\t38",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 104,
+      "text": "3.5 Skenario Pengujian Sistem\t38",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.5 Skenario Pengujian Sistem\t38",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 105,
+      "text": "3.6 Jadwal Penelitian\t40",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "3.6 Jadwal Penelitian\t40",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 106,
+      "text": "BAB IV HASIL DAN PEMBAHASAN\t41",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "BAB IV HASIL DAN PEMBAHASAN\t41",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 107,
+      "text": "4.1 Implementasi Sistem\t41",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.1 Implementasi Sistem\t41",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 108,
+      "text": "4.2 Implementasi Layanan Publik dan Peta\t42",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.2 Implementasi Layanan Publik dan Peta\t42",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 109,
+      "text": "4.3 Implementasi Basis Data dan Keamanan\t43",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.3 Implementasi Basis Data dan Keamanan\t43",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 110,
+      "text": "4.4 Implementasi Kualitas Lokasi\t45",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.4 Implementasi Kualitas Lokasi\t45",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 111,
+      "text": "4.5 Implementasi Algoritma K-Means\t46",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.5 Implementasi Algoritma K-Means\t46",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 112,
+      "text": "4.6 Reproduksibilitas dan Audit Analisis\t48",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.6 Reproduksibilitas dan Audit Analisis\t48",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 113,
+      "text": "4.7 Kesesuaian Implementasi dengan Kebutuhan\t49",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.7 Kesesuaian Implementasi dengan Kebutuhan\t49",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 114,
+      "text": "4.8 Hasil Pengujian Fungsional\t50",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.8 Hasil Pengujian Fungsional\t50",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 115,
+      "text": "4.9 Evaluasi Nilai K\t52",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.9 Evaluasi Nilai K\t52",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 116,
+      "text": "4.10 Pembahasan\t53",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.10 Pembahasan\t53",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 117,
+      "text": "4.11 Keterbatasan Penelitian\t57",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.11 Keterbatasan Penelitian\t57",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 118,
+      "text": "4.12 Implikasi Praktis dan Akademik\t57",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "4.12 Implikasi Praktis dan Akademik\t57",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 119,
+      "text": "BAB V KESIMPULAN DAN SARAN\t59",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "BAB V KESIMPULAN DAN SARAN\t59",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 120,
+      "text": "5.1 Kesimpulan\t59",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "5.1 Kesimpulan\t59",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 121,
+      "text": "5.2 Saran\t60",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "5.2 Saran\t60",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 122,
+      "text": "DAFTAR PUSTAKA\t62",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "DAFTAR PUSTAKA\t62",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 123,
+      "text": "LAMPIRAN\t64",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "LAMPIRAN\t64",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 124,
+      "text": "Lampiran 1. Ringkasan Struktur Repositori\t64",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "Lampiran 1. Ringkasan Struktur Repositori\t64",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 125,
+      "text": "Lampiran 2. Parameter Implementasi K-Means\t64",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "Lampiran 2. Parameter Implementasi K-Means\t64",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 126,
+      "text": "Lampiran 3. Contoh Format Bukti Pengujian\t64",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "Lampiran 3. Contoh Format Bukti Pengujian\t64",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 127,
+      "text": "",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": 0.197,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 128,
+      "text": "DAFTAR GAMBAR",
+      "style": "Normal",
+      "alignment": "CENTER (1)",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": 0.139,
+      "line_spacing": "None",
+      "line_spacing_rule": "None",
+      "keep_with_next": true,
+      "keep_together": null,
+      "runs": [
+        {
+          "text": "DAFTAR GAMBAR",
+          "font": null,
+          "size": null,
+          "bold": true,
+          "italic": null
+        }
+      ]
+    },
+    {
+      "index": 129,
+      "text": "Gambar 3.1 Alur Penelitian dan Pengembangan\t26",
+      "style": "Normal",
+      "alignment": "None",
+      "left_indent": null,
+      "right_indent": null,
+      "first_line_indent": null,
+      "space_before": null,
+      "space_after": null,
+      "line_spacing": "1.0",
+      "line_spacing_rule": "SINGLE (0)",
+      "keep_with_next": null,
+      "keep_together": true,
+      "runs": [
+        {
+          "text": "Gambar 3.1 Alur Penelitian dan Pengembangan\t26",
+          "font": null,
+          "size": null,
+          "bold": null,
+          "italic": null
+        }
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "index": 0,
+      "style": "Normal Table",
+      "rows": 2,
+      "cols": 2,
+      "grid_inches": [
+        2.736,
+        2.736
+      ],
+      "sample": [
+        [
+          "Pembimbing I, | Olga Engelien  Melo, SST.,MT | NIP. 196410141993032001",
+          "Pembimbing II, | Venny Vita Ponggawa, SST.,MT | NIP. 198002062005012001"
+        ],
+        [
+          "Koordinator Program Studi, | Harson Kapoh, ST., MT | NIP. 197101011999031004",
+          "Ketua Jurusan Teknik Elektro, | Marson J. Budiman, SST., MT | NIP. 197503052003121002"
+        ]
+      ]
+    },
+    {
+      "index": 1,
+      "style": "Table Grid",
+      "rows": 5,
+      "cols": 2,
+      "grid_inches": [
+        2.756,
+        2.756
+      ],
+      "sample": [
+        [
+          "Keterangan",
+          "Data"
+        ],
+        [
+          "Nama",
+          "PUTRA FEBRIAN"
+        ],
+        [
+          "NIM",
+          "22024129"
+        ],
+        [
+          "Program Studi",
+          "D-IV Teknik Informatika"
+        ],
+        [
+          "Jurusan",
+          "Teknik Elektro"
+        ]
+      ]
+    },
+    {
+      "index": 2,
+      "style": "Table Grid",
+      "rows": 10,
+      "cols": 3,
+      "grid_inches": [
+        1.522,
+        1.456,
+        2.684
+      ],
+      "sample": [
+        [
+          "Teknologi",
+          "Lapisan",
+          "Peran"
+        ],
+        [
+          "React 19",
+          "Presentation",
+          "Komponen, state, dialog, dan interaksi UI"
+        ],
+        [
+          "Vite 8",
+          "Build tooling",
+          "Development server, lint workflow, dan build produksi"
+        ],
+        [
+          "Leaflet 1.9 / react-leaflet 5",
+          "Web GIS",
+          "Peta, marker, popup, zona, dan pemilih lokasi"
+        ],
+        [
+          "leaflet.markercluster 1.5",
+          "Visualisasi",
+          "Pengelompokan marker sesuai zoom"
+        ]
+      ]
+    },
+    {
+      "index": 3,
+      "style": "Table Grid",
+      "rows": 7,
+      "cols": 4,
+      "grid_inches": [
+        1.378,
+        1.378,
+        1.378,
+        1.378
+      ],
+      "sample": [
+        [
+          "No.",
+          "Sumber",
+          "Fokus",
+          "Relevansi"
+        ],
+        [
+          "1",
+          "MacQueen (1967)",
+          "Metode K-Means",
+          "Landasan prosedur clustering berbasis centroid."
+        ],
+        [
+          "2",
+          "Arthur & Vassilvitskii (2007)",
+          "K-Means++",
+          "Landasan pemilihan seed centroid yang lebih baik."
+        ],
+        [
+          "3",
+          "Jain (2010)",
+          "Tinjauan 50 tahun clustering",
+          "Menjelaskan karakteristik, kekuatan, dan keterbatasan K-Means."
+        ],
+        [
+          "4",
+          "Birant & Kut (2007)",
+          "ST-DBSCAN",
+          "Pembanding konseptual bahwa data spasial juga dapat dianalisis dengan metode berbasis densitas."
+        ]
+      ]
+    },
+    {
+      "index": 4,
+      "style": "Table Grid",
+      "rows": 7,
+      "cols": 3,
+      "grid_inches": [
+        1.16,
+        1.733,
+        2.768
+      ],
+      "sample": [
+        [
+          "Konsep",
+          "Prinsip",
+          "Implementasi pada Sistem"
+        ],
+        [
+          "SIG Web",
+          "Atribut terhubung dengan posisi",
+          "Leaflet, daftar, popup, pencarian, filter, rute, dan UMKM terdekat"
+        ],
+        [
+          "Partisipasi publik",
+          "Data baru masuk melalui tinjauan",
+          "Pengajuan, foto, tracking_code, review, dan pemulihan"
+        ],
+        [
+          "Kualitas lokasi",
+          "Ketelitian dinyatakan eksplisit",
+          "tepat, perkiraan_kecamatan, belum_terverifikasi"
+        ],
+        [
+          "K-Means++",
+          "Seeding dan assignment centroid",
+          "Seed deterministik dengan jarak Haversine"
+        ]
+      ]
+    },
+    {
+      "index": 5,
+      "style": "Table Grid",
+      "rows": 6,
+      "cols": 3,
+      "grid_inches": [
+        1.147,
+        2.105,
+        2.41
+      ],
+      "sample": [
+        [
+          "Aspek",
+          "Marker Clustering",
+          "K-Means Spasial"
+        ],
+        [
+          "Tujuan",
+          "Mengurangi tumpang tindih marker",
+          "Membagi titik menjadi K kelompok analitik"
+        ],
+        [
+          "Dasar pengelompokan",
+          "Kedekatan tampilan/zoom peta",
+          "Jarak titik terhadap centroid"
+        ],
+        [
+          "Perubahan saat zoom",
+          "Ya",
+          "Tidak, jika input dan K tetap"
+        ],
+        [
+          "Keluaran",
+          "Ikon cluster marker",
+          "Keanggotaan cluster, centroid, WCSS, radius"
+        ]
+      ]
+    },
+    {
+      "index": 6,
+      "style": "Table Grid",
+      "rows": 14,
+      "cols": 2,
+      "grid_inches": [
+        2.756,
+        2.756
+      ],
+      "sample": [
+        [
+          "Kode",
+          "Kebutuhan Fungsional"
+        ],
+        [
+          "F-01",
+          "Menampilkan UMKM pada peta, popup, zona, dan daftar interaktif."
+        ],
+        [
+          "F-02",
+          "Mencari, memfilter, memilih koleksi, membuka rute, membagikan tautan, dan menemukan lima UMKM terdekat."
+        ],
+        [
+          "F-03",
+          "Menerima pengajuan UMKM dengan titik dan satu foto opsional."
+        ],
+        [
+          "F-04",
+          "Memberikan kode pelacakan, status review, dan kanal pemulihan kode."
+        ]
+      ]
+    },
+    {
+      "index": 7,
+      "style": "Table Grid",
+      "rows": 9,
+      "cols": 2,
+      "grid_inches": [
+        2.756,
+        2.756
+      ],
+      "sample": [
+        [
+          "Kode",
+          "Kebutuhan Non-Fungsional"
+        ],
+        [
+          "NF-01",
+          "Aplikasi dapat digunakan pada browser modern, desktop, dan perangkat bergerak."
+        ],
+        [
+          "NF-02",
+          "Data administratif dilindungi autentikasi, role, RPC, dan Row Level Security."
+        ],
+        [
+          "NF-03",
+          "Foto pengajuan disimpan pada bucket privat dan dibaca admin melalui signed URL sementara."
+        ],
+        [
+          "NF-04",
+          "Constraint menjaga pasangan koordinat, rentang, state review, dan metadata verifikasi."
+        ]
+      ]
+    },
+    {
+      "index": 8,
+      "style": "Table Grid",
+      "rows": 9,
+      "cols": 2,
+      "grid_inches": [
+        2.756,
+        2.756
+      ],
+      "sample": [
+        [
+          "Entitas",
+          "Fungsi Utama"
+        ],
+        [
+          "umkm",
+          "Atribut usaha, koordinat analisis/tampilan, kualitas lokasi, status aktif/published, dan metadata verifikasi."
+        ],
+        [
+          "admin_profiles",
+          "Profil pengguna dan role superadmin, admin, verifikator, atau viewer."
+        ],
+        [
+          "kmeans_runs",
+          "Parameter, hasil, statistik, hash, dan snapshot setiap eksekusi clustering."
+        ],
+        [
+          "import_batches",
+          "Metadata proses impor atomik dan jumlah baris."
+        ]
+      ]
+    },
+    {
+      "index": 9,
+      "style": "Table Grid",
+      "rows": 7,
+      "cols": 3,
+      "grid_inches": [
+        1.461,
+        2.071,
+        2.13
+      ],
+      "sample": [
+        [
+          "Atribut",
+          "Fungsi",
+          "Catatan"
+        ],
+        [
+          "lat, lng",
+          "Kompatibilitas data/klien lama",
+          "Pada lokasi tepat disamakan dengan koordinat analisis"
+        ],
+        [
+          "analysis_lat, analysis_lng",
+          "Masukan analisis spasial",
+          "Diprioritaskan oleh getAnalysisCoordinates"
+        ],
+        [
+          "display_lat, display_lng",
+          "Posisi marker pada peta",
+          "Dapat dipisahkan dari kebutuhan analisis"
+        ],
+        [
+          "location_accuracy",
+          "Status tingkat ketelitian",
+          "tepat, perkiraan_kecamatan, belum_terverifikasi"
+        ]
+      ]
+    },
+    {
+      "index": 10,
+      "style": "Table Grid",
+      "rows": 9,
+      "cols": 5,
+      "grid_inches": [
+        1.909,
+        0.954,
+        0.859,
+        1.076,
+        0.864
+      ],
+      "sample": [
+        [
+          "Fungsi",
+          "Superadmin",
+          "Admin",
+          "Verifikator",
+          "Viewer"
+        ],
+        [
+          "Melihat dashboard dan data",
+          "Ya",
+          "Ya",
+          "Ya",
+          "Ya"
+        ],
+        [
+          "Tambah/edit/nonaktif UMKM",
+          "Ya",
+          "Ya",
+          "Tidak",
+          "Tidak"
+        ],
+        [
+          "Verifikasi lokasi",
+          "Ya",
+          "Ya",
+          "Ya",
+          "Tidak"
+        ],
+        [
+          "Jalankan K-Means",
+          "Ya",
+          "Ya",
+          "Ya",
+          "Ya"
+        ]
+      ]
+    },
+    {
+      "index": 11,
+      "style": "Table Grid",
+      "rows": 9,
+      "cols": 3,
+      "grid_inches": [
+        1.446,
+        1.462,
+        2.753
+      ],
+      "sample": [
+        [
+          "Parameter",
+          "Nilai/Format",
+          "Tujuan"
+        ],
+        [
+          "K",
+          "2–10 pada UI",
+          "Jumlah cluster"
+        ],
+        [
+          "Metric",
+          "Haversine (km)",
+          "Jarak antar titik dan centroid"
+        ],
+        [
+          "Initialization",
+          "Deterministic K-Means++",
+          "Seeding yang dapat diulang"
+        ],
+        [
+          "Max iterations",
+          "100",
+          "Batas eksekusi"
+        ]
+      ]
+    },
+    {
+      "index": 12,
+      "style": "Table Grid",
+      "rows": 7,
+      "cols": 2,
+      "grid_inches": [
+        2.756,
+        2.756
+      ],
+      "sample": [
+        [
+          "Komponen",
+          "Spesifikasi/Keterangan"
+        ],
+        [
+          "Perangkat pengembangan",
+          "Komputer/laptop yang mampu menjalankan Node.js, browser modern, dan editor kode."
+        ],
+        [
+          "Frontend",
+          "React 19, React DOM 19, Vite 8."
+        ],
+        [
+          "Pemetaan",
+          "Leaflet 1.9.4, React-Leaflet 5, leaflet.markercluster 1.5.3."
+        ],
+        [
+          "Backend/Data",
+          "Supabase JS 2.112.3, PostgreSQL/Supabase Auth."
+        ]
+      ]
+    },
+    {
+      "index": 13,
+      "style": "Table Grid",
+      "rows": 18,
+      "cols": 3,
+      "grid_inches": [
+        1.837,
+        1.837,
+        1.837
+      ],
+      "sample": [
+        [
+          "ID",
+          "Skenario",
+          "Hasil yang Diharapkan"
+        ],
+        [
+          "T-01",
+          "Membuka halaman publik",
+          "Peta dan daftar tampil tanpa akun admin."
+        ],
+        [
+          "T-02",
+          "Pencarian, filter, koleksi, dan deep-link",
+          "Hasil dan pilihan UMKM konsisten dengan input/URL."
+        ],
+        [
+          "T-03",
+          "UMKM terdekat, rute, dan share",
+          "Lima hasil memakai titik tampilan; tautan dapat dibuka/dibagikan."
+        ],
+        [
+          "T-04",
+          "Mengirim pengajuan dengan/ tanpa titik dan foto",
+          "Validasi berjalan dan UUID pelacakan diterima."
+        ]
+      ]
+    },
+    {
+      "index": 14,
+      "style": "Table Grid",
+      "rows": 14,
+      "cols": 3,
+      "grid_inches": [
+        0.642,
+        2.837,
+        2.183
+      ],
+      "sample": [
+        [
+          "ID",
+          "Skenario",
+          "Bukti"
+        ],
+        [
+          "T-18",
+          "Filter koordinat/kategori/lokasi perlu diperiksa",
+          "Screenshot tabel dan jumlah hasil"
+        ],
+        [
+          "T-19",
+          "Viewer mencoba operasi mutasi",
+          "Pesan UI dan penolakan RLS/RPC"
+        ],
+        [
+          "T-20",
+          "Verifikator menyimpan exact tanpa konfirmasi",
+          "Pesan penolakan"
+        ],
+        [
+          "T-21",
+          "Koordinat tidak lengkap atau di luar rentang",
+          "Pesan validasi/constraint"
+        ]
+      ]
+    },
+    {
+      "index": 15,
+      "style": "Table Grid",
+      "rows": 9,
+      "cols": 7,
+      "grid_inches": [
+        1.275,
+        0.733,
+        0.732,
+        0.731,
+        0.726,
+        0.734,
+        0.731
+      ],
+      "sample": [
+        [
+          "Kegiatan",
+          "Apr",
+          "Mei",
+          "Jun",
+          "Jul",
+          "Agu",
+          "Sep"
+        ],
+        [
+          "Studi literatur",
+          "✓",
+          "✓",
+          "",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Inventarisasi & pembersihan data",
+          "✓",
+          "✓",
+          "✓",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Perancangan sistem",
+          "",
+          "✓",
+          "✓",
+          "",
+          "",
+          ""
+        ],
+        [
+          "Implementasi web & database",
+          "",
+          "",
+          "✓",
+          "✓",
+          "",
+          ""
+        ]
+      ]
+    },
+    {
+      "index": 16,
+      "style": "Table Grid",
+      "rows": 14,
+      "cols": 2,
+      "grid_inches": [
+        1.865,
+        3.797
+      ],
+      "sample": [
+        [
+          "Modul",
+          "Tanggung Jawab"
+        ],
+        [
+          "App.jsx",
+          "State publik, filter, zonasi, deep-link, share, dan pembukaan dialog pengajuan/pelacakan."
+        ],
+        [
+          "Map.jsx",
+          "Marker, centroid/area, UMKM terdekat, rute, dan koordinat tampilan."
+        ],
+        [
+          "BusinessList / CommunityCollections",
+          "Daftar, koleksi kategori, pencarian, pemilihan, dan detail UMKM."
+        ],
+        [
+          "BusinessSubmissionForm.jsx",
+          "Pengajuan, foto, pencarian/pilih lokasi, tracking, dan pemulihan kode."
+        ]
+      ]
+    },
+    {
+      "index": 17,
+      "style": "Table Grid",
+      "rows": 12,
+      "cols": 3,
+      "grid_inches": [
+        1.438,
+        1.829,
+        2.394
+      ],
+      "sample": [
+        [
+          "Kontrol",
+          "Lokasi Implementasi",
+          "Fungsi"
+        ],
+        [
+          "Rentang dan pasangan koordinat",
+          "Service + CHECK",
+          "Mencegah koordinat tidak sah/setengah lengkap"
+        ],
+        [
+          "Exact metadata invariant",
+          "CHECK + trigger",
+          "Mewajibkan koordinat dan verifier"
+        ],
+        [
+          "RBAC",
+          "admin_profiles + fungsi akses",
+          "Membedakan manage, verify, dan read"
+        ],
+        [
+          "Verifikasi lokasi",
+          "RPC verify_umkm_location",
+          "Membatasi perubahan lokasi sensitif"
+        ]
+      ]
+    },
+    {
+      "index": 18,
+      "style": "Table Grid",
+      "rows": 9,
+      "cols": 3,
+      "grid_inches": [
+        1.461,
+        1.756,
+        2.445
+      ],
+      "sample": [
+        [
+          "Artefak",
+          "Isi",
+          "Manfaat"
+        ],
+        [
+          "dataset_hash",
+          "SHA-256 snapshot",
+          "Mendeteksi input identik/berbeda"
+        ],
+        [
+          "input_snapshot",
+          "id, lat, lng terurut",
+          "Merekonstruksi titik yang dianalisis"
+        ],
+        [
+          "parameters",
+          "metric, init, threshold, filter, dll.",
+          "Menjelaskan konfigurasi"
+        ],
+        [
+          "centroids",
+          "Koordinat pusat cluster",
+          "Membandingkan hasil"
+        ]
+      ]
+    },
+    {
+      "index": 19,
+      "style": "Table Grid",
+      "rows": 12,
+      "cols": 3,
+      "grid_inches": [
+        1.837,
+        1.837,
+        1.837
+      ],
+      "sample": [
+        [
+          "Kebutuhan",
+          "Status berdasarkan Artefak",
+          "Catatan"
+        ],
+        [
+          "Peta dan daftar publik",
+          "Tersedia",
+          "App, Map, BusinessList, Sidebar."
+        ],
+        [
+          "Pencarian, koleksi, nearby, rute, share",
+          "Tersedia",
+          "App, Map, BusinessList, CommunityCollections."
+        ],
+        [
+          "Pengajuan, foto, pelacakan, pemulihan",
+          "Tersedia",
+          "BusinessSubmissionForm, service, Storage, tiga migrasi."
+        ],
+        [
+          "Dashboard dan filter kualitas",
+          "Tersedia",
+          "DashboardPage dan BusinessesPage."
+        ]
+      ]
+    },
+    {
+      "index": 20,
+      "style": "Table Grid",
+      "rows": 18,
+      "cols": 3,
+      "grid_inches": [
+        1.837,
+        1.837,
+        1.837
+      ],
+      "sample": [
+        [
+          "ID",
+          "Fungsi",
+          "Status pada 10 September 2026"
+        ],
+        [
+          "T-01",
+          "Halaman publik",
+          "Artefak dan build tersedia; black-box final tertunda"
+        ],
+        [
+          "T-02",
+          "Pencarian/filter/koleksi",
+          "Didukung kode; black-box final tertunda"
+        ],
+        [
+          "T-03",
+          "Nearby/rute/share",
+          "Didukung kode; black-box final tertunda"
+        ],
+        [
+          "T-04",
+          "Pengajuan dan foto",
+          "Didukung kode/migrasi; integrasi Storage tertunda"
+        ]
+      ]
+    },
+    {
+      "index": 21,
+      "style": "Table Grid",
+      "rows": 9,
+      "cols": 4,
+      "grid_inches": [
+        1.422,
+        1.071,
+        1.423,
+        1.746
+      ],
+      "sample": [
+        [
+          "Kelompok",
+          "Jumlah Skenario",
+          "Status Saat Ini",
+          "Bukti"
+        ],
+        [
+          "Peta publik dan penemuan",
+          "3",
+          "Perlu black-box",
+          "Artefak + build"
+        ],
+        [
+          "Pengajuan, foto, pelacakan",
+          "3",
+          "Perlu integrasi",
+          "Kode + SQL"
+        ],
+        [
+          "Autentikasi dan role",
+          "3",
+          "Perlu akun uji",
+          "RLS/RPC"
+        ],
+        [
+          "CRUD, review, verifikasi",
+          "5",
+          "Perlu integrasi",
+          "Service + SQL"
+        ]
+      ]
+    },
+    {
+      "index": 22,
+      "style": "Table Grid",
+      "rows": 10,
+      "cols": 4,
+      "grid_inches": [
+        1.378,
+        1.378,
+        1.378,
+        1.378
+      ],
+      "sample": [
+        [
+          "K",
+          "WCSS km²",
+          "Perubahan terhadap K sebelumnya",
+          "Catatan"
+        ],
+        [
+          "2",
+          "3.678.351,83",
+          "-",
+          "Baseline; 623 dan 1.120 anggota"
+        ],
+        [
+          "3",
+          "1.219.410,63",
+          "Turun 66,85%",
+          "Penurunan besar"
+        ],
+        [
+          "4",
+          "1.044.680,59",
+          "Turun 14,33%",
+          "Perbaikan relatif kecil"
+        ],
+        [
+          "5",
+          "416.619,60",
+          "Turun 60,12%",
+          "Penurunan besar kedua"
+        ]
+      ]
+    },
+    {
+      "index": 23,
+      "style": "Table Grid",
+      "rows": 7,
+      "cols": 3,
+      "grid_inches": [
+        1.733,
+        1.787,
+        2.142
+      ],
+      "sample": [
+        [
+          "Risiko",
+          "Dampak",
+          "Mitigasi"
+        ],
+        [
+          "Koordinat perkiraan dominan",
+          "Centroid/WCSS bias ke pusat wilayah",
+          "Laporkan status kualitas; tingkatkan verifikasi"
+        ],
+        [
+          "K terlalu besar",
+          "Cluster kecil dan sulit diinterpretasikan",
+          "Gunakan elbow + evaluasi komposisi"
+        ],
+        [
+          "Jarak lurus pada kepulauan",
+          "Zona tidak sesuai akses nyata",
+          "Batasi interpretasi; gunakan network distance pada studi lanjutan"
+        ],
+        [
+          "Centroid berada di laut/non-usaha",
+          "Disalahartikan sebagai lokasi fasilitas",
+          "Label centroid sebagai pusat matematis"
+        ]
+      ]
+    },
+    {
+      "index": 24,
+      "style": "Table Grid",
+      "rows": 9,
+      "cols": 2,
+      "grid_inches": [
+        2.756,
+        2.756
+      ],
+      "sample": [
+        [
+          "Parameter",
+          "Nilai/Perilaku"
+        ],
+        [
+          "Radius bumi",
+          "6371,0088 km"
+        ],
+        [
+          "Inisialisasi",
+          "K-Means++ dengan seed deterministik"
+        ],
+        [
+          "Centroid awal pertama",
+          "Indeks tengah dataset"
+        ],
+        [
+          "Batas iterasi",
+          "100"
+        ]
+      ]
+    },
+    {
+      "index": 25,
+      "style": "Table Grid",
+      "rows": 4,
+      "cols": 7,
+      "grid_inches": [
+        0.787,
+        0.787,
+        0.787,
+        0.787,
+        0.787,
+        0.787,
+        0.81
+      ],
+      "sample": [
+        [
+          "ID Uji",
+          "Tanggal",
+          "Lingkungan",
+          "Input",
+          "Hasil Aktual",
+          "Status",
+          "Bukti"
+        ],
+        [
+          "T-01",
+          "",
+          "",
+          "",
+          "",
+          "Lulus/Gagal",
+          "Screenshot/log"
+        ],
+        [
+          "T-02",
+          "",
+          "",
+          "",
+          "",
+          "Lulus/Gagal",
+          "Screenshot/log"
+        ],
+        [
+          "T-03",
+          "",
+          "",
+          "",
+          "",
+          "Lulus/Gagal",
+          "Screenshot/log"
+        ]
+      ]
+    }
+  ]
+}

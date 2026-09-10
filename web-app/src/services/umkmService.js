@@ -326,7 +326,7 @@ export const loadUmkmSubmissions = async ({ status = 'all', page = 1, pageSize =
   let query = supabase
     .from('umkm_submissions')
     .select('*', { count: 'exact' })
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: status === 'pending' })
     .range(from, from + pageSize - 1);
 
   if (status !== 'all') query = query.eq('status', status);
@@ -347,6 +347,31 @@ export const loadUmkmSubmissions = async ({ status = 'all', page = 1, pageSize =
     data: rows.map((submission) => ({ ...submission, photo_url: photoUrls.get(submission.photo_path) || '' })),
     count: count || 0,
   };
+};
+
+export const loadDashboardOverview = async (canManage) => {
+  ensureConfigured();
+  const queries = {
+    analysis: supabase.from('kmeans_runs')
+      .select('id,created_at,k_value,data_count,cluster_stats,input_snapshot,parameters')
+      .order('created_at', { ascending: false }).limit(1),
+  };
+  if (canManage) {
+    queries.submissions = supabase.from('umkm_submissions')
+      .select('id,business_name,created_at', { count: 'exact' })
+      .eq('status', 'pending').order('created_at', { ascending: true }).limit(5);
+    queries.recovery = supabase.from('umkm_submission_recovery_requests')
+      .select('id,business_name,created_at', { count: 'exact' })
+      .eq('status', 'pending').order('created_at', { ascending: true }).limit(5);
+  }
+  const entries = Object.entries(queries);
+  const results = await Promise.allSettled(entries.map(([, query]) => query));
+  return Object.fromEntries(results.map((result, index) => {
+    const response = result.status === 'fulfilled' ? result.value : { error: result.reason };
+    return [entries[index][0], response.error
+      ? { error: 'Data belum dapat dimuat. Periksa koneksi dan izin akses.' }
+      : { data: response.data, count: response.count }];
+  }));
 };
 
 export const trackBusinessSubmission = async (trackingCode) => {
@@ -379,13 +404,15 @@ export const requestSubmissionTrackingRecovery = async (request) => {
   if (error) throw error;
 };
 
-export const loadSubmissionRecoveryRequests = async () => {
+export const loadSubmissionRecoveryRequests = async ({ pendingOnly = false } = {}) => {
   ensureConfigured();
-  const { data, error } = await supabase
+  let query = supabase
     .from('umkm_submission_recovery_requests')
     .select('*')
-    .order('created_at', { ascending: false })
+    .order('created_at', { ascending: pendingOnly })
     .limit(100);
+  if (pendingOnly) query = query.eq('status', 'pending');
+  const { data, error } = await query;
   if (error) throw error;
   return data || [];
 };

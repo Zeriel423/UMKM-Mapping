@@ -323,6 +323,7 @@ const SelectedBusinessController = ({ business }) => {
 // Menggunakan lokasi browser untuk mencari lima UMKM terdekat.
 const UserLocationFeature = ({ data }) => {
   const map = useMap();
+  const nearbyPanelRef = useRef(null);
 
   const [userLocation, setUserLocation] = useState(null);
 
@@ -351,13 +352,14 @@ const UserLocationFeature = ({ data }) => {
           lng: coords.longitude,
         };
 
-        // Pastikan koordinat UMKM valid
-        const validData = (data || []).filter((umkm) => getAnalysisCoordinates(umkm));
+        // Jarak publik harus memakai titik yang terlihat pengguna pada peta,
+        // bukan koordinat analisis yang dapat berbeda untuk kebutuhan K-Means.
+        const validData = (data || []).filter((umkm) => getDisplayCoordinates(umkm));
 
         // Hitung jarak setiap UMKM
         const nearestData = validData
           .map((umkm) => {
-            const coordinates = getAnalysisCoordinates(umkm);
+            const coordinates = getDisplayCoordinates(umkm);
             return {
               ...umkm,
               distance: calculateDistance(location.lat, location.lng, coordinates.lat, coordinates.lng),
@@ -423,7 +425,7 @@ const UserLocationFeature = ({ data }) => {
 
   // Membuka Google Maps dengan koordinat analisis atau alamat sebagai fallback.
   const openMap = (umkm) => {
-    const coordinates = getAnalysisCoordinates(umkm);
+    const coordinates = getDisplayCoordinates(umkm);
     const destination = coordinates
       ? `${coordinates.lat},${coordinates.lng}`
       : umkm.address || umkm.name;
@@ -434,10 +436,20 @@ const UserLocationFeature = ({ data }) => {
 
   const hasEstimatedResults = nearest.some((umkm) => !isExactLocation(umkm));
 
+  useEffect(() => {
+    const panel = nearbyPanelRef.current;
+    if (!panel) return undefined;
+
+    const stopMapInteraction = (event) => event.stopPropagation();
+    const interactionEvents = ['touchstart', 'touchmove', 'touchend', 'pointerdown', 'pointermove', 'wheel'];
+    interactionEvents.forEach((eventName) => panel.addEventListener(eventName, stopMapInteraction, { capture: true, passive: true }));
+    return () => interactionEvents.forEach((eventName) => panel.removeEventListener(eventName, stopMapInteraction, { capture: true }));
+  }, []);
+
   return (
     <>
       {/* Panel UMKM Terdekat */}
-      <div className="nearby-panel">
+      <div ref={nearbyPanelRef} className="nearby-panel">
         {!userLocation ? (
           <button
             className="nearby-trigger"
@@ -457,8 +469,8 @@ const UserLocationFeature = ({ data }) => {
 
               <div className="nearby-card-subtitle">
                 {hasEstimatedResults
-                  ? "Jarak dihitung dari titik perkiraan wilayah"
-                  : "5 UMKM terdekat dari lokasi Anda"}
+                  ? "Jarak ke titik peta; lokasi usaha masih perkiraan"
+                  : "Jarak garis lurus ke titik UMKM pada peta"}
               </div>
             </div>
 

@@ -91,7 +91,11 @@ const ReviewDialog = ({ submission, decision, onClose, onReviewed, notify }) => 
   );
 };
 
-const SubmissionsPage = ({ notify }) => {
+const SubmissionsPage = ({ notify, initialSection }) => {
+  const recoverySectionRef = useRef(null);
+  useEffect(() => {
+    if (initialSection === 'recovery') recoverySectionRef.current?.scrollIntoView({ block: 'start' });
+  }, [initialSection]);
   const [status, setStatus] = useState('pending');
   const [page, setPage] = useState(1);
   const [submissions, setSubmissions] = useState([]);
@@ -105,13 +109,13 @@ const SubmissionsPage = ({ notify }) => {
   const loadRecoveryRequests = useCallback(async () => {
     setRecoveryLoading(true);
     try {
-      setRecoveryRequests(await loadSubmissionRecoveryRequests());
+      setRecoveryRequests(await loadSubmissionRecoveryRequests({ pendingOnly: initialSection === 'recovery' }));
     } catch (loadError) {
       notify(loadError.message || 'Permintaan pemulihan tidak dapat dimuat.', 'error');
     } finally {
       setRecoveryLoading(false);
     }
-  }, [notify]);
+  }, [notify, initialSection]);
 
   const loadSubmissions = useCallback(async () => {
     setLoading(true);
@@ -130,7 +134,7 @@ const SubmissionsPage = ({ notify }) => {
   useEffect(() => {
     let active = true;
     Promise.resolve()
-      .then(() => loadSubmissionRecoveryRequests())
+      .then(() => loadSubmissionRecoveryRequests({ pendingOnly: initialSection === 'recovery' }))
       .then((requests) => {
         if (active) setRecoveryRequests(requests);
       })
@@ -142,7 +146,7 @@ const SubmissionsPage = ({ notify }) => {
       });
 
     return () => { active = false; };
-  }, [notify]);
+  }, [notify, initialSection]);
 
   useEffect(() => {
     let active = true;
@@ -232,7 +236,7 @@ const SubmissionsPage = ({ notify }) => {
         <div className="admin-pagination"><button className="admin-secondary-button" type="button" disabled={currentPage <= 1 || loading} onClick={() => setPage(currentPage - 1)}>Sebelumnya</button><button className="admin-secondary-button" type="button" disabled={currentPage >= pageCount || loading} onClick={() => setPage(currentPage + 1)}>Berikutnya</button></div>
       </section>
 
-      <section className="admin-panel admin-recovery-panel">
+      <section ref={recoverySectionRef} className="admin-panel admin-recovery-panel">
         <div className="admin-recovery-heading"><div><p className="admin-eyebrow">PEMULIHAN KODE</p><h2>Lupa kode pelacakan</h2><p>Pastikan nama usaha, pemilik, dan nomor WhatsApp cocok dengan pengajuan sebelum mengirim ulang kode.</p></div></div>
         {recoveryLoading ? <div className="admin-empty-state">Memuat permintaan pemulihan...</div> : recoveryRequests.length === 0 ? <div className="admin-empty-state"><p>Belum ada permintaan pemulihan kode.</p></div> : <div className="admin-table-scroll"><table className="admin-table"><thead><tr><th>Pemohon</th><th>WhatsApp</th><th>Diajukan</th><th>Status</th><th>Tindakan</th></tr></thead><tbody>{recoveryRequests.map((request) => <tr key={request.id}><td><strong>{request.business_name}</strong><small>{request.owner_name}</small></td><td><span className="admin-submission-phone"><Phone size={14} aria-hidden="true" />{request.phone}</span></td><td>{formatDate(request.created_at)}</td><td><span className={`admin-status-badge ${request.status === 'resolved' ? 'admin-status-success' : 'admin-status-warning'}`}>{request.status === 'resolved' ? 'Selesai' : 'Menunggu'}</span></td><td>{request.status === 'pending' && <button className="admin-secondary-button admin-compact-action" type="button" onClick={() => resolveRecoveryRequest(request.id)}>Tandai selesai</button>}</td></tr>)}</tbody></table></div>}
       </section>

@@ -1,0 +1,171 @@
+{
+  "input": "C:\\Users\\TUF GAMING\\AppData\\Local\\Packages\\5319275A.WhatsAppDesktop_cv1g1gvanyjgm\\LocalState\\sessions\\62F8DD95C2CB15197FFFA32B3E9CC5C3A522BA92\\transfers\\2026-37\\Skripsi Bangun BISINDO.docx",
+  "fonts_by_char_count": {
+    "Times New Roman": 12186,
+    "Courier New": 3939
+  },
+  "direct_run_formatting_runs": 817,
+  "direct_paragraph_formatting_paragraphs": 586,
+  "heading_like_paragraphs_not_heading_style": [
+    {
+      "para_index": 1,
+      "text": "SKRIPSI",
+      "style": "normal"
+    },
+    {
+      "para_index": 5,
+      "text": "SURYA ADJIE UMAR TENDA",
+      "style": "normal"
+    },
+    {
+      "para_index": 6,
+      "text": "NIM. 22024075",
+      "style": "normal"
+    },
+    {
+      "para_index": 7,
+      "text": "POLITEKNIK NEGERI MANADO",
+      "style": "normal"
+    },
+    {
+      "para_index": 8,
+      "text": "JURUSAN TEKNIK ELEKTRO",
+      "style": "normal"
+    },
+    {
+      "para_index": 9,
+      "text": "PROGRAM STUDI D-IV TEKNIK INFORMATIKA ",
+      "style": "normal"
+    },
+    {
+      "para_index": 10,
+      "text": "2026",
+      "style": "normal"
+    },
+    {
+      "para_index": 12,
+      "text": "SKRIPSI",
+      "style": "normal"
+    },
+    {
+      "para_index": 17,
+      "text": "SURYA ADJIE UMAR TENDA",
+      "style": "normal"
+    },
+    {
+      "para_index": 18,
+      "text": "NIM. 22024075",
+      "style": "normal"
+    },
+    {
+      "para_index": 20,
+      "text": "POLITEKNIK NEGERI MANADO",
+      "style": "normal"
+    },
+    {
+      "para_index": 21,
+      "text": "JURUSAN TEKNIK ELEKTRO",
+      "style": "normal"
+    },
+    {
+      "para_index": 22,
+      "text": "PROGRAM STUDI D-IV TEKNIK INFORMATIKA",
+      "style": "normal"
+    },
+    {
+      "para_index": 23,
+      "text": "2026",
+      "style": "normal"
+    },
+    {
+      "para_index": 27,
+      "text": "SURYA ADJIE UMAR TENDA",
+      "style": "normal"
+    },
+    {
+      "para_index": 28,
+      "text": "NIM. 22024075",
+      "style": "normal"
+    },
+    {
+      "para_index": 37,
+      "text": "SKRIPSI",
+      "style": "normal"
+    },
+    {
+      "para_index": 39,
+      "text": "SURYA ADJIE UMAR TENDA",
+      "style": "normal"
+    },
+    {
+      "para_index": 40,
+      "text": "NIM. 22024075",
+      "style": "normal"
+    },
+    {
+      "para_index": 59,
+      "text": "SURYA ADJIE UMAR TENDA",
+      "style": "normal"
+    }
+  ],
+  "examples": {
+    "direct_paragraph_formatting": [
+      {
+        "para_index": 1,
+        "text": "SKRIPSI",
+        "style": "normal"
+      },
+      {
+        "para_index": 2,
+        "text": "RANCANG BANGUN APLIKASI WEB PEMBELAJARAN BAHASA ISYARAT INDONESIA (BISINDO) INTERAKTIF DENGAN DETEKSI GESTUR REAL-TIME",
+        "style": "normal"
+      },
+      {
+        "para_index": 3,
+        "text": "",
+        "style": "normal"
+      },
+      {
+        "para_index": 4,
+        "text": "Disusun:",
+        "style": "normal"
+      },
+      {
+        "para_index": 5,
+        "text": "SURYA ADJIE UMAR TENDA",
+        "style": "normal"
+      }
+    ],
+    "direct_run_formatting": [
+      {
+        "para_index": 1,
+        "run_text": "SKRIPSI",
+        "style": "normal"
+      },
+      {
+        "para_index": 2,
+        "run_text": "RANCANG BANGUN APLIKASI WEB PEMBELAJARAN BAHASA ISYARAT INDONESIA (BISINDO) INTE",
+        "style": "normal"
+      },
+      {
+        "para_index": 5,
+        "run_text": "SURYA ADJIE UMAR TENDA",
+        "style": "normal"
+      },
+      {
+        "para_index": 6,
+        "run_text": "NIM. 22024075",
+        "style": "normal"
+      },
+      {
+        "para_index": 7,
+        "run_text": "POLITEKNIK NEGERI MANADO",
+        "style": "normal"
+      }
+    ]
+  },
+  "notes": [
+    "Direct formatting is not always wrong, but it often causes inconsistent output when templates change.",
+    "Heading-like paragraphs not using Heading styles can break TOC and accessibility."
+  ]
+}

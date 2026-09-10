@@ -308,6 +308,61 @@ body.admin-page.admin-drawer-open {
   border-left: 4px solid #1a7167;
 }
 
+.admin-dashboard-metric {
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.admin-dashboard-metric strong {
+  overflow-wrap: anywhere;
+  font-size: clamp(18px, 2vw, 27px);
+}
+
+.admin-dashboard-metric:hover,
+.admin-dashboard-metric:focus-visible {
+  border-color: #1a7167;
+  outline: 2px solid #1a7167;
+  outline-offset: 2px;
+}
+
+.admin-dashboard-queue {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-dashboard-queue li,
+.admin-dashboard-quality button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #dce6e3;
+}
+
+.admin-dashboard-queue li > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.admin-dashboard-queue small {
+  display: block;
+  margin-top: 5px;
+  color: #657572;
+}
+
+.admin-dashboard-quality button {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dce6e3;
+  text-align: left;
+  color: #153d38;
+  cursor: pointer;
+}
+
 .admin-metric-danger {
   border-left: 4px solid #c85555;
 }
