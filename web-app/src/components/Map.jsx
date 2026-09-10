@@ -399,8 +399,8 @@ const UserLocationFeature = ({ data }) => {
 
       {
         enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 60000,
+        timeout: 15000,
+        maximumAge: 0,
       },
     );
   };
@@ -442,8 +442,8 @@ const UserLocationFeature = ({ data }) => {
 
     const stopMapInteraction = (event) => event.stopPropagation();
     const interactionEvents = ['touchstart', 'touchmove', 'touchend', 'pointerdown', 'pointermove', 'wheel'];
-    interactionEvents.forEach((eventName) => panel.addEventListener(eventName, stopMapInteraction, { capture: true, passive: true }));
-    return () => interactionEvents.forEach((eventName) => panel.removeEventListener(eventName, stopMapInteraction, { capture: true }));
+    interactionEvents.forEach((eventName) => panel.addEventListener(eventName, stopMapInteraction, { passive: true }));
+    return () => interactionEvents.forEach((eventName) => panel.removeEventListener(eventName, stopMapInteraction));
   }, []);
 
   return (
