@@ -638,6 +638,35 @@
   }
 }
 
+@media (max-width: 480px) {
+  .public-app .sidebar {
+    width: min(92vw, 360px);
+  }
+
+  .public-app .sidebar-header {
+    padding-right: 17px;
+    padding-left: 17px;
+  }
+
+  .public-app .nearby-trigger {
+    padding-right: 11px;
+    padding-left: 11px;
+  }
+
+  .public-app .map-info-control {
+    right: calc(12px + env(safe-area-inset-right));
+  }
+
+  .public-app .map-info-panel {
+    width: calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  }
+
+  .public-app .map-submission-trigger,
+  .public-app .map-tracking-trigger {
+    right: calc(12px + env(safe-area-inset-right));
+  }
+}
+
 @media (max-width: 768px) and (orientation: landscape) {
   .public-app .business-panel {
     height: calc(100dvh - 72px);

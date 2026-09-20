@@ -72,8 +72,10 @@ h1, h2, h3, h4, h5, h6 {
    ═══════════════════════════════════════════ */
 .app-container {
   display: flex;
-  height: 100vh;
+  height: 100dvh;
+  min-height: 100vh;
   width: 100vw;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -544,6 +546,7 @@ h1, h2, h3, h4, h5, h6 {
 .main-content {
   flex: 1;
   position: relative;
+  min-height: 0;
   overflow: hidden;
   background-color: #E2E8F0;
   display: flex;
@@ -555,6 +558,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
   flex: 1;
   min-width: 0;
+  min-height: 0;
 }
 
 /* ═══════════════════════════════════════════
@@ -564,6 +568,7 @@ h1, h2, h3, h4, h5, h6 {
   width: var(--results-panel-width);
   flex: 0 0 var(--results-panel-width);
   order: 2;
+  min-height: 0;
   overflow-y: auto;
   background: #fff;
   border-left: 1px solid var(--border-color);

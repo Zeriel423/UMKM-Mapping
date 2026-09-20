@@ -2095,6 +2095,14 @@
     --results-panel-width: 300px;
   }
 
+  .public-app .main-content {
+    min-width: 0;
+  }
+
+  .public-app .map-container {
+    min-width: 280px;
+  }
+
   .public-app .sidebar {
     position: fixed;
     inset: 0 auto 0 0;

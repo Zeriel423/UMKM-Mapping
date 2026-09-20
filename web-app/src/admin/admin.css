@@ -1557,7 +1557,7 @@ body.admin-page.admin-drawer-open {
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .admin-shell {
     display: block;
   }
@@ -1777,5 +1777,35 @@ body.admin-page.admin-drawer-open {
   .admin-mobile-menu {
     width: 44px;
     height: 44px;
+  }
+}
+
+@media (max-width: 420px) {
+  .admin-main {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .admin-page-heading h1 {
+    font-size: 25px;
+  }
+
+  .admin-page-heading p:not(.admin-eyebrow) {
+    font-size: 12px;
+  }
+
+  .admin-dialog-actions,
+  .admin-confirm-dialog .admin-dialog-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .admin-dialog-actions > button {
+    width: 100%;
+  }
+
+  .admin-table-summary {
+    display: grid;
+    gap: 5px;
   }
 }
