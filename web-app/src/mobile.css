@@ -306,7 +306,6 @@
   }
 
   .public-status-panel,
-  .public-photo-field,
   .public-recovery-panel {
     grid-template-columns: 1fr;
   }

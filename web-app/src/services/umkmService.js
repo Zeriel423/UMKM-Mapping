@@ -3,9 +3,6 @@ import { LOCATION_ACCURACY, normalizeBusinessLocation } from '../utils/location'
 
 // Batas halaman Supabase agar seluruh dataset dapat dimuat bertahap.
 const PAGE_SIZE = 1000;
-const SUBMISSION_PHOTO_BUCKET = 'umkm-submission-photos';
-const SUBMISSION_PHOTO_MAX_BYTES = 5 * 1024 * 1024;
-const SUBMISSION_PHOTO_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 // Kolom yang aman dan diperlukan untuk halaman publik.
 const PUBLIC_FIELDS = [
   'id',
@@ -73,18 +70,6 @@ export const loadAdminBusinesses = async () => {
   // Admin membaca seluruh data untuk keperluan pengelolaan.
   const rows = await fetchAllPages({ table: 'umkm' });
   return rows.map(normalizeBusinessLocation);
-};
-
-export const loadPublishedBusinessPhoto = async (businessId) => {
-  ensureConfigured();
-  const { data: photo, error } = await supabase.from('umkm_photos')
-    .select('photo_path,photo_kind').eq('umkm_id', businessId).maybeSingle();
-  if (error) throw error;
-  if (!photo) return null;
-  const { data, error: storageError } = await supabase.storage.from(SUBMISSION_PHOTO_BUCKET)
-    .createSignedUrl(photo.photo_path, 300);
-  if (storageError) throw storageError;
-  return { url: data.signedUrl, kind: photo.photo_kind };
 };
 
 const nullableNumber = (value) => {
@@ -186,6 +171,19 @@ export const setBusinessActive = async (id, isActive) => {
     .maybeSingle();
   if (error) throw error;
   if (!data) throw new Error('Data tidak ditemukan atau akun tidak memiliki izin mengubahnya.');
+  return data;
+};
+
+export const deleteBusiness = async (id) => {
+  ensureConfigured();
+  const { data, error } = await supabase
+    .from('umkm')
+    .delete()
+    .eq('id', id)
+    .select('id')
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) throw new Error('Data tidak ditemukan atau akun tidak memiliki izin menghapusnya.');
   return data;
 };
 
@@ -294,24 +292,6 @@ export const submitBusinessSubmission = async (submission) => {
   }
   validateCoordinatePair(latitude, longitude, 'Lokasi usaha');
 
-  let photoPath = null;
-  const photo = submission.photo;
-  if (photo) {
-    if (!SUBMISSION_PHOTO_TYPES.has(photo.type)) {
-      throw new Error('Foto harus berformat JPG, PNG, atau WebP.');
-    }
-    if (photo.size > SUBMISSION_PHOTO_MAX_BYTES) {
-      throw new Error('Ukuran foto maksimal 5 MB.');
-    }
-
-    const extension = photo.type === 'image/jpeg' ? 'jpg' : photo.type.split('/')[1];
-    photoPath = `submissions/${crypto.randomUUID()}.${extension}`;
-    const { error: uploadError } = await supabase.storage
-      .from(SUBMISSION_PHOTO_BUCKET)
-      .upload(photoPath, photo, { cacheControl: '3600', contentType: photo.type, upsert: false });
-    if (uploadError) throw uploadError;
-  }
-
   const { data, error } = await supabase
     .from('umkm_submissions')
     .insert({
@@ -323,8 +303,6 @@ export const submitBusinessSubmission = async (submission) => {
       latitude,
       longitude,
       notes: cleanText(submission.notes),
-      photo_path: photoPath,
-      photo_kind: photoPath ? cleanText(submission.photo_kind) : null,
     })
     .select('tracking_code')
     .single();
@@ -345,20 +323,7 @@ export const loadUmkmSubmissions = async ({ status = 'all', page = 1, pageSize =
 
   const { data, count, error } = await query;
   if (error) throw error;
-  const rows = data || [];
-  const photoPaths = rows.map((submission) => submission.photo_path).filter(Boolean);
-  if (!photoPaths.length) return { data: rows, count: count || 0 };
-
-  const { data: signedUrls, error: signedUrlError } = await supabase.storage
-    .from(SUBMISSION_PHOTO_BUCKET)
-    .createSignedUrls(photoPaths, 60 * 60);
-  if (signedUrlError) throw signedUrlError;
-
-  const photoUrls = new Map((signedUrls || []).map((item) => [item.path, item.signedUrl]));
-  return {
-    data: rows.map((submission) => ({ ...submission, photo_url: photoUrls.get(submission.photo_path) || '' })),
-    count: count || 0,
-  };
+  return { data: data || [], count: count || 0 };
 };
 
 export const loadDashboardOverview = async (canManage) => {

@@ -19,7 +19,6 @@ import {
 } from "../utils/location";
 import MapInfoPanel from "./MapInfoPanel";
 import { getProductInfo } from "../data/communityCollections";
-import { loadPublicBusinessPhoto } from "../services/publicDataService";
 
 // Plugin markercluster membaca Leaflet dari window pada saat dimuat dinamis.
 if (typeof window !== "undefined") {
@@ -152,89 +151,12 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll('"', "&quot;")
   .replaceAll("'", "&#039;");
 
-const PHOTO_LOAD_TIMEOUT_MS = 10_000;
-const loadingPopupPhotos = new WeakSet();
-
-const createPopupImage = (url, alt) => new Promise((resolve, reject) => {
-  const image = document.createElement("img");
-  const timeoutId = window.setTimeout(() => {
-    image.removeAttribute("src");
-    reject(new Error("Photo image loading timed out"));
-  }, PHOTO_LOAD_TIMEOUT_MS);
-
-  image.alt = alt;
-  image.decoding = "async";
-  image.onload = () => {
-    window.clearTimeout(timeoutId);
-    resolve(image);
-  };
-  image.onerror = () => {
-    window.clearTimeout(timeoutId);
-    reject(new Error("Photo image failed to load"));
-  };
-  image.src = url;
-});
-
-const setPopupPhotoMessage = (popup, photoContainer, message) => {
-  if (!photoContainer.isConnected) return;
-  photoContainer.textContent = message;
-  popup?.update?.();
-};
-
-const waitForPopupPhotoContainer = (popup) => new Promise((resolve) => {
-  let attempts = 0;
-  const findContainer = () => {
-    const photoContainer = popup.getElement()?.querySelector('.popup-photo');
-    if (photoContainer || attempts >= 12) {
-      resolve(photoContainer);
-      return;
-    }
-
-    attempts += 1;
-    window.setTimeout(findContainer, 16);
-  };
-
-  findContainer();
-});
-
-const loadPopupPhoto = async (popup, photoContainer, business) => {
-  if (!photoContainer?.isConnected || loadingPopupPhotos.has(photoContainer)) return;
-  loadingPopupPhotos.add(photoContainer);
-  let timedOut = false;
-  const timeoutId = window.setTimeout(() => {
-    timedOut = true;
-    setPopupPhotoMessage(popup, photoContainer, 'Foto tidak dapat dimuat. Coba buka kembali.');
-  }, PHOTO_LOAD_TIMEOUT_MS);
-
-  try {
-    const photo = await loadPublicBusinessPhoto(business);
-    if (timedOut || !photoContainer.isConnected) return;
-    if (!photo) {
-      setPopupPhotoMessage(popup, photoContainer, 'Foto belum tersedia');
-      return;
-    }
-
-    const image = await createPopupImage(
-      photo.url,
-      `${photo.kind === 'product' ? 'Produk' : 'Tempat usaha'} ${business.brand || business.name || 'UMKM'}`,
-    );
-    if (!photoContainer.isConnected) return;
-    photoContainer.replaceChildren(image);
-    popup?.update?.();
-  } catch {
-    if (!timedOut) setPopupPhotoMessage(popup, photoContainer, 'Foto tidak dapat dimuat. Coba buka kembali.');
-  } finally {
-    window.clearTimeout(timeoutId);
-  }
-};
-
 // Merakit HTML popup yang dipakai oleh marker Leaflet di luar tree React.
 const popupContent = (umkm, clusterColor) => {
   const coordinates = getDisplayCoordinates(umkm);
   const destination = coordinates ? `${coordinates.lat},${coordinates.lng}` : umkm.address || umkm.name;
   return `
   <div>
-    <div class="popup-photo" data-umkm-id="${escapeHtml(umkm.id)}" aria-live="polite">Foto belum tersedia</div>
     <h3 style="color: ${clusterColor}">${escapeHtml(umkm.name || "UMKM")}</h3>
     <p class="popup-brand">${escapeHtml(umkm.brand || "")}</p>
     <p class="popup-detail"><strong>Jenis:</strong> ${escapeHtml(umkm.product_label || umkm.product_type || "-")}</p>
@@ -249,16 +171,6 @@ const popupContent = (umkm, clusterColor) => {
 
 const bindBusinessPopup = (marker, business, color) => {
   marker.bindPopup(popupContent(business, color), { maxWidth: 280, maxHeight: 390 });
-  const popup = marker.getPopup();
-
-  popup.on('add', () => {
-    const loadPhoto = async () => {
-      const photoContainer = await waitForPopupPhotoContainer(popup);
-      await loadPopupPhoto(popup, photoContainer, business);
-    };
-
-    void loadPhoto();
-  });
 };
 
 const DensityLayer = ({ data, category }) => {
@@ -431,49 +343,6 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
       }
     };
   }, [map, data, colors, onSelectBusiness]);
-
-  return null;
-};
-
-const PopupPhotoLoader = ({ data }) => {
-  const map = useMap();
-  const businessesById = useMemo(
-    () => new Map(data.map((business) => [String(business.id), business])),
-    [data],
-  );
-
-  useEffect(() => {
-    const loadPhotoInContainer = (popup, photoContainer) => {
-      const business = businessesById.get(photoContainer.dataset.umkmId);
-      if (!business) return;
-      void loadPopupPhoto(popup, photoContainer, business);
-    };
-
-    const loadOpenedPopup = ({ popup }) => {
-      window.setTimeout(() => {
-        const photoContainer = popup.getElement()?.querySelector('.popup-photo');
-        if (photoContainer) loadPhotoInContainer(popup, photoContainer);
-      }, 0);
-    };
-
-    const observer = new MutationObserver(() => {
-      map.getContainer().querySelectorAll('.popup-photo').forEach((photoContainer) => {
-        loadPhotoInContainer(map._popup, photoContainer);
-      });
-    });
-
-    observer.observe(map.getContainer(), { childList: true, subtree: true });
-    map.on('popupopen', loadOpenedPopup);
-
-    map.getContainer().querySelectorAll('.popup-photo').forEach((photoContainer) => {
-      loadPhotoInContainer(map._popup, photoContainer);
-    });
-
-    return () => {
-      observer.disconnect();
-      map.off('popupopen', loadOpenedPopup);
-    };
-  }, [businessesById, map]);
 
   return null;
 };
@@ -811,7 +680,6 @@ const MapComponent = ({
 
         {/* Marker UMKM */}
         <MarkerClusterLayer data={data} colors={colors} onSelectBusiness={onSelectBusiness} />
-        <PopupPhotoLoader data={data} />
 
         {/* Centroid dan area persebaran cluster */}
         {showZoneAreas && centroids.map((centroid, idx) => (activeZoneIndex !== null && idx !== activeZoneIndex ? null : (

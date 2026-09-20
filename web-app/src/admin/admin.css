@@ -530,6 +530,11 @@ body.admin-page.admin-drawer-open {
   cursor: pointer;
 }
 
+.admin-icon-button-danger {
+  border-color: #f2c6c3;
+  color: #b42318;
+}
+
 .admin-mobile-menu,
 .admin-sidebar-overlay {
   display: none;
@@ -647,16 +652,6 @@ body.admin-page.admin-drawer-open {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-}
-
-.admin-submission-photo {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 6px;
-  color: #1b6b61;
-  font-size: 10px;
-  font-weight: 700;
 }
 
 .admin-submission-phone {

@@ -1,4 +1,4 @@
-import { Check, ClipboardCheck, Copy, Image, Loader2, MapPin, Phone, Send, Store, X } from 'lucide-react';
+import { Check, ClipboardCheck, Copy, Loader2, MapPin, Phone, Send, Store, X } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { loadSubmissionRecoveryRequests, loadUmkmSubmissions, resolveSubmissionTrackingRecovery, reviewUmkmSubmission } from '../../services/umkmService';
 
@@ -220,7 +220,7 @@ const SubmissionsPage = ({ notify, initialSection }) => {
               <tbody>
                 {submissions.map((submission) => (
                   <tr key={submission.id}>
-                    <td><strong>{submission.business_name}</strong><small>{submission.owner_name}</small><small>{submission.category}</small>{submission.photo_url && <a className="admin-submission-photo" href={submission.photo_url} target="_blank" rel="noreferrer"><Image size={13} aria-hidden="true" /> Foto {submission.photo_kind === 'place' ? 'tempat usaha' : 'produk'}</a>}</td>
+                    <td><strong>{submission.business_name}</strong><small>{submission.owner_name}</small><small>{submission.category}</small></td>
                     <td><span className="admin-submission-phone"><Phone size={14} aria-hidden="true" />{submission.phone}</span>{submission.notes && <small>{submission.notes}</small>}</td>
                     <td><span>{submission.address}</span>{submission.latitude !== null && <small className="admin-submission-coordinates"><MapPin size={13} aria-hidden="true" />{Number(submission.latitude).toFixed(5)}, {Number(submission.longitude).toFixed(5)}</small>}</td>
                     <td>{formatDate(submission.created_at)}</td>

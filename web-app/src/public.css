@@ -1203,8 +1203,7 @@
   background: #f2f8f6;
 }
 
-.public-status-panel label,
-.public-photo-field label {
+.public-status-panel label {
   min-width: 0;
   display: grid;
   gap: 6px;
@@ -1213,9 +1212,7 @@
   font-weight: 700;
 }
 
-.public-status-panel input,
-.public-photo-field select,
-.public-photo-upload input {
+.public-status-panel input {
   width: 100%;
   min-height: 40px;
   padding: 8px 10px;
@@ -1316,8 +1313,7 @@
 .public-tracking-approved { background: #e5f6ec; color: #18633b; }
 .public-tracking-rejected { background: #fff0f0; color: #933d3d; }
 
-.public-category-guide,
-.public-photo-field {
+.public-category-guide {
   margin-top: 16px;
   padding: 14px;
   border: 1px solid #d7e8e4;
@@ -1325,31 +1321,17 @@
   background: #f7fbfa;
 }
 
-.public-category-guide strong,
-.public-photo-field strong {
+.public-category-guide strong {
   color: #285d56;
   font-size: 12px;
 }
 
-.public-category-guide p,
-.public-photo-field p {
+.public-category-guide p {
   margin: 7px 0 0;
   color: #607671;
   font-size: 11px;
   line-height: 1.45;
 }
-
-.public-photo-field {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 150px;
-  gap: 12px;
-}
-
-.public-photo-field > div,
-.public-photo-upload { grid-column: 1 / -1; }
-
-.public-photo-field strong { display: inline-flex; align-items: center; gap: 7px; }
-.public-photo-upload small { color: #6c817c; font-size: 10px; font-weight: 500; }
 
 .public-tracking-code {
   display: block;
@@ -1765,23 +1747,6 @@
   min-height: 44px;
   border-radius: 10px !important;
   background: var(--primary-color) !important;
-}
-
-.public-app .popup-photo {
-  margin: 0 0 12px;
-  overflow: hidden;
-  border-radius: 10px;
-  background: #f1f5f4;
-  color: #64748b;
-  font-size: 12px;
-  text-align: center;
-}
-
-.public-app .popup-photo img {
-  display: block;
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
 }
 
 .public-app .category-info-button {
