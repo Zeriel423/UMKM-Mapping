@@ -1,0 +1,706 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/ofy9wn61",
+    "id": "ofy9wn61",
+    "slide": 3,
+    "layoutId": "/ppt/slideLayouts/slideLayout2.xml",
+    "layoutName": "MODERN",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "Office",
+    "colors": {
+      "accent1": "#4472C4",
+      "accent2": "#ED7D31",
+      "accent3": "#A5A5A5",
+      "accent4": "#FFC000",
+      "accent5": "#5B9BD5",
+      "accent6": "#70AD47",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#44546A",
+      "lt2": "#E7E6E6",
+      "hlink": "#0563C1",
+      "folHlink": "#954F72"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Aptos Display"
+      },
+      "minorFont": {
+        "latinTypeface": "Aptos"
+      }
+    },
+    "typefaces": [
+      "Aptos",
+      "Aptos Display"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout2.xml",
+      "name": "MODERN",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "backgroundColor": "#F8FAF8",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/2",
+          "id": "2",
+          "name": "Shape 0",
+          "bbox": [
+            0,
+            0,
+            1279.97,
+            720
+          ],
+          "geometry": "rect",
+          "fillColor": "#F8FAF8",
+          "lineColor": "#F8FAF8",
+          "lineWidth": 1.33
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/3",
+          "id": "3",
+          "name": "Shape 1",
+          "bbox": [
+            0,
+            0,
+            12.48,
+            720
+          ],
+          "geometry": "rect",
+          "fillColor": "#0F4C5C",
+          "lineColor": "#0F4C5C",
+          "lineWidth": 1.33
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/4",
+          "id": "4",
+          "name": "Shape 2",
+          "bbox": [
+            62.4,
+            676.8,
+            1152,
+            0
+          ],
+          "geometry": "line",
+          "lineColor": "#D7E5DF",
+          "lineWidth": 1.33
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/5",
+          "id": "5",
+          "name": "Text 3",
+          "bbox": [
+            62.4,
+            685.44,
+            816,
+            21.12
+          ],
+          "geometry": "rect",
+          "text": "Putra Febrian • D-IV Teknik Informatika • Politeknik Negeri Manado",
+          "textPreview": "Putra Febrian • D-IV Teknik Informatika • Politeknik Negeri Manado",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Putra Febrian • D-IV Teknik Informatika • Politeknik Negeri Manado",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Putra Febrian • D-IV Teknik Informatika • Politeknik Negeri Manado",
+                  "fontSize": 11.6,
+                  "typeface": "Aptos",
+                  "color": "#6B7B84"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 5,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/25",
+          "id": "25",
+          "name": "Slide Number Placeholder 0",
+          "bbox": [
+            1159.68,
+            683.52,
+            52.8,
+            23.04
+          ],
+          "geometry": "rect",
+          "text": "‹#›",
+          "textPreview": "‹#›",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "‹#›",
+              "resolvedTextStyle": {
+                "alignment": "right"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "‹#›"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "type": "master",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/25",
+          "id": "25",
+          "name": "Slide Number Placeholder 0",
+          "bbox": [
+            1159.68,
+            683.52,
+            52.8,
+            23.04
+          ],
+          "geometry": "rect",
+          "text": "‹#›",
+          "textPreview": "‹#›",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "‹#›",
+              "resolvedTextStyle": {
+                "alignment": "right"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "‹#›"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cza94vmx",
+      "id": "2",
+      "name": "Text 0",
+      "bbox": [
+        69.12,
+        41.28,
+        1132.8,
+        46.08
+      ],
+      "geometry": "rect",
+      "text": "Latar Belakang Masalah",
+      "textPreview": "Latar Belakang Masalah",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Latar Belakang Masalah"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Latar Belakang Masalah",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Latar Belakang Masalah",
+              "fontSize": 40,
+              "typeface": "Aptos Display",
+              "color": "#09212B",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/d0jax03i",
+      "id": "3",
+      "name": "Text 1",
+      "bbox": [
+        72,
+        93.12,
+        1046.4,
+        28.8
+      ],
+      "geometry": "rect",
+      "text": "Dari data tabel menjadi informasi wilayah",
+      "textPreview": "Dari data tabel menjadi informasi wilayah",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Dari data tabel menjadi informasi wilayah"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Dari data tabel menjadi informasi wilayah",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Dari data tabel menjadi informasi wilayah",
+              "fontSize": 17.33,
+              "color": "#5E7178"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/298ryl4v",
+      "id": "4",
+      "name": "Shape 2",
+      "bbox": [
+        69.12,
+        124.8,
+        91.2,
+        6.72
+      ],
+      "geometry": "rect",
+      "fillColor": "#F2C94C",
+      "lineColor": "#F2C94C",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3ah8rqlg",
+      "id": "5",
+      "name": "Shape 3",
+      "bbox": [
+        777.6,
+        136.32,
+        417.6,
+        408
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFFFF",
+      "lineColor": "#D6E3DF",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 5,
+      "kind": "image",
+      "scope": "slide",
+      "aid": "im/fytczylk",
+      "id": "26",
+      "name": "Image 0",
+      "bbox": [
+        789.12,
+        220.54,
+        394.56,
+        239.55
+      ],
+      "contentType": "image/png",
+      "asset": {
+        "assetId": "/ppt/media/image3.png",
+        "contentType": "image/png",
+        "byteLength": 63807
+      },
+      "fillImage": {
+        "assetId": "/ppt/media/image3.png",
+        "contentType": "image/png",
+        "byteLength": 63807
+      }
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/pcjqtg36",
+      "id": "7",
+      "name": "Shape 4",
+      "bbox": [
+        74.88,
+        147.84,
+        662.4,
+        414.72
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFFFF",
+      "lineColor": "#D6E3DF",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m5cra54z",
+      "id": "8",
+      "name": "Text 5",
+      "bbox": [
+        103.68,
+        186.24,
+        600,
+        345.6
+      ],
+      "geometry": "rect",
+      "text": "Data UMKM yang hanya berbentuk tabel sulit menunjukkan pola persebaran.\nPeta interaktif membantu pengguna melihat lokasi, mencari, dan memfilter UMKM.\nMasalah utama penelitian adalah kualitas koordinat yang belum semuanya presisi.\nSistem perlu membedakan data untuk tampilan peta dan data untuk analisis.",
+      "textPreview": "Data UMKM yang hanya berbentuk tabel sulit menunjukkan pola persebaran. | Peta interaktif membantu pengguna melihat lokasi, mencari, dan ...",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0.04,
+          "right": 0.04,
+          "bottom": 0.04,
+          "left": 0.04
+        }
+      },
+      "textLayout": {
+        "lineCount": 8,
+        "lines": [
+          {
+            "index": 1,
+            "text": "• Data UMKM yang hanya berbentuk tabel sulit"
+          },
+          {
+            "index": 2,
+            "text": "menunjukkan pola persebaran."
+          },
+          {
+            "index": 3,
+            "text": "• Peta interaktif membantu pengguna melihat lokasi,"
+          },
+          {
+            "index": 4,
+            "text": "mencari, dan memfilter UMKM."
+          },
+          {
+            "index": 5,
+            "text": "• Masalah utama penelitian adalah kualitas koordinat"
+          },
+          {
+            "index": 6,
+            "text": "yang belum semuanya presisi."
+          },
+          {
+            "index": 7,
+            "text": "• Sistem perlu membedakan data untuk tampilan peta"
+          },
+          {
+            "index": 8,
+            "text": "dan data untuk analisis."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Data UMKM yang hanya berbentuk tabel sulit menunjukkan pola persebaran.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Data UMKM yang hanya berbentuk tabel sulit menunjukkan pola persebaran.",
+              "fontSize": 26.67,
+              "typeface": "Aptos",
+              "color": "#1E2D36"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Peta interaktif membantu pengguna melihat lokasi, mencari, dan memfilter UMKM.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Peta interaktif membantu pengguna melihat lokasi, mencari, dan memfilter UMKM.",
+              "fontSize": 26.67,
+              "typeface": "Aptos",
+              "color": "#1E2D36"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "Masalah utama penelitian adalah kualitas koordinat yang belum semuanya presisi.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Masalah utama penelitian adalah kualitas koordinat yang belum semuanya presisi.",
+              "fontSize": 26.67,
+              "typeface": "Aptos",
+              "color": "#1E2D36"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 4,
+          "text": "Sistem perlu membedakan data untuk tampilan peta dan data untuk analisis.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Sistem perlu membedakan data untuk tampilan peta dan data untuk analisis.",
+              "fontSize": 26.67,
+              "typeface": "Aptos",
+              "color": "#1E2D36"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/n6ls3alk",
+      "id": "9",
+      "name": "Shape 6",
+      "bbox": [
+        74.88,
+        585.6,
+        662.4,
+        43.2
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#DDF4EA",
+      "lineColor": "#B8E5D7",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/n2l4fq98",
+      "id": "10",
+      "name": "Text 7",
+      "bbox": [
+        100.8,
+        599.04,
+        609.6,
+        11.52
+      ],
+      "geometry": "rect",
+      "text": "Inti masalah: data UMKM perlu dibaca secara spasial, bukan hanya administratif.",
+      "textPreview": "Inti masalah: data UMKM perlu dibaca secara spasial, bukan hanya administratif.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Inti masalah: data UMKM perlu dibaca secara spasial, bukan hanya administratif."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Inti masalah: data UMKM perlu dibaca secara spasial, bukan hanya administratif.",
+          "resolvedTextStyle": {
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Inti masalah: data UMKM perlu dibaca secara spasial, bukan hanya administratif.",
+              "fontSize": 15.33,
+              "color": "#0F6B72",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/re9g7yxo",
+      "id": "25",
+      "name": "Slide Number Placeholder 0",
+      "bbox": [
+        1159.68,
+        683.52,
+        52.8,
+        23.04
+      ],
+      "geometry": "rect",
+      "text": "3",
+      "textPreview": "3",
+      "resolvedFontSize": 12,
+      "resolvedTextStyle": {
+        "fontSize": 12,
+        "typeface": "Aptos",
+        "color": "#6B7B84",
+        "alignment": "left",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "3"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "3",
+          "resolvedTextStyle": {
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "3"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    }
+  ],
+  "composeRuns": []
+}

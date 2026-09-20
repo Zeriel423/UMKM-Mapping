@@ -1,0 +1,235 @@
+{"kind":"deck","id":"pr/czfkys","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"","type":"master","placeholders":[{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"DEFAULT"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout2.xml","name":"MODERN","placeholders":[{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"PRESENTASI SKRIPSI","textShapes":6}
+{"kind":"shape","id":"sh/k3yl0zql","slide":1,"name":"Shape 0","bbox":[69.12,59.52,216,34.56]}
+{"kind":"textbox","id":"sh/7qp4be9c","slide":1,"name":"Text 1","text":"PRESENTASI SKRIPSI","textPreview":"PRESENTASI SKRIPSI","textChars":18,"textLines":1,"bbox":[69.12,67.2,216,17.28]}
+{"kind":"textbox","id":"sh/65g3298r","slide":1,"name":"Text 2","text":"Implementasi Algoritma K-Means Clustering pada Web GIS","textPreview":"Implementasi Algoritma K-Means Clustering pada Web GIS","textChars":54,"textLines":1,"bbox":[69.12,122.88,628.8,110.4]}
+{"kind":"textbox","id":"sh/ts7md4r2","slide":1,"name":"Text 3","text":"untuk Pemetaan dan Analisis Zonasi Persebaran UMKM di Sulawesi Utara","textPreview":"untuk Pemetaan dan Analisis Zonasi Persebaran UMKM di Sulawesi Utara","textChars":68,"textLines":1,"bbox":[71.04,244.8,585.6,59.52]}
+{"kind":"shape","id":"sh/sryl4zqx","slide":1,"name":"Shape 4","bbox":[69.12,336,412.8,0]}
+{"kind":"textbox","id":"sh/fu94fe98","slide":1,"name":"Text 5","text":"Putra Febrian\nNIM 22024129","textPreview":"Putra Febrian | NIM 22024129","textChars":26,"textLines":2,"bbox":[71.04,368.64,398.4,72]}
+{"kind":"textbox","id":"sh/utg3698n","slide":1,"name":"Text 6","text":"Program Studi D-IV Teknik Informatika\nPoliteknik Negeri Manado • 2026","textPreview":"Program Studi D-IV Teknik Informatika | Politeknik Negeri Manado • 2026","textChars":69,"textLines":2,"bbox":[71.04,458.88,499.2,62.4]}
+{"kind":"shape","id":"sh/wn6dc7eh","slide":1,"name":"Shape 7","bbox":[69.12,597.12,547.2,55.68]}
+{"kind":"textbox","id":"sh/hofulsf2","slide":1,"name":"Text 8","text":"Web GIS • K-Means++ • Haversine • Kualitas Data Spasial","textPreview":"Web GIS • K-Means++ • Haversine • Kualitas Data Spasial","textChars":55,"textLines":1,"bbox":[86.4,612.48,513.6,17.28]}
+{"kind":"image","id":"im/5cze9svq","slide":1,"name":"Image 0","bbox":[708.48,0,571.49,720]}
+{"kind":"image","id":"im/kr6xgnu5","slide":1,"name":"Image 1","bbox":[1048.32,46.08,139.2,139.2]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":"Bacaan singkat:\nAssalamualaikum/selamat pagi. Saya Putra Febrian akan mempresentasikan skripsi tentang Web GIS untuk pemetaan dan analisis zonasi UMKM di Sulawesi Utara menggunakan K-Means."}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"Latar Belakang Mitra: YBLI","textShapes":18}
+{"kind":"textbox","id":"sh/9072xkry","slide":2,"name":"Text 0","text":"Latar Belakang Mitra: YBLI","textPreview":"Latar Belakang Mitra: YBLI","textChars":26,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/ozy1ofad","slide":2,"name":"Text 1","text":"Yayasan Bina Lentera Insan sebagai mitra penelitian","textPreview":"Yayasan Bina Lentera Insan sebagai mitra penelitian","textChars":51,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/b29kza94","slide":2,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/a10jqpsj","slide":2,"name":"Shape 3","bbox":[74.88,148.8,297.6,465.6]}
+{"kind":"textbox","id":"sh/x4r21kru","slide":2,"name":"Text 4","text":"YBLI","textPreview":"YBLI","textChars":4,"textLines":1,"bbox":[102.72,192,241.92,69.12]}
+{"kind":"textbox","id":"sh/w3i1sfa9","slide":2,"name":"Text 5","text":"Jadilah lentera\nyang menerangi","textPreview":"Jadilah lentera | yang menerangi","textChars":30,"textLines":2,"bbox":[97.92,280.32,251.52,53.76]}
+{"kind":"shape","id":"sh/r65knqtk","slide":2,"name":"Shape 6","bbox":[113.28,360,211.2,0]}
+{"kind":"textbox","id":"sh/q5wjelsz","slide":2,"name":"Text 7","text":"Mitra penelitian yang berfokus pada penguatan kapasitas masyarakat.","textPreview":"Mitra penelitian yang berfokus pada penguatan kapasitas masyarakat.","textChars":67,"textLines":1,"bbox":[103.68,390.72,244.8,74.88]}
+{"kind":"textbox","id":"sh/ove9o7yd","slide":2,"name":"Text 8","text":"Manado, Sulawesi Utara","textPreview":"Manado, Sulawesi Utara","textChars":22,"textLines":1,"bbox":[100.8,531.84,254.4,21.12]}
+{"kind":"shape","id":"sh/9wnqhczy","slide":2,"name":"Shape 9","bbox":[410.88,155.52,216,100.8]}
+{"kind":"textbox","id":"sh/mtwrmxg7","slide":2,"name":"Text 10","text":"2013","textPreview":"2013","textChars":4,"textLines":1,"bbox":[428.16,169.92,181.44,40.32]}
+{"kind":"textbox","id":"sh/nu58f2hs","slide":2,"name":"Text 11","text":"Berdiri sejak","textPreview":"Berdiri sejak","textChars":13,"textLines":1,"bbox":[425.28,216.96,187.2,24]}
+{"kind":"shape","id":"sh/wjy9sry9","slide":2,"name":"Shape 12","bbox":[648.96,155.52,216,100.8]}
+{"kind":"textbox","id":"sh/xk7qlczu","slide":2,"name":"Text 13","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[666.24,169.92,181.44,40.32]}
+{"kind":"textbox","id":"sh/ahwrqhgj","slide":2,"name":"Text 14","text":"Bidang utama","textPreview":"Bidang utama","textChars":12,"textLines":1,"bbox":[663.36,216.96,187.2,24]}
+{"kind":"shape","id":"sh/bip8jmho","slide":2,"name":"Shape 15","bbox":[887.04,155.52,216,100.8]}
+{"kind":"textbox","id":"sh/cnupgny5","slide":2,"name":"Text 16","text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[904.32,169.92,181.44,40.32]}
+{"kind":"textbox","id":"sh/do3q9szq","slide":2,"name":"Text 17","text":"Unit kegiatan","textPreview":"Unit kegiatan","textChars":13,"textLines":1,"bbox":[901.44,216.96,187.2,24]}
+{"kind":"shape","id":"sh/t8byxkn2","slide":2,"name":"Shape 18","bbox":[410.88,288,321.6,264]}
+{"kind":"shape","id":"sh/s72xofmh","slide":2,"name":"Shape 19","bbox":[410.88,288,7.68,264]}
+{"kind":"textbox","id":"sh/76twva5c","slide":2,"name":"Text 20","text":"Profil singkat","textPreview":"Profil singkat","textChars":14,"textLines":1,"bbox":[437.76,309.12,268.8,30.72]}
+{"kind":"textbox","id":"sh/65kfmpor","slide":2,"name":"Text 21","text":"YBLI adalah LSM yang bergerak dalam penguatan kapasitas masyarakat melalui pendidikan, kesehatan, ekonomi, dan sosial keagamaan. Berdiri pada 21 Januari 2013 di Kota Manado.","textPreview":"YBLI adalah LSM yang bergerak dalam penguatan kapasitas masyarakat melalui pendidikan, kesehatan, ekonomi, dan sosial keagamaan. Berdiri ...","textChars":173,"textLines":1,"bbox":[437.76,353.28,268.8,177.6]}
+{"kind":"shape","id":"sh/hcvy14ne","slide":2,"name":"Shape 22","bbox":[763.2,288,340.8,264]}
+{"kind":"shape","id":"sh/gbmxszmt","slide":2,"name":"Shape 23","bbox":[763.2,288,7.68,264]}
+{"kind":"textbox","id":"sh/fadgzu58","slide":2,"name":"Text 24","text":"Kaitan dengan penelitian","textPreview":"Kaitan dengan penelitian","textChars":24,"textLines":1,"bbox":[790.08,309.12,288,30.72]}
+{"kind":"textbox","id":"sh/u94fqp4n","slide":2,"name":"Text 25","text":"Mitra ini relevan karena penelitian membantu pengelolaan dan pemetaan data UMKM, termasuk penemuan lokasi, kualitas data, pengajuan publik, serta analisis zonasi.","textPreview":"Mitra ini relevan karena penelitian membantu pengelolaan dan pemetaan data UMKM, termasuk penemuan lokasi, kualitas data, pengajuan publi...","textChars":162,"textLines":1,"bbox":[790.08,353.28,288,177.6]}
+{"kind":"textbox","id":"sh/p0vy54na","slide":2,"name":"Text 26","text":"Sumber: ybli.or.id/tentang-kami","textPreview":"Sumber: ybli.or.id/tentang-kami","textChars":31,"textLines":1,"bbox":[888,685.44,292.8,21.12]}
+{"kind":"textbox","id":"sh/4zmxwzmp","slide":2,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":"Bacaan singkat:\nMitra penelitian saya adalah Yayasan Bina Lentera Insan atau YBLI. YBLI bergerak di bidang pendidikan, kesehatan, ekonomi, dan sosial keagamaan. Karena penelitian ini membahas pemetaan UMKM, YBLI menjadi konteks yang relevan untuk pemberdayaan masyarakat dan UMKM."}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"Latar Belakang Masalah","textShapes":5}
+{"kind":"textbox","id":"sh/cza94vmx","slide":3,"name":"Text 0","text":"Latar Belakang Masalah","textPreview":"Latar Belakang Masalah","textChars":22,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/d0jax03i","slide":3,"name":"Text 1","text":"Dari data tabel menjadi informasi wilayah","textPreview":"Dari data tabel menjadi informasi wilayah","textChars":41,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/298ryl4v","slide":3,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/3ah8rqlg","slide":3,"name":"Shape 3","bbox":[777.6,136.32,417.6,408]}
+{"kind":"shape","id":"sh/pcjqtg36","slide":3,"name":"Shape 4","bbox":[74.88,147.84,662.4,414.72]}
+{"kind":"textbox","id":"sh/m5cra54z","slide":3,"name":"Text 5","text":"Data UMKM yang hanya berbentuk tabel sulit menunjukkan pola persebaran.\nPeta interaktif membantu pengguna melihat lokasi, mencari, dan memfilter UMKM.\nMasalah utama penelitian adalah kualitas koordinat yang belum semuanya presisi.\nSistem perlu membedakan data untuk tampilan peta dan data untuk analisis.\nMitra mempertimbangkan Google Maps, tetapi biaya layanan dinilai tinggi.","textPreview":"Data UMKM yang hanya berbentuk tabel sulit menunjukkan pola persebaran. | Peta interaktif membantu pengguna melihat lokasi, mencari, dan ...","textChars":377,"textLines":5,"bbox":[103.68,186.24,600,345.6]}
+{"kind":"shape","id":"sh/n6ls3alk","slide":3,"name":"Shape 6","bbox":[74.88,585.6,662.4,43.2]}
+{"kind":"textbox","id":"sh/n2l4fq98","slide":3,"name":"Text 7","text":"Inti masalah: YBLI membutuhkan peta dan rute yang informatif serta terjangkau.","textPreview":"Inti masalah: YBLI membutuhkan peta dan rute yang informatif serta terjangkau.","textChars":78,"textLines":1,"bbox":[100.8,599.04,609.6,11.52]}
+{"kind":"textbox","id":"sh/re9g7yxo","slide":3,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"image","id":"im/fytczylk","slide":3,"name":"Image 0","bbox":[789.12,220.54,394.56,239.55]}
+{"kind":"notes","id":"nt/ofy9wn61","slide":3,"text":"Bacaan singkat:\nMasalahnya adalah data UMKM banyak, tersebar, dan jika hanya dibaca sebagai tabel, pola wilayahnya sulit terlihat. Web GIS digunakan agar lokasi bisa dilihat langsung di peta. Namun koordinat harus dijelaskan kualitasnya karena tidak semua titik merupakan lokasi GPS yang tepat.\n\nTambahan masalah: YBLI mempertimbangkan Google Maps untuk menampilkan sebaran UMKM, tetapi biaya layanan dinilai tinggi. Sistem menyediakan peta interaktif dan fitur rute sebagai solusi.\nSumber tambahan: hasil diskusi dengan mitra YBLI yang disampaikan oleh penulis."}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"Rumusan Masalah dan Tujuan","textShapes":8}
+{"kind":"textbox","id":"sh/1cj2d8b6","slide":4,"name":"Text 0","text":"Rumusan Masalah dan Tujuan","textPreview":"Rumusan Masalah dan Tujuan","textChars":26,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/0ba143al","slide":4,"name":"Text 1","text":"Pertanyaan penelitian diarahkan pada sistem, data, dan analisis","textPreview":"Pertanyaan penelitian diarahkan pada sistem, data, dan analisis","textChars":63,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/rm1k7yt4","slide":4,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/ql8jytsj","slide":4,"name":"Shape 3","bbox":[74.88,140.16,556.8,451.2]}
+{"kind":"shape","id":"sh/doj29oba","slide":4,"name":"Shape 4","bbox":[74.88,140.16,7.68,451.2]}
+{"kind":"textbox","id":"sh/sna103ap","slide":4,"name":"Text 5","text":"Rumusan masalah utama","textPreview":"Rumusan masalah utama","textChars":21,"textLines":1,"bbox":[101.76,161.28,504,30.72]}
+{"kind":"textbox","id":"sh/3ihk3et8","slide":4,"name":"Text 6","text":"1. Bagaimana membangun Web GIS UMKM?\n\n2. Bagaimana menyediakan pengajuan publik, pelacakan, dan admin?\n\n3. Bagaimana membedakan kualitas koordinat?\n\n4. Bagaimana menerapkan K-Means++ dengan Haversine?\n\n5. Bagaimana memverifikasi sistem melalui pengujian?","textPreview":"1. Bagaimana membangun Web GIS UMKM? |  | 2. Bagaimana menyediakan pengajuan publik, pelacakan, dan admin? |  | 3. Bagaimana membedakan k...","textChars":254,"textLines":9,"bbox":[101.76,205.44,504,364.8]}
+{"kind":"shape","id":"sh/ih8ju9sn","slide":4,"name":"Shape 7","bbox":[662.4,140.16,539.52,451.2]}
+{"kind":"shape","id":"sh/kbm987y5","slide":4,"name":"Shape 8","bbox":[662.4,140.16,7.68,451.2]}
+{"kind":"textbox","id":"sh/5cva1cfq","slide":4,"name":"Text 9","text":"Tujuan penelitian","textPreview":"Tujuan penelitian","textChars":17,"textLines":1,"bbox":[689.28,161.28,486.72,30.72]}
+{"kind":"textbox","id":"sh/i94r6xgz","slide":4,"name":"Text 10","text":"Mengembangkan aplikasi Web GIS yang interaktif, memiliki layanan publik dan panel admin, mengelola kualitas lokasi, menerapkan K-Means spasial, serta menyimpan hasil analisis agar dapat ditelusuri kembali.","textPreview":"Mengembangkan aplikasi Web GIS yang interaktif, memiliki layanan publik dan panel admin, mengelola kualitas lokasi, menerapkan K-Means sp...","textChars":205,"textLines":1,"bbox":[689.28,205.44,486.72,364.8]}
+{"kind":"shape","id":"sh/jadsz2xk","slide":4,"name":"Shape 11","bbox":[662.4,597.12,539.52,46.08]}
+{"kind":"textbox","id":"sh/w72947yt","slide":4,"name":"Text 12","text":"Fokus: sistem berfungsi dan hasil analisis dapat dipertanggungjawabkan.","textPreview":"Fokus: sistem berfungsi dan hasil analisis dapat dipertanggungjawabkan.","textChars":71,"textLines":1,"bbox":[689.28,610.56,484.8,11.52]}
+{"kind":"textbox","id":"sh/gv29g7q5","slide":4,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":"Bacaan singkat:\nRumusan masalah saya tidak hanya tentang membuat peta. Penelitian juga membahas alur pengajuan, kualitas koordinat, proses K-Means, dan pengujian. Tujuannya agar sistem bukan hanya tampil, tetapi juga bisa dievaluasi."}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"Solusi yang Dibangun","textShapes":10}
+{"kind":"textbox","id":"sh/dgbulwnm","slide":5,"name":"Text 0","text":"Solusi yang Dibangun","textPreview":"Solusi yang Dibangun","textChars":20,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/cf2tcr61","slide":5,"name":"Text 1","text":"Web GIS UMKM dengan dua jalur utama: publik dan admin","textPreview":"Web GIS UMKM dengan dua jalur utama: publik dan admin","textChars":53,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/z2tcnm5s","slide":5,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/yhkbe1o7","slide":5,"name":"Shape 3","bbox":[76.8,148.8,1125.12,51.84]}
+{"kind":"textbox","id":"sh/l4bupwny","slide":5,"name":"Text 4","text":"Aplikasi menghubungkan data UMKM, peta interaktif, rute, pengajuan publik, verifikasi lokasi, dan analisis K-Means.","textPreview":"Aplikasi menghubungkan data UMKM, peta interaktif, rute, pengajuan publik, verifikasi lokasi, dan analisis K-Means.","textChars":115,"textLines":1,"bbox":[100.8,165.12,1075.2,15.36]}
+{"kind":"shape","id":"sh/032tgr6d","slide":5,"name":"Shape 5","bbox":[84.48,251.52,340.8,273.6]}
+{"kind":"shape","id":"sh/n6dcr65o","slide":5,"name":"Shape 6","bbox":[84.48,251.52,7.68,273.6]}
+{"kind":"textbox","id":"sh/m5kbi1oj","slide":5,"name":"Text 7","text":"Publik","textPreview":"Publik","textChars":6,"textLines":1,"bbox":[111.36,272.64,288,30.72]}
+{"kind":"textbox","id":"sh/w32dkbuh","slide":5,"name":"Text 8","text":"Melihat peta, mencari UMKM, filter kategori, memakai fitur rute, menemukan UMKM terdekat, berbagi tautan, dan mengajukan UMKM baru.","textPreview":"Melihat peta, mencari UMKM, filter kategori, memakai fitur rute, menemukan UMKM terdekat, berbagi tautan, dan mengajukan UMKM baru.","textChars":131,"textLines":1,"bbox":[111.36,316.8,288,187.2]}
+{"kind":"shape","id":"sh/x4vedgvm","slide":5,"name":"Shape 9","bbox":[468.48,251.52,340.8,273.6]}
+{"kind":"shape","id":"sh/ahkvi1cb","slide":5,"name":"Shape 10","bbox":[468.48,251.52,7.68,273.6]}
+{"kind":"textbox","id":"sh/v2twb6dw","slide":5,"name":"Text 11","text":"Admin","textPreview":"Admin","textChars":5,"textLines":1,"bbox":[495.36,272.64,288,30.72]}
+{"kind":"textbox","id":"sh/k7mxovud","slide":5,"name":"Text 12","text":"Mengelola data UMKM, meninjau pengajuan, memverifikasi koordinat, menjalankan K-Means, melakukan import/export, dan melihat audit.","textPreview":"Mengelola data UMKM, meninjau pengajuan, memverifikasi koordinat, menjalankan K-Means, melakukan import/export, dan melihat audit.","textChars":130,"textLines":1,"bbox":[495.36,316.8,288,187.2]}
+{"kind":"shape","id":"sh/58vehgvy","slide":5,"name":"Shape 13","bbox":[852.48,251.52,340.8,273.6]}
+{"kind":"shape","id":"sh/i54fmlc7","slide":5,"name":"Shape 14","bbox":[852.48,251.52,7.68,273.6]}
+{"kind":"textbox","id":"sh/j6dwfqds","slide":5,"name":"Text 15","text":"Analisis","textPreview":"Analisis","textChars":8,"textLines":1,"bbox":[879.36,272.64,288,30.72]}
+{"kind":"textbox","id":"sh/sb6xsvu9","slide":5,"name":"Text 16","text":"K-Means++ membentuk zona spasial, menghitung WCSS, centroid, radius, snapshot, dan hash dataset.","textPreview":"K-Means++ membentuk zona spasial, menghitung WCSS, centroid, radius, snapshot, dan hash dataset.","textChars":96,"textLines":1,"bbox":[879.36,316.8,288,187.2]}
+{"kind":"shape","id":"sh/tcfel0vu","slide":5,"name":"Shape 17","bbox":[429.12,387.84,30.72,0]}
+{"kind":"shape","id":"sh/hgrmpwj2","slide":5,"name":"Shape 18","bbox":[813.12,387.84,30.72,0]}
+{"kind":"textbox","id":"sh/4ji5kbid","slide":5,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"notes","id":"nt/i107q5of","slide":5,"text":"Bacaan singkat:\nSolusi yang saya bangun terdiri dari halaman publik, panel admin, dan modul analisis. Publik bisa mencari dan mengajukan UMKM. Admin mengelola dan memverifikasi data. Setelah data siap, sistem menjalankan analisis zonasi dengan K-Means.\n\nFitur rute membantu pengguna menuju lokasi UMKM tanpa YBLI bergantung pada layanan peta berbiaya tinggi."}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"Metodologi Penelitian","textShapes":14}
+{"kind":"textbox","id":"sh/yhg7epsj","slide":6,"name":"Text 0","text":"Metodologi Penelitian","textPreview":"Metodologi Penelitian","textChars":21,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/zi98nu94","slide":6,"name":"Text 1","text":"Tahapan pengembangan dan evaluasi sistem","textPreview":"Tahapan pengembangan dan evaluasi sistem","textChars":40,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/87ipkzal","slide":6,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/98rqt4r6","slide":6,"name":"Shape 3","bbox":[734.4,139.2,451.2,451.2]}
+{"kind":"shape","id":"sh/7m98ru9g","slide":6,"name":"Shape 4","bbox":[81.6,142.08,609.6,74.88]}
+{"kind":"shape","id":"sh/oryp8fah","slide":6,"name":"Shape 5","bbox":[100.8,158.4,41.28,41.28]}
+{"kind":"textbox","id":"sh/pc76hkr2","slide":6,"name":"Text 6","text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[100.8,165.6,41.28,11.52]}
+{"kind":"textbox","id":"sh/h4bupgn6","slide":6,"name":"Text 7","text":"Analisis kebutuhan dan data spasial","textPreview":"Analisis kebutuhan dan data spasial","textChars":35,"textLines":1,"bbox":[161.28,160.32,489.6,34.56]}
+{"kind":"shape","id":"sh/w32twb6l","slide":6,"name":"Shape 8","bbox":[81.6,228.48,609.6,74.88]}
+{"kind":"shape","id":"sh/v2tcn650","slide":6,"name":"Shape 9","bbox":[100.8,244.8,41.28,41.28]}
+{"kind":"textbox","id":"sh/u1kbu1ov","slide":6,"name":"Text 10","text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[100.8,252,41.28,11.52]}
+{"kind":"textbox","id":"sh/5svutgni","slide":6,"name":"Text 11","text":"Perancangan arsitektur, basis data, dan hak akses","textPreview":"Perancangan arsitektur, basis data, dan hak akses","textChars":49,"textLines":1,"bbox":[161.28,246.72,489.6,34.56]}
+{"kind":"shape","id":"sh/47mt0b6x","slide":6,"name":"Shape 12","bbox":[81.6,314.88,609.6,74.88]}
+{"kind":"shape","id":"sh/j6dcr65c","slide":6,"name":"Shape 13","bbox":[100.8,331.2,41.28,41.28]}
+{"kind":"textbox","id":"sh/i54bylor","slide":6,"name":"Text 14","text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[100.8,338.4,41.28,11.52]}
+{"kind":"textbox","id":"sh/twfux0ne","slide":6,"name":"Text 15","text":"Implementasi Web GIS, admin, dan layanan publik","textPreview":"Implementasi Web GIS, admin, dan layanan publik","textChars":47,"textLines":1,"bbox":[161.28,333.12,489.6,34.56]}
+{"kind":"shape","id":"sh/svmt4v6t","slide":6,"name":"Shape 16","bbox":[81.6,401.28,609.6,74.88]}
+{"kind":"shape","id":"sh/cbe5g3ih","slide":6,"name":"Shape 17","bbox":[100.8,417.6,41.28,41.28]}
+{"kind":"textbox","id":"sh/dcnm98zm","slide":6,"name":"Text 18","text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[100.8,424.8,41.28,11.52]}
+{"kind":"textbox","id":"sh/qpwnet0b","slide":6,"name":"Text 19","text":"Verifikasi lokasi dan penerapan K-Means","textPreview":"Verifikasi lokasi dan penerapan K-Means","textChars":39,"textLines":1,"bbox":[161.28,419.52,489.6,34.56]}
+{"kind":"shape","id":"sh/bq547yhw","slide":6,"name":"Shape 20","bbox":[81.6,487.68,609.6,74.88]}
+{"kind":"shape","id":"sh/0fy5k3id","slide":6,"name":"Shape 21","bbox":[100.8,504,41.28,41.28]}
+{"kind":"textbox","id":"sh/lg76d8zy","slide":6,"name":"Text 22","text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[100.8,511.2,41.28,11.52]}
+{"kind":"textbox","id":"sh/ydgnit07","slide":6,"name":"Text 23","text":"Pengujian, evaluasi WCSS, dan dokumentasi hasil","textPreview":"Pengujian, evaluasi WCSS, dan dokumentasi hasil","textChars":47,"textLines":1,"bbox":[161.28,505.92,489.6,34.56]}
+{"kind":"shape","id":"sh/zep4byhs","slide":6,"name":"Shape 24","bbox":[81.6,599.04,1104,33.6]}
+{"kind":"textbox","id":"sh/gju58ji9","slide":6,"name":"Text 25","text":"Snapshot lokal: 1.802 record UMKM, 1.743 titik dianalisis, 59 dikecualikan.","textPreview":"Snapshot lokal: 1.802 record UMKM, 1.743 titik dianalisis, 59 dikecualikan.","textChars":75,"textLines":1,"bbox":[105.6,608.64,1051.2,11.52]}
+{"kind":"textbox","id":"sh/1k3mhozu","slide":6,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"image","id":"im/sn25c7q9","slide":6,"name":"Image 0","bbox":[745.92,159.64,428.16,410.32]}
+{"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":"Bacaan singkat:\nMetode penelitian dimulai dari analisis kebutuhan, dilanjutkan perancangan sistem dan basis data, implementasi, verifikasi lokasi, penerapan K-Means, lalu pengujian. Dataset lokal berisi 1.802 record dan 1.743 titik yang bisa dianalisis."}
+{"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"Arsitektur Sistem","textShapes":9}
+{"kind":"textbox","id":"sh/cb2tkvap","slide":7,"name":"Text 0","text":"Arsitektur Sistem","textPreview":"Arsitektur Sistem","textChars":17,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/dcbud0ra","slide":7,"name":"Text 1","text":"Aliran data antara pengguna, aplikasi, algoritma, dan backend","textPreview":"Aliran data antara pengguna, aplikasi, algoritma, dan backend","textChars":61,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/ydkbm5sv","slide":7,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/zedcfa9g","slide":7,"name":"Shape 3","bbox":[74.88,142.08,624,475.2]}
+{"kind":"shape","id":"sh/l0vuh0rm","slide":7,"name":"Shape 4","bbox":[734.4,148.8,436.8,113.28]}
+{"kind":"shape","id":"sh/eh0ba1sr","slide":7,"name":"Shape 5","bbox":[734.4,148.8,7.68,113.28]}
+{"kind":"textbox","id":"sh/fi9c369c","slide":7,"name":"Text 6","text":"Frontend","textPreview":"Frontend","textChars":8,"textLines":1,"bbox":[761.28,169.92,384,30.72]}
+{"kind":"textbox","id":"sh/baxkjqlk","slide":7,"name":"Text 7","text":"React 19, Vite 8, Leaflet, React-Leaflet, dan marker cluster.","textPreview":"React 19, Vite 8, Leaflet, React-Leaflet, dan marker cluster.","textChars":61,"textLines":1,"bbox":[761.28,214.08,384,26.88]}
+{"kind":"shape","id":"sh/a9ojq5kz","slide":7,"name":"Shape 8","bbox":[734.4,289.92,436.8,113.28]}
+{"kind":"shape","id":"sh/xcz2l03q","slide":7,"name":"Shape 9","bbox":[734.4,289.92,7.68,113.28]}
+{"kind":"textbox","id":"sh/cbq1sv25","slide":7,"name":"Text 10","text":"Backend","textPreview":"Backend","textChars":7,"textLines":1,"bbox":[761.28,311.04,384,30.72]}
+{"kind":"textbox","id":"sh/n6x0fqlo","slide":7,"name":"Text 11","text":"Supabase PostgreSQL, Authentication, RLS, RPC, dan Storage privat.","textPreview":"Supabase PostgreSQL, Authentication, RLS, RPC, dan Storage privat.","textChars":66,"textLines":1,"bbox":[761.28,355.2,384,26.88]}
+{"kind":"shape","id":"sh/25ojml43","slide":7,"name":"Shape 12","bbox":[734.4,431.04,436.8,113.28]}
+{"kind":"shape","id":"sh/p8fih03e","slide":7,"name":"Shape 13","bbox":[734.4,431.04,7.68,113.28]}
+{"kind":"textbox","id":"sh/o761ov2t","slide":7,"name":"Text 14","text":"Analisis","textPreview":"Analisis","textChars":8,"textLines":1,"bbox":[761.28,452.16,384,30.72]}
+{"kind":"textbox","id":"sh/f2d0b6lc","slide":7,"name":"Text 15","text":"K-Means++, Haversine, WCSS, centroid, radius, snapshot, dan hash.","textPreview":"K-Means++, Haversine, WCSS, centroid, radius, snapshot, dan hash.","textChars":65,"textLines":1,"bbox":[761.28,496.32,384,26.88]}
+{"kind":"textbox","id":"sh/r2dkrq5g","slide":7,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"7","textPreview":"7","textChars":1,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"image","id":"im/3ydory5k","slide":7,"name":"Image 0","bbox":[86.4,197.25,600.96,364.87]}
+{"kind":"notes","id":"nt/gnmp4jqx","slide":7,"text":"Bacaan singkat:\nArsitektur sistem memisahkan antarmuka publik, panel admin, dan backend. React dan Leaflet menangani tampilan peta. Supabase menjaga data, hak akses, dan penyimpanan. K-Means dijalankan pada data yang memenuhi syarat."}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"Kualitas Data Lokasi","textShapes":10}
+{"kind":"textbox","id":"sh/18byd4zy","slide":8,"name":"Text 0","text":"Kualitas Data Lokasi","textPreview":"Kualitas Data Lokasi","textChars":20,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/g72x4zyd","slide":8,"name":"Text 1","text":"Koordinat diperlakukan sesuai tingkat kepercayaannya","textPreview":"Koordinat diperlakukan sesuai tingkat kepercayaannya","textChars":52,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/ri9g7uhw","slide":8,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/6h0fypgb","slide":8,"name":"Shape 3","bbox":[664.32,139.2,520.32,422.4]}
+{"kind":"shape","id":"sh/sjix0zy1","slide":8,"name":"Shape 4","bbox":[78.72,148.8,518.4,113.28]}
+{"kind":"shape","id":"sh/je9g3ahk","slide":8,"name":"Shape 5","bbox":[78.72,148.8,7.68,113.28]}
+{"kind":"textbox","id":"sh/id0fu50z","slide":8,"name":"Text 6","text":"Tepat","textPreview":"Tepat","textChars":5,"textLines":1,"bbox":[105.6,169.92,465.6,30.72]}
+{"kind":"textbox","id":"sh/o7ydoret","slide":8,"name":"Text 7","text":"Koordinat sudah diperiksa dan memiliki verified_at serta verified_by.","textPreview":"Koordinat sudah diperiksa dan memiliki verified_at serta verified_by.","textChars":69,"textLines":1,"bbox":[105.6,214.08,465.6,26.88]}
+{"kind":"shape","id":"sh/98rehwve","slide":8,"name":"Shape 8","bbox":[78.72,289.92,518.4,113.28]}
+{"kind":"shape","id":"sh/m5gvmhwn","slide":8,"name":"Shape 9","bbox":[78.72,289.92,7.68,113.28]}
+{"kind":"textbox","id":"sh/n6pwfmd8","slide":8,"name":"Text 10","text":"Perkiraan kecamatan","textPreview":"Perkiraan kecamatan","textChars":19,"textLines":1,"bbox":[105.6,311.04,465.6,30.72]}
+{"kind":"textbox","id":"sh/0jydkreh","slide":8,"name":"Text 11","text":"Dapat ditampilkan dan dianalisis secara eksploratif, tetapi bukan GPS usaha.","textPreview":"Dapat ditampilkan dan dianalisis secara eksploratif, tetapi bukan GPS usaha.","textChars":76,"textLines":1,"bbox":[105.6,355.2,465.6,26.88]}
+{"kind":"shape","id":"sh/1k7edwv2","slide":8,"name":"Shape 12","bbox":[78.72,431.04,518.4,113.28]}
+{"kind":"shape","id":"sh/ehgvihwr","slide":8,"name":"Shape 13","bbox":[78.72,431.04,7.68,113.28]}
+{"kind":"textbox","id":"sh/zipwbmdc","slide":8,"name":"Text 14","text":"Belum terverifikasi","textPreview":"Belum terverifikasi","textChars":19,"textLines":1,"bbox":[105.6,452.16,465.6,30.72]}
+{"kind":"textbox","id":"sh/kfixwbe1","slide":8,"name":"Text 15","text":"Dikecualikan dari input K-Means karena belum cukup dipercaya.","textPreview":"Dikecualikan dari input K-Means karena belum cukup dipercaya.","textChars":61,"textLines":1,"bbox":[105.6,496.32,465.6,26.88]}
+{"kind":"shape","id":"sh/lgbepgvm","slide":8,"name":"Shape 16","bbox":[78.72,588.48,1105.92,46.08]}
+{"kind":"textbox","id":"sh/tw7e9gnq","slide":8,"name":"Text 17","text":"Pemisahan analysis_lat/lng dan display_lat/lng mencegah tampilan peta memengaruhi hasil clustering.","textPreview":"Pemisahan analysis_lat/lng dan display_lat/lng mencegah tampilan peta memengaruhi hasil clustering.","textChars":99,"textLines":1,"bbox":[100.8,601.92,1060.8,11.52]}
+{"kind":"textbox","id":"sh/kredcr6t","slide":8,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"8","textPreview":"8","textChars":1,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"image","id":"im/wnq9gnm1","slide":8,"name":"Image 0","bbox":[675.84,245.42,497.28,209.96]}
+{"kind":"notes","id":"nt/fu1gfa1s","slide":8,"text":"Bacaan singkat:\nPada penelitian ini, koordinat tidak langsung dianggap sama akurat. Ada lokasi tepat, perkiraan kecamatan, dan belum terverifikasi. Data yang belum terverifikasi tidak dimasukkan ke K-Means. Sistem juga memisahkan koordinat analisis dan koordinat tampilan."}
+{"kind":"slide","id":"sl/udsvah03","slide":9,"title":"Proses K-Means Spasial","textShapes":6}
+{"kind":"textbox","id":"sh/1cfmhgne","slide":9,"name":"Text 0","text":"Proses K-Means Spasial","textPreview":"Proses K-Means Spasial","textChars":22,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/0b65obm9","slide":9,"name":"Text 1","text":"Dari titik UMKM menjadi zona berbasis kedekatan","textPreview":"Dari titik UMKM menjadi zona berbasis kedekatan","textChars":47,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/nex4jq5k","slide":9,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/mdonql4z","slide":9,"name":"Shape 3","bbox":[81.6,136.32,480,475.2]}
+{"kind":"shape","id":"sh/ofq5svm5","slide":9,"name":"Shape 4","bbox":[609.6,145.92,558.72,357.12]}
+{"kind":"shape","id":"sh/bih4na5w","slide":9,"name":"Shape 5","bbox":[609.6,145.92,7.68,357.12]}
+{"kind":"textbox","id":"sh/ah8nu54b","slide":9,"name":"Text 6","text":"Langkah inti algoritma","textPreview":"Langkah inti algoritma","textChars":22,"textLines":1,"bbox":[636.48,167.04,505.92,30.72]}
+{"kind":"textbox","id":"sh/oza1gfyh","slide":9,"name":"Text 7","text":"1. Mengambil UMKM aktif, published, dan mappable.\n\n2. Membentuk snapshot id–lat–lng yang terurut.\n\n3. Menentukan K dan seed deterministik.\n\n4. Memilih centroid awal dengan K-Means++.\n\n5. Menghitung jarak Haversine, cluster, WCSS, dan radius.","textPreview":"1. Mengambil UMKM aktif, published, dan mappable. |  | 2. Membentuk snapshot id–lat–lng yang terurut. |  | 3. Menentukan K dan seed deter...","textChars":241,"textLines":9,"bbox":[636.48,211.2,505.92,270.72]}
+{"kind":"shape","id":"sh/p0ji9kf2","slide":9,"name":"Shape 8","bbox":[609.6,549.12,558.72,49.92]}
+{"kind":"textbox","id":"sh/2xsjepgb","slide":9,"name":"Text 9","text":"Output: centroid, anggota cluster, radius, WCSS, snapshot, dan hash dataset.","textPreview":"Output: centroid, anggota cluster, radius, WCSS, snapshot, dan hash dataset.","textChars":76,"textLines":1,"bbox":[645.12,565.44,489.6,17.28]}
+{"kind":"textbox","id":"sh/wba1cjqp","slide":9,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"9","textPreview":"9","textChars":1,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"image","id":"im/wj6p4ve1","slide":9,"name":"Image 0","bbox":[93.12,154.58,456.96,438.68]}
+{"kind":"notes","id":"nt/udsvah03","slide":9,"text":"Bacaan singkat:\nProses K-Means dimulai dari pemilihan data yang layak dianalisis. Data dibuat menjadi snapshot, kemudian centroid awal dipilih dengan K-Means++. Jarak antar titik dihitung menggunakan Haversine, lalu sistem menghasilkan cluster, WCSS, radius, dan menyimpan hasilnya."}
+{"kind":"slide","id":"sl/m90b6t0r","slide":10,"title":"Hasil Implementasi dan Pengujian","textShapes":13}
+{"kind":"textbox","id":"sh/xc3mho32","slide":10,"name":"Text 0","text":"Hasil Implementasi dan Pengujian","textPreview":"Hasil Implementasi dan Pengujian","textChars":32,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/cbu58j2h","slide":10,"name":"Text 1","text":"Apa yang sudah tersedia dan sudah diuji","textPreview":"Apa yang sudah tersedia dan sudah diuji","textChars":39,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/zelojyl8","slide":10,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/ydcnatkn","slide":10,"name":"Shape 3","bbox":[88.32,148.8,225.6,100.8]}
+{"kind":"textbox","id":"sh/l036l83y","slide":10,"name":"Text 4","text":"1.802","textPreview":"1.802","textChars":5,"textLines":1,"bbox":[105.6,163.2,191.04,40.32]}
+{"kind":"textbox","id":"sh/kzu5c32t","slide":10,"name":"Text 5","text":"Record UMKM","textPreview":"Record UMKM","textChars":11,"textLines":1,"bbox":[102.72,210.24,196.8,24]}
+{"kind":"shape","id":"sh/725onyl4","slide":10,"name":"Shape 6","bbox":[337.92,148.8,225.6,100.8]}
+{"kind":"textbox","id":"sh/m1cnetkj","slide":10,"name":"Text 7","text":"1.743","textPreview":"1.743","textChars":5,"textLines":1,"bbox":[355.2,163.2,191.04,40.32]}
+{"kind":"textbox","id":"sh/s7yt4b21","slide":10,"name":"Text 8","text":"Titik dianalisis","textPreview":"Titik dianalisis","textChars":16,"textLines":1,"bbox":[352.32,210.24,196.8,24]}
+{"kind":"shape","id":"sh/d87uxg3m","slide":10,"name":"Shape 9","bbox":[587.52,148.8,225.6,100.8]}
+{"kind":"textbox","id":"sh/q5gb21kb","slide":10,"name":"Text 10","text":"2–10","textPreview":"2–10","textChars":4,"textLines":1,"bbox":[604.8,163.2,191.04,40.32]}
+{"kind":"textbox","id":"sh/r6pcv6lw","slide":10,"name":"Text 11","text":"K diuji","textPreview":"K diuji","textChars":7,"textLines":1,"bbox":[601.92,210.24,196.8,24]}
+{"kind":"shape","id":"sh/0bit8b2d","slide":10,"name":"Shape 12","bbox":[837.12,148.8,225.6,100.8]}
+{"kind":"textbox","id":"sh/1cru1g3y","slide":10,"name":"Text 13","text":"Lulus","textPreview":"Lulus","textChars":5,"textLines":1,"bbox":[854.4,163.2,191.04,40.32]}
+{"kind":"textbox","id":"sh/e9gb61k7","slide":10,"name":"Text 14","text":"Lint & build","textPreview":"Lint & build","textChars":12,"textLines":1,"bbox":[851.52,210.24,196.8,24]}
+{"kind":"shape","id":"sh/fapcz6ls","slide":10,"name":"Shape 15","bbox":[769.92,291.84,408,295.68]}
+{"kind":"shape","id":"sh/p0ru503u","slide":10,"name":"Shape 16","bbox":[88.32,297.6,609.6,283.2]}
+{"kind":"shape","id":"sh/xwnupgvy","slide":10,"name":"Shape 17","bbox":[88.32,297.6,7.68,283.2]}
+{"kind":"textbox","id":"sh/wvetgbud","slide":10,"name":"Text 18","text":"Ringkasan hasil","textPreview":"Ringkasan hasil","textChars":15,"textLines":1,"bbox":[115.2,318.72,556.8,30.72]}
+{"kind":"textbox","id":"sh/bu5cnqd8","slide":10,"name":"Text 19","text":"Sistem sudah menyediakan peta publik, pencarian, filter, UMKM terdekat, rute, share, pengajuan, pelacakan, panel admin, verifikasi lokasi, K-Means, import/export, dan audit.\n\nESLint dan build produksi berhasil pada 10 September 2026. Pengujian integrasi dan black-box lintas perangkat masih perlu dilengkapi.","textPreview":"Sistem sudah menyediakan peta publik, pencarian, filter, UMKM terdekat, rute, share, pengajuan, pelacakan, panel admin, verifikasi lokasi...","textChars":308,"textLines":3,"bbox":[115.2,362.88,556.8,196.8]}
+{"kind":"textbox","id":"sh/kjytkvup","slide":10,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"image","id":"im/w76tsvq5","slide":10,"name":"Image 0","bbox":[849.94,303.36,247.96,272.64]}
+{"kind":"notes","id":"nt/m90b6t0r","slide":10,"text":"Bacaan singkat:\nHasil implementasi menunjukkan fitur utama sudah tersedia. Algoritma K-Means diuji dari K=2 sampai K=10 pada 1.743 titik. ESLint dan build produksi berhasil. Namun pengujian integrasi Supabase serta black-box pada perangkat nyata masih perlu dilengkapi."}
+{"kind":"slide","id":"sl/jetc3ut0","slide":11,"title":"Evaluasi Nilai K","textShapes":6}
+{"kind":"textbox","id":"sh/xcryxg7y","slide":11,"name":"Text 0","text":"Evaluasi Nilai K","textPreview":"Evaluasi Nilai K","textChars":16,"textLines":1,"bbox":[69.12,41.28,1132.8,46.08]}
+{"kind":"textbox","id":"sh/wbih4b6d","slide":11,"name":"Text 1","text":"WCSS turun secara umum, tetapi belum cukup untuk memilih K optimal","textPreview":"WCSS turun secara umum, tetapi belum cukup untuk memilih K optimal","textChars":66,"textLines":1,"bbox":[72,93.12,1046.4,28.8]}
+{"kind":"shape","id":"sh/n69grmpw","slide":11,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/98rytw72","slide":11,"name":"Shape 3","bbox":[801.6,148.8,379.2,388.8]}
+{"kind":"shape","id":"sh/o7ih0r6h","slide":11,"name":"Shape 4","bbox":[801.6,148.8,7.68,388.8]}
+{"kind":"textbox","id":"sh/72t03qp0","slide":11,"name":"Text 5","text":"Catatan evaluasi","textPreview":"Catatan evaluasi","textChars":16,"textLines":1,"bbox":[828.48,169.92,326.4,30.72]}
+{"kind":"textbox","id":"sh/61kzalof","slide":11,"name":"Text 6","text":"• K=3 turun 66,85% dari K=2.\n\n• K=5 turun 60,12% dari K=4.\n\n• K=9 naik 10,53% dari K=8.\n\n• Karena kurva tidak monoton, nilai K optimal belum ditetapkan hanya dari satu run per K.","textPreview":"• K=3 turun 66,85% dari K=2. |  | • K=5 turun 60,12% dari K=4. |  | • K=9 naik 10,53% dari K=8. |  | • Karena kurva tidak monoton, nilai ...","textChars":178,"textLines":7,"bbox":[828.48,214.08,326.4,302.4]}
+{"kind":"shape","id":"sh/ofqtgnyt","slide":11,"name":"Shape 7","bbox":[81.6,584.64,1099.2,48]}
+{"kind":"textbox","id":"sh/9gza9sze","slide":11,"name":"Text 8","text":"Kesimpulan: perlu multi-start atau metode evaluasi tambahan sebelum memilih elbow final.","textPreview":"Kesimpulan: perlu multi-start atau metode evaluasi tambahan sebelum memilih elbow final.","textChars":88,"textLines":1,"bbox":[105.6,599.04,1051.2,11.52]}
+{"kind":"textbox","id":"sh/k3uhcb6h","slide":11,"name":"Slide Number Placeholder 0","placeholder":"slideNumber","text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1159.68,683.52,52.8,23.04]}
+{"kind":"image","id":"im/sj29szm9","slide":11,"name":"","alt":"Grafik evaluasi nilai K dari slide asli","bbox":[81.6,139.2,676.8,417.6]}
+{"kind":"notes","id":"nt/jetc3ut0","slide":11,"text":"Bacaan singkat:\nPada evaluasi WCSS, nilai umumnya menurun ketika K bertambah. Namun pada K=9 terjadi kenaikan, sehingga kurva tidak monoton. Karena itu saya tidak menetapkan K optimal hanya dari satu run per K. Evaluasi lanjutan perlu multi-start atau metode tambahan.\n\nGrafik evaluasi nilai K dipertahankan sebagai gambar dari slide asli agar visualnya tidak berubah pada pembaruan ini."}
+{"kind":"slide","id":"sl/8f2psfyx","slide":12,"title":"KESIMPULAN","textShapes":8}
+{"kind":"shape","id":"sh/1gbm9s3a","slide":12,"name":"Shape 0","bbox":[74.88,59.52,225.6,34.56]}
+{"kind":"textbox","id":"sh/0f2lgnmp","slide":12,"name":"Text 1","text":"KESIMPULAN","textPreview":"KESIMPULAN","textChars":10,"textLines":1,"bbox":[74.88,67.2,225.6,15.36]}
+{"kind":"textbox","id":"sh/ra943il8","slide":12,"name":"Text 2","text":"Kesimpulan dan Saran","textPreview":"Kesimpulan dan Saran","textChars":20,"textLines":1,"bbox":[74.88,120,532.8,61.44]}
+{"kind":"shape","id":"sh/q903ad4n","slide":12,"name":"Shape 3","bbox":[78.72,225.6,508.8,316.8]}
+{"kind":"shape","id":"sh/dcbm583y","slide":12,"name":"Shape 4","bbox":[78.72,225.6,7.68,316.8]}
+{"kind":"textbox","id":"sh/sb2lcnmd","slide":12,"name":"Text 5","text":"Kesimpulan","textPreview":"Kesimpulan","textChars":10,"textLines":1,"bbox":[105.6,246.72,456,30.72]}
+{"kind":"textbox","id":"sh/b6d4f2lc","slide":12,"name":"Text 6","text":"Sistem Web GIS berhasil mengintegrasikan pemetaan UMKM, layanan publik, panel admin, kualitas lokasi, dan K-Means. Hasil analisis dapat ditelusuri melalui snapshot, hash, parameter, WCSS, centroid, dan radius.","textPreview":"Sistem Web GIS berhasil mengintegrasikan pemetaan UMKM, layanan publik, panel admin, kualitas lokasi, dan K-Means. Hasil analisis dapat d...","textChars":209,"textLines":1,"bbox":[105.6,290.88,456,230.4]}
+{"kind":"shape","id":"sh/a543mx4r","slide":12,"name":"Shape 7","bbox":[625.92,225.6,508.8,316.8]}
+{"kind":"shape","id":"sh/wvupgz6t","slide":12,"name":"Shape 8","bbox":[625.92,225.6,7.68,316.8]}
+{"kind":"textbox","id":"sh/xw3q94ne","slide":12,"name":"Text 9","text":"Saran","textPreview":"Saran","textChars":5,"textLines":1,"bbox":[652.8,246.72,456,30.72]}
+{"kind":"textbox","id":"sh/atc7epon","slide":12,"name":"Text 10","text":"Tingkatkan verifikasi koordinat, jalankan K-Means dengan beberapa inisialisasi, lengkapi pengujian integrasi dan black-box, serta tambahkan evaluasi cluster seperti Silhouette Score atau metode pembanding.","textPreview":"Tingkatkan verifikasi koordinat, jalankan K-Means dengan beberapa inisialisasi, lengkapi pengujian integrasi dan black-box, serta tambahk...","textChars":205,"textLines":1,"bbox":[652.8,290.88,456,230.4]}
+{"kind":"textbox","id":"sh/bulo7u58","slide":12,"name":"Text 11","text":"Terima kasih","textPreview":"Terima kasih","textChars":12,"textLines":1,"bbox":[78.72,610.56,336,40.32]}
+{"kind":"textbox","id":"sh/orapcf6h","slide":12,"name":"Text 12","text":"Pertanyaan dan diskusi","textPreview":"Pertanyaan dan diskusi","textChars":22,"textLines":1,"bbox":[417.6,617.28,307.2,23.04]}
+{"kind":"notes","id":"nt/8f2psfyx","slide":12,"text":"Bacaan singkat:\nKesimpulannya, sistem berhasil menggabungkan pemetaan, layanan publik, pengelolaan data, dan analisis clustering. Namun hasil K-Means masih perlu dibaca secara hati-hati karena kualitas koordinat masih didominasi perkiraan. Pengembangan berikutnya adalah verifikasi koordinat, multi-start, dan pengujian lengkap."}

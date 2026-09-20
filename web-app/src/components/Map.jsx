@@ -18,6 +18,8 @@ import {
   locationAccuracyLabel,
 } from "../utils/location";
 import MapInfoPanel from "./MapInfoPanel";
+import { getProductInfo } from "../data/communityCollections";
+import { loadPublicBusinessPhoto } from "../services/publicDataService";
 
 // Plugin markercluster membaca Leaflet dari window pada saat dimuat dinamis.
 if (typeof window !== "undefined") {
@@ -151,8 +153,12 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll("'", "&#039;");
 
 // Merakit HTML popup yang dipakai oleh marker Leaflet di luar tree React.
-const popupContent = (umkm, clusterColor) => `
+const popupContent = (umkm, clusterColor) => {
+  const coordinates = getDisplayCoordinates(umkm);
+  const destination = coordinates ? `${coordinates.lat},${coordinates.lng}` : umkm.address || umkm.name;
+  return `
   <div>
+    <div class="popup-photo" aria-live="polite">Memuat foto…</div>
     <h3 style="color: ${clusterColor}">${escapeHtml(umkm.name || "UMKM")}</h3>
     <p class="popup-brand">${escapeHtml(umkm.brand || "")}</p>
     <p class="popup-detail"><strong>Jenis:</strong> ${escapeHtml(umkm.product_label || umkm.product_type || "-")}</p>
@@ -160,8 +166,68 @@ const popupContent = (umkm, clusterColor) => `
     <p class="popup-address">${escapeHtml(umkm.address || "-")}</p>
     <span class="popup-location-badge">${escapeHtml(locationAccuracyLabel(umkm))}</span>
     <span class="popup-zone-badge" style="background-color: ${clusterColor}">Wilayah ${Number(umkm.cluster) + 1}</span>
+    <a class="popup-route-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=${encodeURIComponent(destination)}" target="_blank" rel="noopener noreferrer">Buka Rute</a>
   </div>
 `;
+};
+
+const bindBusinessPopup = (marker, business, color) => {
+  marker.bindPopup(popupContent(business, color), { maxWidth: 280, maxHeight: 390 });
+  marker.on('popupopen', async ({ popup }) => {
+    const photoContainer = popup.getElement()?.querySelector('.popup-photo');
+    if (!photoContainer) return;
+    try {
+      const photo = await loadPublicBusinessPhoto(business);
+      if (!photoContainer.isConnected) return;
+      if (!photo) {
+        photoContainer.textContent = 'Foto belum tersedia';
+        return;
+      }
+      const image = document.createElement('img');
+      image.alt = `${photo.kind === 'product' ? 'Produk' : 'Tempat usaha'} ${business.brand || business.name || 'UMKM'}`;
+      image.onload = () => popup.update();
+      image.onerror = () => { photoContainer.textContent = 'Foto tidak dapat dimuat'; popup.update(); };
+      image.src = photo.url;
+      photoContainer.replaceChildren(image);
+      popup.update();
+    } catch {
+      if (photoContainer.isConnected) photoContainer.textContent = 'Foto belum dapat dimuat';
+    }
+  });
+};
+
+const DensityLayer = ({ data, category }) => {
+  const map = useMap();
+  const [failedCategory, setFailedCategory] = useState(null);
+  useEffect(() => {
+    if (!category) return undefined;
+    let cancelled = false;
+    let layer;
+    const addDensity = async () => {
+      try {
+        await import('leaflet.heat');
+        if (cancelled) return;
+        const points = data.filter((business) => category === 'all' || business.product_type === category)
+          .map(getDisplayCoordinates).filter(Boolean).map(({ lat, lng }) => [lat, lng, 1]);
+        layer = L.heatLayer(points, {
+          radius: 28,
+          blur: 20,
+          maxZoom: 17,
+          minOpacity: 0.25,
+          gradient: { 0.2: '#2563eb', 0.45: '#06b6d4', 0.65: '#22c55e', 0.8: '#facc15', 1: '#dc2626' },
+        }).addTo(map);
+      } catch {
+        if (!cancelled) setFailedCategory(category);
+      }
+    };
+    addDensity();
+    return () => {
+      cancelled = true;
+      if (layer) map.removeLayer(layer);
+    };
+  }, [map, data, category]);
+  return category && failedCategory === category ? <div className="density-error" role="alert">Layer kepadatan gagal dimuat. Muat ulang halaman untuk mencoba lagi.</div> : null;
+};
 
 // =========================================================
 // MARKER CLUSTER LAYER
@@ -176,6 +242,7 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
   // Layer lama dibersihkan sebelum data atau warna cluster diganti.
   useEffect(() => {
     if (!map || !data || data.length === 0) return;
+    let cancelled = false;
 
     const setupMarkers = async () => {
       // Load leaflet.markercluster
@@ -189,12 +256,15 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
 
           mcLoadedRef.current = true;
         } catch (err) {
+          if (cancelled) return;
           console.error("[Map] Failed to load markercluster:", err);
 
           addMarkersWithoutClustering();
           return;
         }
       }
+
+      if (cancelled) return;
 
       // Remove layer sebelumnya
       if (clusterGroupRef.current) {
@@ -239,12 +309,12 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
         if (!coordinates) return;
 
         const marker = L.marker([coordinates.lat, coordinates.lng], {
-          icon: getIcon(clusterColor),
+          icon: getIcon(getProductInfo(umkm.product_type).color),
         });
 
         marker.on("click", () => onSelectBusiness?.(umkm));
 
-        marker.bindPopup(popupContent(umkm, clusterColor), { maxWidth: 280 });
+        bindBusinessPopup(marker, umkm, clusterColor);
 
         clusterGroup.addLayer(marker);
       });
@@ -272,12 +342,12 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
         if (!coordinates) return;
 
         const marker = L.marker([coordinates.lat, coordinates.lng], {
-          icon: getIcon(clusterColor),
+          icon: getIcon(getProductInfo(umkm.product_type).color),
         });
 
         marker.on("click", () => onSelectBusiness?.(umkm));
 
-        marker.bindPopup(popupContent(umkm, clusterColor), { maxWidth: 280 });
+        bindBusinessPopup(marker, umkm, clusterColor);
 
         group.addLayer(marker);
       });
@@ -289,8 +359,10 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
     setupMarkers();
 
     return () => {
+      cancelled = true;
       if (clusterGroupRef.current) {
         map.removeLayer(clusterGroupRef.current);
+        clusterGroupRef.current = null;
       }
     };
   }, [map, data, colors, onSelectBusiness]);
@@ -581,6 +653,8 @@ const UserLocationFeature = ({ data }) => {
 // Menyatukan tile map, marker cluster, zona, dan kontrol informasi peta.
 const MapComponent = ({
   data,
+  zoneData = data,
+  densityCategory = '',
   centroids,
   colors,
   clusterStats,
@@ -595,11 +669,11 @@ const MapComponent = ({
 
   const zoomLevel = 8;
   const zonePolygons = useMemo(() => centroids.map((_, index) => convexHull(
-    data
+    zoneData
       .filter((business) => Number(business.cluster) === index)
       .map(getAnalysisCoordinates)
       .filter(Boolean),
-  )), [centroids, data]);
+  )), [centroids, zoneData]);
 
   return (
     <div className="map-container" id="map-container">
@@ -619,6 +693,8 @@ const MapComponent = ({
         />
 
         <ZoomControl position="topright" />
+
+        <DensityLayer data={data} category={densityCategory} />
 
         {/* Fitur untuk masyarakat */}
         <UserLocationFeature data={data} />

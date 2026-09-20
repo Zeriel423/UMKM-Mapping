@@ -59,6 +59,16 @@ Tombol **Daftarkan UMKM** pada peta membuka formulir untuk nama usaha, pemilik, 
 
 Admin dan superadmin meninjau pengajuan melalui **Pengajuan UMKM**. Saat disetujui, aplikasi membuat data UMKM baru dan menandai pengajuan sebagai disetujui dalam satu transaksi. Lokasi yang dikirim pelaku berstatus perkiraan dan tetap dapat diperiksa lagi melalui menu Verifikasi Lokasi.
 
+## Kategori, kepadatan, dan foto publik
+
+Sidebar publik menyediakan **Mengenal Kategori UMKM** dan **Legenda UMKM & Layer Peta**. Checkbox kategori dapat dipilih bersamaan dan memfilter marker serta daftar usaha. Warna titik mengikuti kategori produk; polygon dan centroid tetap memakai warna K-Means. Menyembunyikan kategori di legenda tidak menghitung ulang K-Means atau mengubah batas zona.
+
+Pilihan **Analisis kepadatan** menampilkan heatmap semua kategori terpilih atau satu kategori. Heatmap menunjukkan konsentrasi relatif titik pada tingkat zoom saat ini, bukan nilai usaha/km² maupun hasil K-Means. Titik perkiraan dan filter pencarian/zona memengaruhi tampilan. Batas dan nomor RW belum ditambahkan karena dataset RW belum tersedia.
+
+Migrasi `supabase/migrations/20260920000101_published_umkm_photos.sql` sudah diterapkan pada proyek Supabase saat ini. Untuk instalasi baru, jalankan migrasi tersebut setelah migrasi pengajuan dan foto sebelumnya. Migrasi menyalin metadata foto pengajuan yang sudah disetujui ke `umkm_photos` dan menyinkronkan persetujuan berikutnya melalui trigger. Data kontak, kode pelacakan, dan pengajuan yang belum disetujui tetap privat. Bucket tetap privat; RLS hanya mengizinkan pembacaan foto usaha aktif dan dipublikasikan. Tautan foto berlaku 5 menit, sehingga tautan yang sudah diterbitkan dapat tetap berlaku sampai kedaluwarsa setelah usaha dinonaktifkan.
+
+Foto dimuat saat kartu peta dibuka. Jika belum ada foto, kartu menampilkan keterangan tanpa gambar pengganti. Mode JSON lokal mendukung `photo_url` dan `photo_kind` (`product` atau `place`) jika foto asli sudah tersedia.
+
 ## Pemeriksaan proyek
 
 ```bash

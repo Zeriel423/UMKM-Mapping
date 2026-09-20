@@ -1,4 +1,6 @@
 import { Eye, EyeOff, MapPin, Info, Layers, Search, X } from 'lucide-react';
+import { useRef } from 'react';
+import { getProductInfo } from '../data/communityCollections';
 
 // Menyediakan pencarian, filter, ringkasan data, dan kontrol analisis peta.
 const Sidebar = ({
@@ -18,11 +20,15 @@ const Sidebar = ({
   wcss,
   searchQuery,
   setSearchQuery,
-  productFilter,
-  setProductFilter,
   productTypes,
   filteredCount,
+  hiddenCategories,
+  onToggleCategory,
+  onToggleAllCategories,
+  densityCategory,
+  setDensityCategory,
 }) => {
+  const categoryDialog = useRef(null);
   return (
     <aside className={`sidebar ${isOpen ? 'open' : ''}`} id="sidebar">
       <div className="sidebar-header">
@@ -77,32 +83,53 @@ const Sidebar = ({
           )}
         </div>
 
-        {productTypes && productTypes.length > 0 && (
-          <div className="filter-section">
-            <span className="filter-label">Jenis produk</span>
-            <div className="filter-chips">
-              <button
-                className={`filter-chip ${productFilter === '' ? 'active' : ''}`}
-                onClick={() => setProductFilter('')}
-                aria-pressed={productFilter === ''}
-              >
-                Semua
-              </button>
-              {productTypes.map((pt) => (
-                <button
-                  key={pt.code}
-                  className={`filter-chip ${productFilter === pt.code ? 'active' : ''}`}
-                  onClick={() => setProductFilter(productFilter === pt.code ? '' : pt.code)}
-                  title={pt.label}
-                  aria-pressed={productFilter === pt.code}
-                >
-                  {pt.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+        <button className="category-info-button" type="button" onClick={() => categoryDialog.current.showModal()}>
+          <Info size={18} /> Mengenal Kategori UMKM
+        </button>
       </section>
+
+      <details className="map-layer-legend" open>
+        <summary><Layers size={18} /> Legenda UMKM &amp; Layer Peta</summary>
+        <div className="map-layer-content">
+          <p>Warna titik menunjukkan kategori. Warna area menunjukkan zona K-Means.</p>
+          <label className="layer-option layer-option-all">
+            <input type="checkbox" checked={hiddenCategories.length === 0} ref={(element) => { if (element) element.indeterminate = hiddenCategories.length > 0 && hiddenCategories.length < productTypes.length; }} onChange={onToggleAllCategories} />
+            <strong>Semua kategori</strong>
+          </label>
+          <div className="category-layer-list">
+            {productTypes.map((type) => (
+              <label className="layer-option" key={type.code}>
+                <input type="checkbox" checked={!hiddenCategories.includes(type.code)} onChange={() => onToggleCategory(type.code)} />
+                <span className="category-color" style={{ backgroundColor: getProductInfo(type.code).color }} aria-hidden="true" />
+                <span>{type.label}</span><small>{type.count.toLocaleString('id-ID')}</small>
+              </label>
+            ))}
+          </div>
+          <fieldset className="map-layer-section">
+            <legend>Analisis kepadatan</legend>
+            <label htmlFor="density-category">Tampilkan konsentrasi titik</label>
+            <select id="density-category" value={densityCategory} onChange={(event) => setDensityCategory(event.target.value)}>
+              <option value="">Nonaktif</option>
+              <option value="all">Semua kategori terpilih</option>
+              {productTypes.filter((type) => !hiddenCategories.includes(type.code)).map((type) => <option key={type.code} value={type.code}>{type.label}</option>)}
+            </select>
+            {densityCategory && <div className="density-scale"><span /><div><small>Rendah</small><small>Tinggi</small></div><p>Kepadatan relatif titik pada tampilan dan tingkat zoom saat ini. Lokasi perkiraan dapat memengaruhi hasil.</p></div>}
+          </fieldset>
+        </div>
+      </details>
+
+      <dialog ref={categoryDialog} className="category-dialog" aria-labelledby="category-dialog-title" onClick={(event) => { if (event.target === event.currentTarget) categoryDialog.current.close(); }}>
+        <header><div><span className="sidebar-section-kicker">KENALI USAHA LOKAL</span><h2 id="category-dialog-title">Kategori UMKM</h2><p>Jenis produk dan layanan dalam dataset Sulawesi Utara.</p></div><button type="button" aria-label="Tutup informasi kategori" onClick={() => categoryDialog.current.close()}><X size={22} /></button></header>
+        <div className="category-info-grid">
+          {productTypes.map((type) => {
+            const info = getProductInfo(type.code);
+            return <article className="category-info-card" key={type.code}>
+              <h3 style={{ backgroundColor: info.color }}>{type.label}</h3>
+              <div><p>{info.description}</p><strong>{type.count.toLocaleString('id-ID')} usaha terdata</strong></div>
+            </article>;
+          })}
+        </div>
+      </dialog>
 
       {/* Stats Cards */}
       <div className="stats-container">
@@ -227,8 +254,8 @@ const Sidebar = ({
         <div className="info-box">
           <Info size={18} color="var(--primary-color)" className="info-box-icon" />
           <p>
-            Warna pada peta menunjukkan wilayah zonasi UMKM yang berdekatan secara
-            geografis. Sebagian titik merupakan perkiraan berdasarkan alamat atau wilayah.
+            Warna titik menunjukkan kategori usaha, sedangkan warna area menunjukkan zona K-Means.
+            Sebagian titik merupakan perkiraan berdasarkan alamat atau wilayah.
           </p>
         </div>
       </div>

@@ -4,7 +4,7 @@ import MapView from './components/Map';
 import BusinessList from './components/BusinessList';
 import { performKMeans, generateClusterColors } from './utils/kmeans';
 import {
-  getAnalysisCoordinates,
+  getDisplayCoordinates,
   isMappableLocation,
   LOCATION_ACCURACY,
 } from './utils/location';
@@ -29,7 +29,8 @@ function App() {
   const [showZoneAreas, setShowZoneAreas] = useState(true);
   const [selectedZone, setSelectedZone] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [productFilter, setProductFilter] = useState('');
+  const [hiddenCategories, setHiddenCategories] = useState([]);
+  const [densityCategory, setDensityCategory] = useState('');
   const [activeCollection, setActiveCollection] = useState(null);
   const [selectedBusinessId, setSelectedBusinessId] = useState(null);
   const [focusSelectedBusiness, setFocusSelectedBusiness] = useState(false);
@@ -107,14 +108,12 @@ function App() {
     return Array.from(typeMap.values()).sort((a, b) => b.count - a.count);
   }, [rawData]);
 
-  // Menerapkan koleksi, kategori, dan teks pencarian pada data sumber.
+  // Menerapkan koleksi dan teks pencarian pada data sumber.
   const filteredData = useMemo(() => {
     let result = rawData;
 
     if (activeCollection) {
       result = result.filter((item) => activeCollection.productTypes.includes(item.product_type));
-    } else if (productFilter) {
-      result = result.filter(item => item.product_type === productFilter);
     }
 
     if (searchQuery.trim()) {
@@ -129,7 +128,7 @@ function App() {
     }
 
     return result;
-  }, [rawData, searchQuery, productFilter, activeCollection]);
+  }, [rawData, searchQuery, activeCollection]);
 
   // Detail usaha dicari dari data penuh agar tautan tetap valid saat filter berubah.
   const selectedBusiness = useMemo(
@@ -200,6 +199,11 @@ function App() {
       ? clusteredData
       : clusteredData.filter((business) => Number(business.cluster) === activeZone)
   ), [activeZone, clusteredData]);
+
+  const visibleBusinesses = useMemo(() => {
+    const hidden = new Set(hiddenCategories);
+    return zoneFilteredBusinesses.filter((business) => !hidden.has(business.product_type));
+  }, [zoneFilteredBusinesses, hiddenCategories]);
 
   const selectedZoneSummary = useMemo(() => {
     if (activeZone === null) return null;
@@ -282,7 +286,7 @@ function App() {
 
       if (!matchesBusiness) return;
 
-      const coordinates = getAnalysisCoordinates(selectedBusiness);
+      const coordinates = getDisplayCoordinates(selectedBusiness);
       const destination = coordinates
         ? `${coordinates.lat},${coordinates.lng}`
         : selectedBusiness.address || selectedName;
@@ -387,15 +391,8 @@ function App() {
     };
   }, [selectedBusiness, focusSelectedBusiness]);
 
-  // Filter kategori menggantikan koleksi kurasi yang sedang aktif.
-  const selectProductFilter = useCallback((filter) => {
-    setActiveCollection(null);
-    setProductFilter(filter);
-  }, []);
-
-  // Koleksi memakai beberapa kode kategori sehingga filter tunggal dibersihkan.
+  // Koleksi kurasi menggabungkan beberapa kategori produk.
   const selectCollection = useCallback((collection) => {
-    setProductFilter('');
     setActiveCollection(collection);
   }, []);
 
@@ -462,7 +459,7 @@ function App() {
         setKValue={setKValue}
         totalData={rawData.length}
         mappableCount={mappableCount}
-        filteredCount={zoneFilteredBusinesses.length}
+        filteredCount={visibleBusinesses.length}
         clusterStats={clusterStats}
         selectedZone={activeZone}
         onSelectZone={(index) => setSelectedZone((current) => (current === index ? null : index))}
@@ -473,9 +470,20 @@ function App() {
         wcss={wcss}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        productFilter={productFilter}
-        setProductFilter={selectProductFilter}
         productTypes={productTypes}
+        hiddenCategories={hiddenCategories}
+        onToggleCategory={(code) => {
+          setActiveCollection(null);
+          if (densityCategory === code) setDensityCategory('');
+          setHiddenCategories((current) => current.includes(code) ? current.filter((item) => item !== code) : [...current, code]);
+        }}
+        onToggleAllCategories={() => {
+          setActiveCollection(null);
+          setHiddenCategories(hiddenCategories.length ? [] : productTypes.map((type) => type.code));
+          setDensityCategory('');
+        }}
+        densityCategory={densityCategory}
+        setDensityCategory={setDensityCategory}
       />
 
       <main className="main-content">
@@ -496,7 +504,9 @@ function App() {
         </button>
 
         <MapView
-          data={zoneFilteredBusinesses}
+          data={visibleBusinesses}
+          zoneData={zoneFilteredBusinesses}
+          densityCategory={densityCategory}
           centroids={centroids}
           colors={colors}
           clusterStats={clusterStats}
@@ -539,9 +549,9 @@ function App() {
         </button>
 
         <BusinessList
-          businesses={zoneFilteredBusinesses}
+          businesses={visibleBusinesses}
           allBusinesses={rawData}
-          resultsKey={`${searchQuery}\u0000${productFilter}\u0000${activeCollection?.id || 'all'}\u0000${activeZone ?? 'all'}`}
+          resultsKey={`${searchQuery}\u0000${hiddenCategories.join(',')}\u0000${activeCollection?.id || 'all'}\u0000${activeZone ?? 'all'}`}
           selectedBusiness={selectedBusiness}
           activeCollectionId={activeCollection?.id}
           onSelectCollection={selectCollection}

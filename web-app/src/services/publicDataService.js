@@ -26,3 +26,14 @@ export const loadPublicBusinesses = async () => {
   const { loadPublishedBusinesses } = await import('./umkmService');
   return loadPublishedBusinesses();
 };
+
+export const loadPublicBusinessPhoto = async (business) => {
+  if (!hasDatabaseConfiguration) {
+    if (!business.photo_url) return null;
+    const url = new URL(business.photo_url, window.location.origin);
+    if (!['https:', 'http:'].includes(url.protocol)) return null;
+    return { url: url.href, kind: business.photo_kind };
+  }
+  const { loadPublishedBusinessPhoto } = await import('./umkmService');
+  return loadPublishedBusinessPhoto(business.id);
+};

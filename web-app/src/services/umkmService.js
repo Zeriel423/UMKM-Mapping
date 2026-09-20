@@ -75,6 +75,18 @@ export const loadAdminBusinesses = async () => {
   return rows.map(normalizeBusinessLocation);
 };
 
+export const loadPublishedBusinessPhoto = async (businessId) => {
+  ensureConfigured();
+  const { data: photo, error } = await supabase.from('umkm_photos')
+    .select('photo_path,photo_kind').eq('umkm_id', businessId).maybeSingle();
+  if (error) throw error;
+  if (!photo) return null;
+  const { data, error: storageError } = await supabase.storage.from(SUBMISSION_PHOTO_BUCKET)
+    .createSignedUrl(photo.photo_path, 300);
+  if (storageError) throw storageError;
+  return { url: data.signedUrl, kind: photo.photo_kind };
+};
+
 const nullableNumber = (value) => {
   // Form kosong harus menjadi null agar tidak tersimpan sebagai angka palsu.
   if (value === '' || value === null || value === undefined) return null;

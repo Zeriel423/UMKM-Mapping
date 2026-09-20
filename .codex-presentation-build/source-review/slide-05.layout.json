@@ -1,0 +1,1041 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/i107q5of",
+    "id": "i107q5of",
+    "slide": 5,
+    "layoutId": "/ppt/slideLayouts/slideLayout2.xml",
+    "layoutName": "MODERN",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "Office",
+    "colors": {
+      "accent1": "#4472C4",
+      "accent2": "#ED7D31",
+      "accent3": "#A5A5A5",
+      "accent4": "#FFC000",
+      "accent5": "#5B9BD5",
+      "accent6": "#70AD47",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#44546A",
+      "lt2": "#E7E6E6",
+      "hlink": "#0563C1",
+      "folHlink": "#954F72"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Aptos Display"
+      },
+      "minorFont": {
+        "latinTypeface": "Aptos"
+      }
+    },
+    "typefaces": [
+      "Aptos",
+      "Aptos Display"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout2.xml",
+      "name": "MODERN",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "backgroundColor": "#F8FAF8",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/2",
+          "id": "2",
+          "name": "Shape 0",
+          "bbox": [
+            0,
+            0,
+            1279.97,
+            720
+          ],
+          "geometry": "rect",
+          "fillColor": "#F8FAF8",
+          "lineColor": "#F8FAF8",
+          "lineWidth": 1.33
+        },
+        {
+          "order": 2,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/3",
+          "id": "3",
+          "name": "Shape 1",
+          "bbox": [
+            0,
+            0,
+            12.48,
+            720
+          ],
+          "geometry": "rect",
+          "fillColor": "#0F4C5C",
+          "lineColor": "#0F4C5C",
+          "lineWidth": 1.33
+        },
+        {
+          "order": 3,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/4",
+          "id": "4",
+          "name": "Shape 2",
+          "bbox": [
+            62.4,
+            676.8,
+            1152,
+            0
+          ],
+          "geometry": "line",
+          "lineColor": "#D7E5DF",
+          "lineWidth": 1.33
+        },
+        {
+          "order": 4,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/5",
+          "id": "5",
+          "name": "Text 3",
+          "bbox": [
+            62.4,
+            685.44,
+            816,
+            21.12
+          ],
+          "geometry": "rect",
+          "text": "Putra Febrian • D-IV Teknik Informatika • Politeknik Negeri Manado",
+          "textPreview": "Putra Febrian • D-IV Teknik Informatika • Politeknik Negeri Manado",
+          "resolvedTextStyle": {
+            "anchor": 2,
+            "verticalAlignment": "middle",
+            "wrap": "square",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Putra Febrian • D-IV Teknik Informatika • Politeknik Negeri Manado",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Putra Febrian • D-IV Teknik Informatika • Politeknik Negeri Manado",
+                  "fontSize": 11.6,
+                  "typeface": "Aptos",
+                  "color": "#6B7B84"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "order": 5,
+          "kind": "shape",
+          "scope": "layout",
+          "aid": "template/layout//ppt/slideLayouts/slideLayout2.xml/25",
+          "id": "25",
+          "name": "Slide Number Placeholder 0",
+          "bbox": [
+            1159.68,
+            683.52,
+            52.8,
+            23.04
+          ],
+          "geometry": "rect",
+          "text": "‹#›",
+          "textPreview": "‹#›",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "‹#›",
+              "resolvedTextStyle": {
+                "alignment": "right"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "‹#›"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "type": "master",
+      "elements": [
+        {
+          "order": 1,
+          "kind": "shape",
+          "scope": "master",
+          "aid": "template/master//ppt/slideMasters/slideMaster1.xml/25",
+          "id": "25",
+          "name": "Slide Number Placeholder 0",
+          "bbox": [
+            1159.68,
+            683.52,
+            52.8,
+            23.04
+          ],
+          "geometry": "rect",
+          "text": "‹#›",
+          "textPreview": "‹#›",
+          "resolvedTextStyle": {
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "‹#›",
+              "resolvedTextStyle": {
+                "alignment": "right"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "‹#›"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/dgbulwnm",
+      "id": "2",
+      "name": "Text 0",
+      "bbox": [
+        69.12,
+        41.28,
+        1132.8,
+        46.08
+      ],
+      "geometry": "rect",
+      "text": "Solusi yang Dibangun",
+      "textPreview": "Solusi yang Dibangun",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Solusi yang Dibangun"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Solusi yang Dibangun",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Solusi yang Dibangun",
+              "fontSize": 40,
+              "typeface": "Aptos Display",
+              "color": "#09212B",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cf2tcr61",
+      "id": "3",
+      "name": "Text 1",
+      "bbox": [
+        72,
+        93.12,
+        1046.4,
+        28.8
+      ],
+      "geometry": "rect",
+      "text": "Web GIS UMKM dengan dua jalur utama: publik dan admin",
+      "textPreview": "Web GIS UMKM dengan dua jalur utama: publik dan admin",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Web GIS UMKM dengan dua jalur utama: publik dan admin"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Web GIS UMKM dengan dua jalur utama: publik dan admin",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Web GIS UMKM dengan dua jalur utama: publik dan admin",
+              "fontSize": 17.33,
+              "color": "#5E7178"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/z2tcnm5s",
+      "id": "4",
+      "name": "Shape 2",
+      "bbox": [
+        69.12,
+        124.8,
+        91.2,
+        6.72
+      ],
+      "geometry": "rect",
+      "fillColor": "#F2C94C",
+      "lineColor": "#F2C94C",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/yhkbe1o7",
+      "id": "5",
+      "name": "Shape 3",
+      "bbox": [
+        76.8,
+        148.8,
+        1125.12,
+        51.84
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#0B2F3A",
+      "lineColor": "#0B2F3A",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/l4bupwny",
+      "id": "6",
+      "name": "Text 4",
+      "bbox": [
+        100.8,
+        165.12,
+        1075.2,
+        15.36
+      ],
+      "geometry": "rect",
+      "text": "Aplikasi menghubungkan data UMKM, peta interaktif, pengajuan publik, verifikasi lokasi, dan analisis K-Means.",
+      "textPreview": "Aplikasi menghubungkan data UMKM, peta interaktif, pengajuan publik, verifikasi lokasi, dan analisis K-Means.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Aplikasi menghubungkan data UMKM, peta interaktif, pengajuan publik, verifikasi lokasi, dan analisis K-Means."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Aplikasi menghubungkan data UMKM, peta interaktif, pengajuan publik, verifikasi lokasi, dan analisis K-Means.",
+          "resolvedTextStyle": {
+            "alignment": "center"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Aplikasi menghubungkan data UMKM, peta interaktif, pengajuan publik, verifikasi lokasi, dan analisis K-Means.",
+              "fontSize": 17.6,
+              "color": "#FFFFFF",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/032tgr6d",
+      "id": "7",
+      "name": "Shape 5",
+      "bbox": [
+        84.48,
+        251.52,
+        340.8,
+        273.6
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFFFF",
+      "lineColor": "#D6E3DF",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/n6dcr65o",
+      "id": "8",
+      "name": "Shape 6",
+      "bbox": [
+        84.48,
+        251.52,
+        7.68,
+        273.6
+      ],
+      "geometry": "rect",
+      "fillColor": "#1B98A8",
+      "lineColor": "#1B98A8",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m5kbi1oj",
+      "id": "9",
+      "name": "Text 7",
+      "bbox": [
+        111.36,
+        272.64,
+        288,
+        30.72
+      ],
+      "geometry": "rect",
+      "text": "Publik",
+      "textPreview": "Publik",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Publik"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Publik",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Publik",
+              "fontSize": 22,
+              "color": "#09212B",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/w32dkbuh",
+      "id": "10",
+      "name": "Text 8",
+      "bbox": [
+        111.36,
+        316.8,
+        288,
+        187.2
+      ],
+      "geometry": "rect",
+      "text": "Melihat peta, mencari UMKM, filter kategori, melihat rute, menemukan UMKM terdekat, berbagi tautan, dan mengajukan UMKM baru.",
+      "textPreview": "Melihat peta, mencari UMKM, filter kategori, melihat rute, menemukan UMKM terdekat, berbagi tautan, dan mengajukan UMKM baru.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Melihat peta, mencari UMKM, filter"
+          },
+          {
+            "index": 2,
+            "text": "kategori, melihat rute, menemukan"
+          },
+          {
+            "index": 3,
+            "text": "UMKM terdekat, berbagi tautan, dan"
+          },
+          {
+            "index": 4,
+            "text": "mengajukan UMKM baru."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Melihat peta, mencari UMKM, filter kategori, melihat rute, menemukan UMKM terdekat, berbagi tautan, dan mengajukan UMKM baru.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Melihat peta, mencari UMKM, filter kategori, melihat rute, menemukan UMKM terdekat, berbagi tautan, dan mengajukan UMKM baru.",
+              "fontSize": 18.4,
+              "color": "#1E2D36"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/x4vedgvm",
+      "id": "11",
+      "name": "Shape 9",
+      "bbox": [
+        468.48,
+        251.52,
+        340.8,
+        273.6
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFFFF",
+      "lineColor": "#D6E3DF",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ahkvi1cb",
+      "id": "12",
+      "name": "Shape 10",
+      "bbox": [
+        468.48,
+        251.52,
+        7.68,
+        273.6
+      ],
+      "geometry": "rect",
+      "fillColor": "#0F6B72",
+      "lineColor": "#0F6B72",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/v2twb6dw",
+      "id": "13",
+      "name": "Text 11",
+      "bbox": [
+        495.36,
+        272.64,
+        288,
+        30.72
+      ],
+      "geometry": "rect",
+      "text": "Admin",
+      "textPreview": "Admin",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Admin"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Admin",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Admin",
+              "fontSize": 22,
+              "color": "#09212B",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 13,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/k7mxovud",
+      "id": "14",
+      "name": "Text 12",
+      "bbox": [
+        495.36,
+        316.8,
+        288,
+        187.2
+      ],
+      "geometry": "rect",
+      "text": "Mengelola data UMKM, meninjau pengajuan, memverifikasi koordinat, menjalankan K-Means, melakukan import/export, dan melihat audit.",
+      "textPreview": "Mengelola data UMKM, meninjau pengajuan, memverifikasi koordinat, menjalankan K-Means, melakukan import/export, dan melihat audit.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Mengelola data UMKM, meninjau"
+          },
+          {
+            "index": 2,
+            "text": "pengajuan, memverifikasi koordinat,"
+          },
+          {
+            "index": 3,
+            "text": "menjalankan K-Means, melakukan"
+          },
+          {
+            "index": 4,
+            "text": "import/export, dan melihat audit."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Mengelola data UMKM, meninjau pengajuan, memverifikasi koordinat, menjalankan K-Means, melakukan import/export, dan melihat audit.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Mengelola data UMKM, meninjau pengajuan, memverifikasi koordinat, menjalankan K-Means, melakukan import/export, dan melihat audit.",
+              "fontSize": 18.4,
+              "color": "#1E2D36"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 14,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/58vehgvy",
+      "id": "15",
+      "name": "Shape 13",
+      "bbox": [
+        852.48,
+        251.52,
+        340.8,
+        273.6
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFFDF2",
+      "lineColor": "#D6E3DF",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 15,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/i54fmlc7",
+      "id": "16",
+      "name": "Shape 14",
+      "bbox": [
+        852.48,
+        251.52,
+        7.68,
+        273.6
+      ],
+      "geometry": "rect",
+      "fillColor": "#F2C94C",
+      "lineColor": "#F2C94C",
+      "lineWidth": 1.33
+    },
+    {
+      "order": 16,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/j6dwfqds",
+      "id": "17",
+      "name": "Text 15",
+      "bbox": [
+        879.36,
+        272.64,
+        288,
+        30.72
+      ],
+      "geometry": "rect",
+      "text": "Analisis",
+      "textPreview": "Analisis",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 2,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "middle",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Analisis"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Analisis",
+          "runs": [
+            {
+              "index": 1,
+              "text": "Analisis",
+              "fontSize": 22,
+              "color": "#09212B",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 17,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/sb6xsvu9",
+      "id": "18",
+      "name": "Text 16",
+      "bbox": [
+        879.36,
+        316.8,
+        288,
+        187.2
+      ],
+      "geometry": "rect",
+      "text": "K-Means++ membentuk zona spasial, menghitung WCSS, centroid, radius, snapshot, dan hash dataset.",
+      "textPreview": "K-Means++ membentuk zona spasial, menghitung WCSS, centroid, radius, snapshot, dan hash dataset.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Aptos",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "shrinkText",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "K-Means++ membentuk zona spasial,"
+          },
+          {
+            "index": 2,
+            "text": "menghitung WCSS, centroid, radius,"
+          },
+          {
+            "index": 3,
+            "text": "snapshot, dan hash dataset."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "K-Means++ membentuk zona spasial, menghitung WCSS, centroid, radius, snapshot, dan hash dataset.",
+          "runs": [
+            {
+              "index": 1,
+              "text": "K-Means++ membentuk zona spasial, menghitung WCSS, centroid, radius, snapshot, dan hash dataset.",
+              "fontSize": 18.4,
+              "color": "#1E2D36"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 18,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/tcfel0vu",
+      "id": "19",
+      "name": "Shape 17",
+      "bbox": [
+        429.12,
+        387.84,
+        30.72,
+        0
+      ],
+      "geometry": "line",
+      "lineColor": "#F2C94C",
+      "lineWidth": 2.67
+    },
+    {
+      "order": 19,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hgrmpwj2",
+      "id": "20",
+      "name": "Shape 18",
+      "bbox": [
+        813.12,
+        387.84,
+        30.72,
+        0
+      ],
+      "geometry": "line",
+      "lineColor": "#F2C94C",
+      "lineWidth": 2.67
+    },
+    {
+      "order": 20,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4ji5kbid",
+      "id": "25",
+      "name": "Slide Number Placeholder 0",
+      "bbox": [
+        1159.68,
+        683.52,
+        52.8,
+        23.04
+      ],
+      "geometry": "rect",
+      "text": "5",
+      "textPreview": "5",
+      "resolvedFontSize": 12,
+      "resolvedTextStyle": {
+        "fontSize": 12,
+        "typeface": "Aptos",
+        "color": "#6B7B84",
+        "alignment": "left",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "5"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "5",
+          "resolvedTextStyle": {
+            "alignment": "right"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "5"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    }
+  ],
+  "composeRuns": []
+}

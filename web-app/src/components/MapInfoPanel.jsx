@@ -151,7 +151,7 @@ const MapInfoPanel = ({
             <div className="map-info-note">
               <Info size={16} aria-hidden="true" />
               <p>
-                Warna titik menunjukkan wilayah hasil K-Means, bukan tingkat akurasi lokasi.
+                Warna titik menunjukkan kategori usaha. Warna area menunjukkan wilayah hasil K-Means.
                 Titik perkiraan mewakili wilayah dan bukan posisi GPS yang presisi.
               </p>
             </div>

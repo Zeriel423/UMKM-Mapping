@@ -293,7 +293,7 @@ const BusinessSubmissionForm = ({ initialMode = 'submit', onChangeMode, onClose 
             <div className="public-category-guide"><strong>Panduan memilih kategori</strong>{categoryGuides.map(([name, description]) => <p key={name}><b>{name}</b> — {description}</p>)}</div>
 
             <div className="public-photo-field">
-              <div><strong><ImagePlus size={17} aria-hidden="true" /> Foto usaha</strong><p>Unggah satu foto produk atau tempat usaha untuk membantu admin memverifikasi pengajuan.</p></div>
+              <div><strong><ImagePlus size={17} aria-hidden="true" /> Foto usaha</strong><p>Unggah satu foto produk atau tempat usaha. Setelah pengajuan disetujui dan usaha dipublikasikan, foto akan tampil pada kartu UMKM di peta.</p></div>
               <label><span>Jenis foto</span><select value={photoKind} onChange={(event) => setPhotoKind(event.target.value)} disabled={!photo}><option value="product">Produk</option><option value="place">Tempat usaha</option></select></label>
               <label className="public-photo-upload"><span>Pilih foto</span><input type="file" accept="image/jpeg,image/png,image/webp" onChange={(event) => setPhoto(event.target.files?.[0] || null)} /><small>{photo ? `${photo.name} (${Math.ceil(photo.size / 1024)} KB)` : 'JPG, PNG, atau WebP, maksimal 5 MB.'}</small></label>
             </div>

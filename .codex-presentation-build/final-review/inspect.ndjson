@@ -1,0 +1,236 @@
+{"kind":"deck","id":"pr/xhoa6l","name":"Deck"}
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"","type":"master","placeholders":[{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"DEFAULT"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout2.xml","name":"MODERN","placeholders":[{"name":"slideNumber","type":"slideNumber","textPreview":"‹#›"}]}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"PRESENTASI SKRIPSI","textShapes":6}
+{"kind":"shape","id":"sh/k3yl0zql","slide":1,"name":"Shape 0","bbox":[69.12,59.52,216,34.56]}
+{"kind":"textbox","id":"sh/7qp4be9c","slide":1,"textChars":18,"textLines":1}
+{"kind":"textbox","id":"sh/65g3298r","slide":1,"textChars":54,"textLines":1}
+{"kind":"textbox","id":"sh/ts7md4r2","slide":1,"textChars":68,"textLines":1}
+{"kind":"shape","id":"sh/sryl4zqx","slide":1,"name":"Shape 4","bbox":[69.12,336,412.8,0]}
+{"kind":"textbox","id":"sh/fu94fe98","slide":1,"textChars":26,"textLines":2}
+{"kind":"textbox","id":"sh/utg3698n","slide":1,"textChars":69,"textLines":2}
+{"kind":"shape","id":"sh/wn6dc7eh","slide":1,"name":"Shape 7","bbox":[69.12,597.12,547.2,55.68]}
+{"kind":"textbox","id":"sh/hofulsf2","slide":1,"textChars":55,"textLines":1}
+{"kind":"image","id":"im/5cze9svq","slide":1,"name":"Image 0","bbox":[708.48,0,571.49,720]}
+{"kind":"image","id":"im/kr6xgnu5","slide":1,"name":"Image 1","bbox":[1048.32,46.08,139.2,139.2]}
+{"kind":"notes","id":"nt/y90nupkv","slide":1,"text":"Bacaan singkat: | Assalamualaikum/selamat pagi. Saya Putra Febrian akan mempr..."}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"Latar Belakang Mitra: YBLI","textShapes":18}
+{"kind":"textbox","id":"sh/9072xkry","slide":2,"textChars":26,"textLines":1}
+{"kind":"textbox","id":"sh/ozy1ofad","slide":2,"textChars":51,"textLines":1}
+{"kind":"shape","id":"sh/b29kza94","slide":2,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/a10jqpsj","slide":2,"name":"Shape 3","bbox":[74.88,148.8,297.6,465.6]}
+{"kind":"textbox","id":"sh/x4r21kru","slide":2,"textChars":4,"textLines":1}
+{"kind":"textbox","id":"sh/w3i1sfa9","slide":2,"textChars":30,"textLines":2}
+{"kind":"shape","id":"sh/r65knqtk","slide":2,"name":"Shape 6","bbox":[113.28,360,211.2,0]}
+{"kind":"textbox","id":"sh/q5wjelsz","slide":2,"textChars":67,"textLines":1}
+{"kind":"textbox","id":"sh/ove9o7yd","slide":2,"textChars":22,"textLines":1}
+{"kind":"shape","id":"sh/9wnqhczy","slide":2,"name":"Shape 9","bbox":[410.88,155.52,216,100.8]}
+{"kind":"textbox","id":"sh/mtwrmxg7","slide":2,"textChars":4,"textLines":1}
+{"kind":"textbox","id":"sh/nu58f2hs","slide":2,"textChars":13,"textLines":1}
+{"kind":"shape","id":"sh/wjy9sry9","slide":2,"name":"Shape 12","bbox":[648.96,155.52,216,100.8]}
+{"kind":"textbox","id":"sh/xk7qlczu","slide":2,"textChars":1,"textLines":1}
+{"kind":"textbox","id":"sh/ahwrqhgj","slide":2,"textChars":12,"textLines":1}
+{"kind":"shape","id":"sh/bip8jmho","slide":2,"name":"Shape 15","bbox":[887.04,155.52,216,100.8]}
+{"kind":"textbox","id":"sh/cnupgny5","slide":2,"textChars":1,"textLines":1}
+{"kind":"textbox","id":"sh/do3q9szq","slide":2,"textChars":13,"textLines":1}
+{"kind":"shape","id":"sh/t8byxkn2","slide":2,"name":"Shape 18","bbox":[410.88,288,321.6,264]}
+{"kind":"shape","id":"sh/s72xofmh","slide":2,"name":"Shape 19","bbox":[410.88,288,7.68,264]}
+{"kind":"textbox","id":"sh/76twva5c","slide":2,"textChars":14,"textLines":1}
+{"kind":"textbox","id":"sh/65kfmpor","slide":2,"textChars":173,"textLines":1}
+{"kind":"shape","id":"sh/hcvy14ne","slide":2,"name":"Shape 22","bbox":[763.2,288,340.8,264]}
+{"kind":"shape","id":"sh/gbmxszmt","slide":2,"name":"Shape 23","bbox":[763.2,288,7.68,264]}
+{"kind":"textbox","id":"sh/fadgzu58","slide":2,"textChars":24,"textLines":1}
+{"kind":"textbox","id":"sh/u94fqp4n","slide":2,"textChars":162,"textLines":1}
+{"kind":"textbox","id":"sh/p0vy54na","slide":2,"textChars":31,"textLines":1}
+{"kind":"textbox","id":"sh/4zmxwzmp","slide":2,"textChars":1,"textLines":1}
+{"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":"Bacaan singkat: | Mitra penelitian saya adalah Yayasan Bina Lentera Insan ata..."}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"Latar Belakang Masalah","textShapes":5}
+{"kind":"textbox","id":"sh/cza94vmx","slide":3,"textChars":22,"textLines":1}
+{"kind":"textbox","id":"sh/d0jax03i","slide":3,"textChars":41,"textLines":1}
+{"kind":"shape","id":"sh/298ryl4v","slide":3,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/3ah8rqlg","slide":3,"name":"Shape 3","bbox":[777.6,136.32,417.6,408]}
+{"kind":"shape","id":"sh/pcjqtg36","slide":3,"name":"Shape 4","bbox":[74.88,147.84,662.4,414.72]}
+{"kind":"textbox","id":"sh/m5cra54z","slide":3,"textChars":377,"textLines":5}
+{"kind":"shape","id":"sh/n6ls3alk","slide":3,"name":"Shape 6","bbox":[74.88,585.6,662.4,43.2]}
+{"kind":"textbox","id":"sh/n2l4fq98","slide":3,"textChars":78,"textLines":1}
+{"kind":"textbox","id":"sh/re9g7yxo","slide":3,"textChars":1,"textLines":1}
+{"kind":"image","id":"im/fytczylk","slide":3,"name":"Image 0","bbox":[789.12,220.54,394.56,239.55]}
+{"kind":"notes","id":"nt/ofy9wn61","slide":3,"text":"Bacaan singkat: | Masalahnya adalah data UMKM banyak, tersebar, dan jika hany..."}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"Rumusan Masalah dan Tujuan","textShapes":8}
+{"kind":"textbox","id":"sh/1cj2d8b6","slide":4,"textChars":26,"textLines":1}
+{"kind":"textbox","id":"sh/0ba143al","slide":4,"textChars":63,"textLines":1}
+{"kind":"shape","id":"sh/rm1k7yt4","slide":4,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/ql8jytsj","slide":4,"name":"Shape 3","bbox":[74.88,140.16,556.8,451.2]}
+{"kind":"shape","id":"sh/doj29oba","slide":4,"name":"Shape 4","bbox":[74.88,140.16,7.68,451.2]}
+{"kind":"textbox","id":"sh/sna103ap","slide":4,"textChars":21,"textLines":1}
+{"kind":"textbox","id":"sh/3ihk3et8","slide":4,"textChars":254,"textLines":9}
+{"kind":"shape","id":"sh/ih8ju9sn","slide":4,"name":"Shape 7","bbox":[662.4,140.16,539.52,451.2]}
+{"kind":"shape","id":"sh/kbm987y5","slide":4,"name":"Shape 8","bbox":[662.4,140.16,7.68,451.2]}
+{"kind":"textbox","id":"sh/5cva1cfq","slide":4,"textChars":17,"textLines":1}
+{"kind":"textbox","id":"sh/i94r6xgz","slide":4,"textChars":205,"textLines":1}
+{"kind":"shape","id":"sh/jadsz2xk","slide":4,"name":"Shape 11","bbox":[662.4,597.12,539.52,46.08]}
+{"kind":"textbox","id":"sh/w72947yt","slide":4,"textChars":71,"textLines":1}
+{"kind":"textbox","id":"sh/gv29g7q5","slide":4,"textChars":1,"textLines":1}
+{"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":"Bacaan singkat: | Rumusan masalah saya tidak hanya tentang membuat peta. Pene..."}
+{"kind":"slide","id":"sl/i107q5of","slide":5,"title":"Solusi yang Dibangun","textShapes":10}
+{"kind":"textbox","id":"sh/dgbulwnm","slide":5,"textChars":20,"textLines":1}
+{"kind":"textbox","id":"sh/cf2tcr61","slide":5,"textChars":53,"textLines":1}
+{"kind":"shape","id":"sh/z2tcnm5s","slide":5,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/yhkbe1o7","slide":5,"name":"Shape 3","bbox":[76.8,148.8,1125.12,51.84]}
+{"kind":"textbox","id":"sh/l4bupwny","slide":5,"textChars":115,"textLines":1}
+{"kind":"shape","id":"sh/032tgr6d","slide":5,"name":"Shape 5","bbox":[84.48,251.52,340.8,273.6]}
+{"kind":"shape","id":"sh/n6dcr65o","slide":5,"name":"Shape 6","bbox":[84.48,251.52,7.68,273.6]}
+{"kind":"textbox","id":"sh/m5kbi1oj","slide":5,"textChars":6,"textLines":1}
+{"kind":"textbox","id":"sh/w32dkbuh","slide":5,"textChars":131,"textLines":1}
+{"kind":"shape","id":"sh/x4vedgvm","slide":5,"name":"Shape 9","bbox":[468.48,251.52,340.8,273.6]}
+{"kind":"shape","id":"sh/ahkvi1cb","slide":5,"name":"Shape 10","bbox":[468.48,251.52,7.68,273.6]}
+{"kind":"textbox","id":"sh/v2twb6dw","slide":5,"textChars":5,"textLines":1}
+{"kind":"textbox","id":"sh/k7mxovud","slide":5,"textChars":130,"textLines":1}
+{"kind":"shape","id":"sh/58vehgvy","slide":5,"name":"Shape 13","bbox":[852.48,251.52,340.8,273.6]}
+{"kind":"shape","id":"sh/i54fmlc7","slide":5,"name":"Shape 14","bbox":[852.48,251.52,7.68,273.6]}
+{"kind":"textbox","id":"sh/j6dwfqds","slide":5,"textChars":8,"textLines":1}
+{"kind":"textbox","id":"sh/sb6xsvu9","slide":5,"textChars":96,"textLines":1}
+{"kind":"shape","id":"sh/tcfel0vu","slide":5,"name":"Shape 17","bbox":[429.12,387.84,30.72,0]}
+{"kind":"shape","id":"sh/hgrmpwj2","slide":5,"name":"Shape 18","bbox":[813.12,387.84,30.72,0]}
+{"kind":"textbox","id":"sh/4ji5kbid","slide":5,"textChars":1,"textLines":1}
+{"kind":"notes","id":"nt/i107q5of","slide":5,"text":"Bacaan singkat: | Solusi yang saya bangun terdiri dari halaman publik, panel ..."}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"Metodologi Penelitian","textShapes":14}
+{"kind":"textbox","id":"sh/yhg7epsj","slide":6,"textChars":21,"textLines":1}
+{"kind":"textbox","id":"sh/zi98nu94","slide":6,"textChars":40,"textLines":1}
+{"kind":"shape","id":"sh/87ipkzal","slide":6,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/98rqt4r6","slide":6,"name":"Shape 3","bbox":[734.4,139.2,451.2,451.2]}
+{"kind":"shape","id":"sh/7m98ru9g","slide":6,"name":"Shape 4","bbox":[81.6,142.08,609.6,74.88]}
+{"kind":"shape","id":"sh/oryp8fah","slide":6,"name":"Shape 5","bbox":[100.8,158.4,41.28,41.28]}
+{"kind":"textbox","id":"sh/pc76hkr2","slide":6,"textChars":1,"textLines":1}
+{"kind":"textbox","id":"sh/h4bupgn6","slide":6,"textChars":35,"textLines":1}
+{"kind":"shape","id":"sh/w32twb6l","slide":6,"name":"Shape 8","bbox":[81.6,228.48,609.6,74.88]}
+{"kind":"shape","id":"sh/v2tcn650","slide":6,"name":"Shape 9","bbox":[100.8,244.8,41.28,41.28]}
+{"kind":"textbox","id":"sh/u1kbu1ov","slide":6,"textChars":1,"textLines":1}
+{"kind":"textbox","id":"sh/5svutgni","slide":6,"textChars":49,"textLines":1}
+{"kind":"shape","id":"sh/47mt0b6x","slide":6,"name":"Shape 12","bbox":[81.6,314.88,609.6,74.88]}
+{"kind":"shape","id":"sh/j6dcr65c","slide":6,"name":"Shape 13","bbox":[100.8,331.2,41.28,41.28]}
+{"kind":"textbox","id":"sh/i54bylor","slide":6,"textChars":1,"textLines":1}
+{"kind":"textbox","id":"sh/twfux0ne","slide":6,"textChars":47,"textLines":1}
+{"kind":"shape","id":"sh/svmt4v6t","slide":6,"name":"Shape 16","bbox":[81.6,401.28,609.6,74.88]}
+{"kind":"shape","id":"sh/cbe5g3ih","slide":6,"name":"Shape 17","bbox":[100.8,417.6,41.28,41.28]}
+{"kind":"textbox","id":"sh/dcnm98zm","slide":6,"textChars":1,"textLines":1}
+{"kind":"textbox","id":"sh/qpwnet0b","slide":6,"textChars":39,"textLines":1}
+{"kind":"shape","id":"sh/bq547yhw","slide":6,"name":"Shape 20","bbox":[81.6,487.68,609.6,74.88]}
+{"kind":"shape","id":"sh/0fy5k3id","slide":6,"name":"Shape 21","bbox":[100.8,504,41.28,41.28]}
+{"kind":"textbox","id":"sh/lg76d8zy","slide":6,"textChars":1,"textLines":1}
+{"kind":"textbox","id":"sh/ydgnit07","slide":6,"textChars":47,"textLines":1}
+{"kind":"shape","id":"sh/zep4byhs","slide":6,"name":"Shape 24","bbox":[81.6,599.04,1104,33.6]}
+{"kind":"textbox","id":"sh/gju58ji9","slide":6,"textChars":75,"textLines":1}
+{"kind":"textbox","id":"sh/1k3mhozu","slide":6,"textChars":1,"textLines":1}
+{"kind":"image","id":"im/sn25c7q9","slide":6,"name":"Image 0","bbox":[745.92,159.64,428.16,410.32]}
+{"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":"Bacaan singkat: | Metode penelitian dimulai dari analisis kebutuhan, dilanjut..."}
+{"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"Arsitektur Sistem","textShapes":9}
+{"kind":"textbox","id":"sh/cb2tkvap","slide":7,"textChars":17,"textLines":1}
+{"kind":"textbox","id":"sh/dcbud0ra","slide":7,"textChars":61,"textLines":1}
+{"kind":"shape","id":"sh/ydkbm5sv","slide":7,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/zedcfa9g","slide":7,"name":"Shape 3","bbox":[74.88,142.08,624,475.2]}
+{"kind":"shape","id":"sh/l0vuh0rm","slide":7,"name":"Shape 4","bbox":[734.4,148.8,436.8,113.28]}
+{"kind":"shape","id":"sh/eh0ba1sr","slide":7,"name":"Shape 5","bbox":[734.4,148.8,7.68,113.28]}
+{"kind":"textbox","id":"sh/fi9c369c","slide":7,"textChars":8,"textLines":1}
+{"kind":"textbox","id":"sh/baxkjqlk","slide":7,"textChars":61,"textLines":1}
+{"kind":"shape","id":"sh/a9ojq5kz","slide":7,"name":"Shape 8","bbox":[734.4,289.92,436.8,113.28]}
+{"kind":"shape","id":"sh/xcz2l03q","slide":7,"name":"Shape 9","bbox":[734.4,289.92,7.68,113.28]}
+{"kind":"textbox","id":"sh/cbq1sv25","slide":7,"textChars":7,"textLines":1}
+{"kind":"textbox","id":"sh/n6x0fqlo","slide":7,"textChars":66,"textLines":1}
+{"kind":"shape","id":"sh/25ojml43","slide":7,"name":"Shape 12","bbox":[734.4,431.04,436.8,113.28]}
+{"kind":"shape","id":"sh/p8fih03e","slide":7,"name":"Shape 13","bbox":[734.4,431.04,7.68,113.28]}
+{"kind":"textbox","id":"sh/o761ov2t","slide":7,"textChars":8,"textLines":1}
+{"kind":"textbox","id":"sh/f2d0b6lc","slide":7,"textChars":65,"textLines":1}
+{"kind":"textbox","id":"sh/r2dkrq5g","slide":7,"textChars":1,"textLines":1}
+{"kind":"image","id":"im/3ydory5k","slide":7,"name":"Image 0","bbox":[86.4,197.25,600.96,364.87]}
+{"kind":"notes","id":"nt/gnmp4jqx","slide":7,"text":"Bacaan singkat: | Arsitektur sistem memisahkan antarmuka publik, panel admin,..."}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"Kualitas Data Lokasi","textShapes":10}
+{"kind":"textbox","id":"sh/18byd4zy","slide":8,"textChars":20,"textLines":1}
+{"kind":"textbox","id":"sh/g72x4zyd","slide":8,"textChars":52,"textLines":1}
+{"kind":"shape","id":"sh/ri9g7uhw","slide":8,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/6h0fypgb","slide":8,"name":"Shape 3","bbox":[664.32,139.2,520.32,422.4]}
+{"kind":"shape","id":"sh/sjix0zy1","slide":8,"name":"Shape 4","bbox":[78.72,148.8,518.4,113.28]}
+{"kind":"shape","id":"sh/je9g3ahk","slide":8,"name":"Shape 5","bbox":[78.72,148.8,7.68,113.28]}
+{"kind":"textbox","id":"sh/id0fu50z","slide":8,"textChars":5,"textLines":1}
+{"kind":"textbox","id":"sh/o7ydoret","slide":8,"textChars":69,"textLines":1}
+{"kind":"shape","id":"sh/98rehwve","slide":8,"name":"Shape 8","bbox":[78.72,289.92,518.4,113.28]}
+{"kind":"shape","id":"sh/m5gvmhwn","slide":8,"name":"Shape 9","bbox":[78.72,289.92,7.68,113.28]}
+{"kind":"textbox","id":"sh/n6pwfmd8","slide":8,"textChars":19,"textLines":1}
+{"kind":"textbox","id":"sh/0jydkreh","slide":8,"textChars":76,"textLines":1}
+{"kind":"shape","id":"sh/1k7edwv2","slide":8,"name":"Shape 12","bbox":[78.72,431.04,518.4,113.28]}
+{"kind":"shape","id":"sh/ehgvihwr","slide":8,"name":"Shape 13","bbox":[78.72,431.04,7.68,113.28]}
+{"kind":"textbox","id":"sh/zipwbmdc","slide":8,"textChars":19,"textLines":1}
+{"kind":"textbox","id":"sh/kfixwbe1","slide":8,"textChars":61,"textLines":1}
+{"kind":"shape","id":"sh/lgbepgvm","slide":8,"name":"Shape 16","bbox":[78.72,588.48,1105.92,46.08]}
+{"kind":"textbox","id":"sh/tw7e9gnq","slide":8,"textChars":99,"textLines":1}
+{"kind":"textbox","id":"sh/kredcr6t","slide":8,"textChars":1,"textLines":1}
+{"kind":"image","id":"im/wnq9gnm1","slide":8,"name":"Image 0","bbox":[675.84,245.42,497.28,209.96]}
+{"kind":"notes","id":"nt/fu1gfa1s","slide":8,"text":"Bacaan singkat: | Pada penelitian ini, koordinat tidak langsung dianggap sama..."}
+{"kind":"slide","id":"sl/udsvah03","slide":9,"title":"Proses K-Means Spasial","textShapes":6}
+{"kind":"textbox","id":"sh/1cfmhgne","slide":9,"textChars":22,"textLines":1}
+{"kind":"textbox","id":"sh/0b65obm9","slide":9,"textChars":47,"textLines":1}
+{"kind":"shape","id":"sh/nex4jq5k","slide":9,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/mdonql4z","slide":9,"name":"Shape 3","bbox":[81.6,136.32,480,475.2]}
+{"kind":"shape","id":"sh/ofq5svm5","slide":9,"name":"Shape 4","bbox":[609.6,145.92,558.72,357.12]}
+{"kind":"shape","id":"sh/bih4na5w","slide":9,"name":"Shape 5","bbox":[609.6,145.92,7.68,357.12]}
+{"kind":"textbox","id":"sh/ah8nu54b","slide":9,"textChars":22,"textLines":1}
+{"kind":"textbox","id":"sh/oza1gfyh","slide":9,"textChars":241,"textLines":9}
+{"kind":"shape","id":"sh/p0ji9kf2","slide":9,"name":"Shape 8","bbox":[609.6,549.12,558.72,49.92]}
+{"kind":"textbox","id":"sh/2xsjepgb","slide":9,"textChars":76,"textLines":1}
+{"kind":"textbox","id":"sh/wba1cjqp","slide":9,"textChars":1,"textLines":1}
+{"kind":"image","id":"im/wj6p4ve1","slide":9,"name":"Image 0","bbox":[93.12,154.58,456.96,438.68]}
+{"kind":"notes","id":"nt/udsvah03","slide":9,"text":"Bacaan singkat: | Proses K-Means dimulai dari pemilihan data yang layak diana..."}
+{"kind":"slide","id":"sl/m90b6t0r","slide":10,"title":"Hasil Implementasi dan Pengujian","textShapes":13}
+{"kind":"textbox","id":"sh/xc3mho32","slide":10,"textChars":32,"textLines":1}
+{"kind":"textbox","id":"sh/cbu58j2h","slide":10,"textChars":39,"textLines":1}
+{"kind":"shape","id":"sh/zelojyl8","slide":10,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/ydcnatkn","slide":10,"name":"Shape 3","bbox":[88.32,148.8,225.6,100.8]}
+{"kind":"textbox","id":"sh/l036l83y","slide":10,"textChars":5,"textLines":1}
+{"kind":"textbox","id":"sh/kzu5c32t","slide":10,"textChars":11,"textLines":1}
+{"kind":"shape","id":"sh/725onyl4","slide":10,"name":"Shape 6","bbox":[337.92,148.8,225.6,100.8]}
+{"kind":"textbox","id":"sh/m1cnetkj","slide":10,"textChars":5,"textLines":1}
+{"kind":"textbox","id":"sh/s7yt4b21","slide":10,"textChars":16,"textLines":1}
+{"kind":"shape","id":"sh/d87uxg3m","slide":10,"name":"Shape 9","bbox":[587.52,148.8,225.6,100.8]}
+{"kind":"textbox","id":"sh/q5gb21kb","slide":10,"textChars":4,"textLines":1}
+{"kind":"textbox","id":"sh/r6pcv6lw","slide":10,"textChars":7,"textLines":1}
+{"kind":"shape","id":"sh/0bit8b2d","slide":10,"name":"Shape 12","bbox":[837.12,148.8,225.6,100.8]}
+{"kind":"textbox","id":"sh/1cru1g3y","slide":10,"textChars":5,"textLines":1}
+{"kind":"textbox","id":"sh/e9gb61k7","slide":10,"textChars":12,"textLines":1}
+{"kind":"shape","id":"sh/fapcz6ls","slide":10,"name":"Shape 15","bbox":[769.92,291.84,408,295.68]}
+{"kind":"shape","id":"sh/p0ru503u","slide":10,"name":"Shape 16","bbox":[88.32,297.6,609.6,283.2]}
+{"kind":"shape","id":"sh/xwnupgvy","slide":10,"name":"Shape 17","bbox":[88.32,297.6,7.68,283.2]}
+{"kind":"textbox","id":"sh/wvetgbud","slide":10,"textChars":15,"textLines":1}
+{"kind":"textbox","id":"sh/bu5cnqd8","slide":10,"textChars":308,"textLines":3}
+{"kind":"textbox","id":"sh/kjytkvup","slide":10,"textChars":2,"textLines":1}
+{"kind":"image","id":"im/w76tsvq5","slide":10,"name":"Image 0","bbox":[849.94,303.36,247.96,272.64]}
+{"kind":"notes","id":"nt/m90b6t0r","slide":10,"text":"Bacaan singkat: | Hasil implementasi menunjukkan fitur utama sudah tersedia. ..."}
+{"kind":"slide","id":"sl/jetc3ut0","slide":11,"title":"Evaluasi Nilai K","textShapes":6}
+{"kind":"textbox","id":"sh/xcryxg7y","slide":11,"textChars":16,"textLines":1}
+{"kind":"textbox","id":"sh/wbih4b6d","slide":11,"textChars":66,"textLines":1}
+{"kind":"shape","id":"sh/n69grmpw","slide":11,"name":"Shape 2","bbox":[69.12,124.8,91.2,6.72]}
+{"kind":"shape","id":"sh/98rytw72","slide":11,"name":"Shape 3","bbox":[801.6,148.8,379.2,388.8]}
+{"kind":"shape","id":"sh/o7ih0r6h","slide":11,"name":"Shape 4","bbox":[801.6,148.8,7.68,388.8]}
+{"kind":"textbox","id":"sh/72t03qp0","slide":11,"textChars":16,"textLines":1}
+{"kind":"textbox","id":"sh/61kzalof","slide":11,"textChars":178,"textLines":7}
+{"kind":"shape","id":"sh/ofqtgnyt","slide":11,"name":"Shape 7","bbox":[81.6,584.64,1099.2,48]}
+{"kind":"textbox","id":"sh/9gza9sze","slide":11,"textChars":88,"textLines":1}
+{"kind":"textbox","id":"sh/k3uhcb6h","slide":11,"textChars":2,"textLines":1}
+{"kind":"image","id":"im/sj29szm9","slide":11,"name":"","bbox":[81.6,139.2,676.8,417.6]}
+{"kind":"notes","id":"nt/jetc3ut0","slide":11,"text":"Bacaan singkat: | Pada evaluasi WCSS, nilai umumnya menurun ketika K bertamba..."}
+{"kind":"slide","id":"sl/8f2psfyx","slide":12,"title":"KESIMPULAN","textShapes":8}
+{"kind":"shape","id":"sh/1gbm9s3a","slide":12,"name":"Shape 0","bbox":[74.88,59.52,225.6,34.56]}
+{"kind":"textbox","id":"sh/0f2lgnmp","slide":12,"textChars":10,"textLines":1}
+{"kind":"textbox","id":"sh/ra943il8","slide":12,"textChars":20,"textLines":1}
+{"kind":"shape","id":"sh/q903ad4n","slide":12,"name":"Shape 3","bbox":[78.72,225.6,508.8,316.8]}
+{"kind":"shape","id":"sh/dcbm583y","slide":12,"name":"Shape 4","bbox":[78.72,225.6,7.68,316.8]}
+{"kind":"textbox","id":"sh/sb2lcnmd","slide":12,"textChars":10,"textLines":1}
+{"kind":"textbox","id":"sh/b6d4f2lc","slide":12,"textChars":209,"textLines":1}
+{"kind":"shape","id":"sh/a543mx4r","slide":12,"name":"Shape 7","bbox":[625.92,225.6,508.8,316.8]}
+{"kind":"shape","id":"sh/wvupgz6t","slide":12,"name":"Shape 8","bbox":[625.92,225.6,7.68,316.8]}
+{"kind":"textbox","id":"sh/xw3q94ne","slide":12,"textChars":5,"textLines":1}
+{"kind":"textbox","id":"sh/atc7epon","slide":12,"textChars":205,"textLines":1}
+{"kind":"textbox","id":"sh/bulo7u58","slide":12,"textChars":12,"textLines":1}
+{"kind":"textbox","id":"sh/orapcf6h","slide":12,"textChars":22,"textLines":1}
+{"kind":"notes","id":"nt/8f2psfyx","slide":12,"text":"Bacaan singkat: | Kesimpulannya, sistem berhasil menggabungkan pemetaan, laya..."}
+{"kind":"notice","message":"Truncated: omitted 0 lines. Increase maxChars or narrow target."}
