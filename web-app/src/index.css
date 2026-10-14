@@ -1112,6 +1112,73 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: 4px;
 }
 
+.popup-photo-gallery {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 8px 0;
+  padding-bottom: 4px;
+  scroll-snap-type: x mandatory;
+}
+
+.popup-photo-gallery img {
+  width: 220px;
+  height: 140px;
+  flex: 0 0 220px;
+  object-fit: cover;
+  border-radius: 9px;
+  scroll-snap-align: start;
+}
+
+.popup-illustration {
+  margin: 8px 0;
+}
+
+.popup-illustration img {
+  display: block;
+  width: 100%;
+  height: 165px;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
+.popup-illustration figcaption {
+  margin-top: 4px;
+  color: #7c5200;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.popup-sources {
+  margin: 6px 0;
+  font-size: 0.75rem;
+}
+
+.popup-sample-financials {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #f0c36d;
+  border-radius: 9px;
+  background: #fff8e7;
+  font-size: 0.75rem;
+}
+
+.popup-sample-financials dl {
+  margin: 0;
+}
+
+.popup-sample-financials dl div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 3px 0;
+}
+
+.popup-sample-financials dd {
+  margin: 0;
+  font-weight: 700;
+  white-space: nowrap;
+}
 
 /* Marker cluster styles */
 .marker-cluster-small,

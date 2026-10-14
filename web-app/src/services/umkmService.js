@@ -3,6 +3,12 @@ import { LOCATION_ACCURACY, normalizeBusinessLocation } from '../utils/location'
 
 // Batas halaman Supabase agar seluruh dataset dapat dimuat bertahap.
 const PAGE_SIZE = 1000;
+const PHOTO_BUCKET = 'umkm-submission-photos';
+const PHOTO_TYPES = new Map([
+  ['image/jpeg', 'jpg'],
+  ['image/png', 'png'],
+  ['image/webp', 'webp'],
+]);
 // Kolom yang aman dan diperlukan untuk halaman publik.
 const PUBLIC_FIELDS = [
   'id',
@@ -29,7 +35,7 @@ const ensureConfigured = () => {
   }
 };
 
-const fetchAllPages = async ({ table, fields = '*', applyFilters }) => {
+const fetchAllPages = async ({ table, fields = '*', applyFilters, orderBy = 'id' }) => {
   // Membaca semua halaman tanpa melampaui batas hasil default Supabase.
   ensureConfigured();
   const rows = [];
@@ -39,7 +45,7 @@ const fetchAllPages = async ({ table, fields = '*', applyFilters }) => {
     let query = supabase
       .from(table)
       .select(fields)
-      .order('id', { ascending: true })
+      .order(orderBy, { ascending: true })
       .range(from, from + PAGE_SIZE - 1);
 
     // Filter opsional dipakai oleh pembaca data publik.
@@ -56,6 +62,37 @@ const fetchAllPages = async ({ table, fields = '*', applyFilters }) => {
   return rows;
 };
 
+const signPhotos = async (photos) => {
+  const signed = [];
+  for (let from = 0; from < photos.length; from += 100) {
+    const batch = photos.slice(from, from + 100);
+    const { data, error } = await supabase.storage.from(PHOTO_BUCKET)
+      .createSignedUrls(batch.map((photo) => photo.photo_path), 86400);
+    if (error) throw error;
+    signed.push(...batch.map((photo, index) => ({ ...photo, url: data[index]?.signedUrl || null })));
+  }
+  return signed.filter((photo) => photo.url);
+};
+
+const groupPhotos = (photos) => {
+  const byBusiness = new Map();
+  photos.forEach((photo) => {
+    const current = byBusiness.get(photo.umkm_id) || [];
+    current.push(photo);
+    byBusiness.set(photo.umkm_id, current);
+  });
+  return byBusiness;
+};
+
+const EXCLUDED_SAMPLE_NAMES = new Set([
+  'Kibo Cafe',
+  'Odanam Burger',
+  'QueenJo',
+  'Christine Klappertaart Kairagi',
+  'Kios Golden',
+]);
+const EXCLUDED_SAMPLE_IDS = new Set([1811, 1812, 1813, 1814, 1815]);
+
 export const loadPublishedBusinesses = async () => {
   // Hanya data aktif dan dipublikasikan yang boleh tampil di halaman publik.
   const rows = await fetchAllPages({
@@ -63,13 +100,84 @@ export const loadPublishedBusinesses = async () => {
     fields: PUBLIC_FIELDS,
     applyFilters: (query) => query.eq('is_active', true).eq('published', true),
   });
-  return rows.map(normalizeBusinessLocation);
+  const [gallery, submitted, sampleDetails] = await Promise.all([
+    fetchAllPages({ table: 'umkm_gallery_photos' }),
+    fetchAllPages({ table: 'umkm_photos', orderBy: 'umkm_id' }),
+    fetchAllPages({ table: 'umkm_sample_details', orderBy: 'umkm_id' }).catch(() => []),
+  ]);
+  const photos = groupPhotos(await signPhotos([...submitted, ...gallery]));
+  const sampleBusinessIds = new Set([
+    ...EXCLUDED_SAMPLE_IDS,
+    ...(sampleDetails || []).map((details) => details.umkm_id),
+  ]);
+
+  return rows
+    .filter((row) => !sampleBusinessIds.has(row.id) && !EXCLUDED_SAMPLE_NAMES.has(row.name))
+    .map((row) => ({
+      ...normalizeBusinessLocation(row),
+      photos: photos.get(row.id) || [],
+    }));
+};
+
+export const loadBusinessGallery = async (businessId) => {
+  ensureConfigured();
+  const { data, error } = await supabase.from('umkm_gallery_photos')
+    .select('id,umkm_id,photo_path').eq('umkm_id', businessId).order('id');
+  if (error) throw error;
+  return signPhotos(data || []);
+};
+
+export const addBusinessPhotos = async (businessId, files) => {
+  ensureConfigured();
+  const uploads = [...files].map((file) => {
+    const extension = PHOTO_TYPES.get(file.type);
+    if (!extension || file.size > 5 * 1024 * 1024 || file.size === 0) {
+      throw new Error('Gunakan JPG, PNG, atau WebP dengan ukuran maksimal 5 MB per foto.');
+    }
+    return { file, photo_path: `admin/${businessId}/${crypto.randomUUID()}.${extension}` };
+  });
+  const uploaded = [];
+  try {
+    for (let from = 0; from < uploads.length; from += 4) {
+      const batch = uploads.slice(from, from + 4);
+      const results = await Promise.all(batch.map(async (item) => {
+        const { error } = await supabase.storage.from(PHOTO_BUCKET)
+          .upload(item.photo_path, item.file, { contentType: item.file.type });
+        return { ...item, error };
+      }));
+      uploaded.push(...results.filter((item) => !item.error).map((item) => item.photo_path));
+      const failed = results.find((item) => item.error);
+      if (failed) throw failed.error;
+    }
+    if (!uploaded.length) return;
+    const { error } = await supabase.from('umkm_gallery_photos')
+      .insert(uploaded.map((photo_path) => ({ umkm_id: businessId, photo_path })));
+    if (error) throw error;
+  } catch (error) {
+    if (uploaded.length) await supabase.storage.from(PHOTO_BUCKET).remove(uploaded);
+    throw error;
+  }
+};
+
+export const removeBusinessPhotos = async (businessId, photos) => {
+  ensureConfigured();
+  if (!photos.length) return;
+  const { data, error } = await supabase.from('umkm_gallery_photos').delete()
+    .eq('umkm_id', businessId).in('id', photos.map((photo) => photo.id))
+    .select('photo_path');
+  if (error) throw error;
+  if (data?.length !== photos.length) throw new Error('Sebagian foto tidak dapat dihapus. Muat ulang data.');
+  const { error: storageError } = await supabase.storage.from(PHOTO_BUCKET)
+    .remove(data.map((photo) => photo.photo_path));
+  if (storageError) throw storageError;
 };
 
 export const loadAdminBusinesses = async () => {
   // Admin membaca seluruh data untuk keperluan pengelolaan.
   const rows = await fetchAllPages({ table: 'umkm' });
-  return rows.map(normalizeBusinessLocation);
+  return rows
+    .filter((row) => !EXCLUDED_SAMPLE_IDS.has(row.id) && !EXCLUDED_SAMPLE_NAMES.has(row.name))
+    .map(normalizeBusinessLocation);
 };
 
 const nullableNumber = (value) => {
@@ -241,30 +349,6 @@ export const loadAdminProfile = async (userId) => {
   return data;
 };
 
-export const saveKMeansRun = async (run) => {
-  // Menyimpan hasil analisis agar dapat ditelusuri kembali.
-  ensureConfigured();
-  const { data, error } = await supabase
-    .from('kmeans_runs')
-    .insert(run)
-    .select()
-    .single();
-  if (error) throw error;
-  return data;
-};
-
-export const loadKMeansRuns = async () => {
-  // Riwayat dibatasi untuk menjaga halaman admin tetap ringan.
-  ensureConfigured();
-  const { data, error } = await supabase
-    .from('kmeans_runs')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(30);
-  if (error) throw error;
-  return data || [];
-};
-
 export const loadAuditLogs = async () => {
   // Riwayat audit terbaru dipakai pada halaman Riwayat admin.
   ensureConfigured();
@@ -283,11 +367,12 @@ export const submitBusinessSubmission = async (submission) => {
   const ownerName = cleanText(submission.owner_name);
   const phone = cleanText(submission.phone);
   const category = cleanText(submission.category);
+  const categoryCode = cleanText(submission.category_code);
   const address = cleanText(submission.address);
   const latitude = nullableNumber(submission.latitude);
   const longitude = nullableNumber(submission.longitude);
 
-  if (!businessName || !ownerName || !phone || !category || !address) {
+  if (!businessName || !ownerName || !phone || !category || !categoryCode || !address) {
     throw new Error('Lengkapi seluruh data usaha yang wajib diisi.');
   }
   validateCoordinatePair(latitude, longitude, 'Lokasi usaha');
@@ -299,6 +384,7 @@ export const submitBusinessSubmission = async (submission) => {
       owner_name: ownerName,
       phone,
       category,
+      category_code: categoryCode,
       address,
       latitude,
       longitude,
@@ -328,19 +414,15 @@ export const loadUmkmSubmissions = async ({ status = 'all', page = 1, pageSize =
 
 export const loadDashboardOverview = async (canManage) => {
   ensureConfigured();
+  if (!canManage) return {};
   const queries = {
-    analysis: supabase.from('kmeans_runs')
-      .select('id,created_at,k_value,data_count,cluster_stats,input_snapshot,parameters')
-      .order('created_at', { ascending: false }).limit(1),
+    submissions: supabase.from('umkm_submissions')
+      .select('id,business_name,created_at', { count: 'exact' })
+      .eq('status', 'pending').order('created_at', { ascending: true }).limit(5),
+    recovery: supabase.from('umkm_submission_recovery_requests')
+      .select('id,business_name,created_at', { count: 'exact' })
+      .eq('status', 'pending').order('created_at', { ascending: true }).limit(5),
   };
-  if (canManage) {
-    queries.submissions = supabase.from('umkm_submissions')
-      .select('id,business_name,created_at', { count: 'exact' })
-      .eq('status', 'pending').order('created_at', { ascending: true }).limit(5);
-    queries.recovery = supabase.from('umkm_submission_recovery_requests')
-      .select('id,business_name,created_at', { count: 'exact' })
-      .eq('status', 'pending').order('created_at', { ascending: true }).limit(5);
-  }
   const entries = Object.entries(queries);
   const results = await Promise.allSettled(entries.map(([, query]) => query));
   return Object.fromEntries(results.map((result, index) => {

@@ -4,12 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { isSupabaseConfigured } from '../lib/supabase';
 import { requestSubmissionTrackingRecovery, submitBusinessSubmission, trackBusinessSubmission } from '../services/umkmService';
+import { getProductInfo } from '../data/communityCollections';
 
 const EMPTY_FORM = {
   business_name: '',
   owner_name: '',
   phone: '',
-  category: '',
+  category_code: '',
   address: '',
   latitude: '',
   longitude: '',
@@ -17,14 +18,6 @@ const EMPTY_FORM = {
 };
 
 const NORTH_SULAWESI_VIEWBOX = '123.0,5.8,127.5,0.2';
-
-const categoryGuides = [
-  ['Makanan dan minuman', 'Kuliner, kue, minuman, katering, atau produk olahan.'],
-  ['Kerajinan', 'Souvenir, anyaman, jahit, mebel, atau produk kreatif.'],
-  ['Perdagangan', 'Toko kelontong, pakaian, kosmetik, atau barang kebutuhan.'],
-  ['Jasa', 'Bengkel, salon, laundry, percetakan, atau jasa profesional.'],
-  ['Pertanian dan perikanan', 'Hasil tani, peternakan, perikanan, atau olahannya.'],
-];
 
 const selectedLocationIcon = L.divIcon({
   className: 'public-location-picker-pin',
@@ -50,7 +43,7 @@ const LocationPickerFocus = ({ coordinates }) => {
   return null;
 };
 
-const BusinessSubmissionForm = ({ initialMode = 'submit', onChangeMode, onClose }) => {
+const BusinessSubmissionForm = ({ categoryOptions, initialMode = 'submit', onChangeMode, onClose }) => {
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -98,6 +91,7 @@ const BusinessSubmissionForm = ({ initialMode = 'submit', onChangeMode, onClose 
   }, [onClose]);
 
   const update = (field, value) => setForm((current) => ({ ...current, [field]: value }));
+  const selectedCategory = categoryOptions.find((category) => category.code === form.category_code);
 
   const latitude = Number(form.latitude);
   const longitude = Number(form.longitude);
@@ -184,7 +178,7 @@ const BusinessSubmissionForm = ({ initialMode = 'submit', onChangeMode, onClose 
     setError('');
 
     try {
-      const result = await submitBusinessSubmission(form);
+      const result = await submitBusinessSubmission({ ...form, category: selectedCategory?.label || '' });
       setTrackingCode(result.tracking_code);
       setSubmitted(true);
     } catch (submitError) {
@@ -284,11 +278,11 @@ const BusinessSubmissionForm = ({ initialMode = 'submit', onChangeMode, onClose 
               <label><span>Nama usaha *</span><input value={form.business_name} onChange={(event) => update('business_name', event.target.value)} maxLength="160" required /></label>
               <label><span>Nama pemilik *</span><input value={form.owner_name} onChange={(event) => update('owner_name', event.target.value)} maxLength="120" required /></label>
               <label><span>Nomor WhatsApp *</span><input type="tel" inputMode="tel" value={form.phone} onChange={(event) => update('phone', event.target.value)} maxLength="40" required /></label>
-              <label><span>Kategori usaha *</span><input list="submission-category-options" value={form.category} onChange={(event) => update('category', event.target.value)} maxLength="100" placeholder="Contoh: Makanan dan minuman" required /><datalist id="submission-category-options">{categoryGuides.map(([name]) => <option key={name} value={name} />)}</datalist></label>
+              <label><span>Kategori usaha *</span><select value={form.category_code} onChange={(event) => update('category_code', event.target.value)} required><option value="">Pilih kategori usaha</option>{categoryOptions.map((category) => <option key={category.code} value={category.code}>{category.label}</option>)}</select></label>
               <label className="public-submission-full"><span>Alamat usaha *</span><textarea rows="3" value={form.address} onChange={(event) => update('address', event.target.value)} maxLength="500" required /></label>
             </div>
 
-            <div className="public-category-guide"><strong>Panduan memilih kategori</strong>{categoryGuides.map(([name, description]) => <p key={name}><b>{name}</b> — {description}</p>)}</div>
+            {selectedCategory && <div className="public-category-guide"><strong>{selectedCategory.label}</strong><p>{getProductInfo(selectedCategory.code).description}</p></div>}
 
             <div className="public-location-fields">
               <div><strong><MapPin size={17} aria-hidden="true" /> Titik lokasi usaha</strong><p>Pilih titik usaha secara manual pada peta agar koordinat lebih presisi.</p></div>

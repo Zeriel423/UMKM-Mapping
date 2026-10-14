@@ -26,7 +26,7 @@ const AdminLogin = ({ onSignIn, error, loading }) => {
         <p className="admin-eyebrow">PANEL PENGELOLA</p>
         <h1 id="admin-login-title">Masuk sebagai admin</h1>
         <p className="admin-muted">
-          Kelola data, verifikasi koordinat, dan simpan hasil analisis K-Means.
+          Kelola data, verifikasi koordinat, dan pantau persebaran UMKM.
         </p>
 
         {error && (

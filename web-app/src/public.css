@@ -1383,6 +1383,7 @@
 }
 
 .public-submission-grid input,
+.public-submission-grid select,
 .public-submission-grid textarea,
 .public-location-coordinates input,
 .public-submission-notes textarea {
@@ -1405,6 +1406,7 @@
 }
 
 .public-submission-grid input:focus,
+.public-submission-grid select:focus,
 .public-submission-grid textarea:focus,
 .public-location-coordinates input:focus,
 .public-submission-notes textarea:focus {
@@ -2168,4 +2170,301 @@
     width: min(270px, calc(100% - 96px));
   }
 
+}
+
+/* ==========================================================================
+   TENTANG PROJEK / COLLABORATION MODAL & TRIGGERS
+   ========================================================================== */
+
+.public-app .about-project-dialog {
+  width: min(720px, calc(100vw - 32px));
+  max-height: min(88vh, 800px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.public-app .about-project-body {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.public-app .about-collab-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 16px;
+  background: linear-gradient(135deg, #f1f8f6 0%, #e2f1ee 100%);
+  border: 1px solid #c9e4de;
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 16px rgba(21, 95, 86, 0.06);
+}
+
+.public-app .about-logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  flex: 1;
+}
+
+.public-app .about-logo {
+  height: 60px;
+  max-width: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.08));
+}
+
+.public-app .about-logo-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #17655b;
+  letter-spacing: 0.01em;
+}
+
+.public-app .about-collab-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #1a7467;
+  flex: 0 0 auto;
+}
+
+.public-app .about-collab-divider span {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #155f56;
+}
+
+.public-app .about-intro-card {
+  background: #ffffff;
+  border: 1px solid #dce8e5;
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.public-app .about-intro-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #e6f4f1;
+  color: #176d63;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.public-app .about-intro-card p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #2c3e3a;
+}
+
+.public-app .about-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.public-app .about-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #155f56;
+}
+
+.public-app .about-section-header h3 {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #155f56;
+}
+
+.public-app .about-section-content p {
+  margin: 0 0 8px 0;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: #405450;
+}
+
+.public-app .about-section-content p:last-child {
+  margin-bottom: 0;
+}
+
+.public-app .about-goals-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.public-app .about-goal-card {
+  background: #f7faf9;
+  border: 1px solid #e1ecea;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.public-app .about-goal-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #176d63;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+.public-app .about-goal-card h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1b3833;
+}
+
+.public-app .about-goal-card p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #526864;
+}
+
+.public-app .about-partners-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.public-app .about-partner-card {
+  background: #ffffff;
+  border: 1px solid #dce8e5;
+  border-radius: 12px;
+  padding: 13px 15px;
+}
+
+.public-app .about-partner-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #176d63;
+  margin-bottom: 6px;
+}
+
+.public-app .about-partner-title h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.public-app .about-partner-card p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #526864;
+}
+
+.public-app .about-footer-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: #eef6f4;
+  border: 1px solid #cde4df;
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-top: 4px;
+}
+
+.public-app .about-footer-cta strong {
+  display: block;
+  font-size: 12.5px;
+  color: #155f56;
+}
+
+.public-app .about-footer-cta p {
+  margin: 2px 0 0 0;
+  font-size: 11px;
+  color: #526864;
+}
+
+.public-app .about-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.public-app .sidebar-collab-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 14px;
+  padding: 10px 13px;
+  border: 1px solid #d1e5e1;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f2f8f6 0%, #e8f4f1 100%);
+  color: #17655b;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.public-app .sidebar-collab-badge:hover {
+  border-color: #9ac2bb;
+  background: #e1f0ec;
+  transform: translateY(-1px);
+}
+
+.public-app .sidebar-collab-badge-logos {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.public-app .sidebar-collab-badge-logos img {
+  height: 24px;
+  width: auto;
+  object-fit: contain;
+}
+
+.public-app .sidebar-collab-badge-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.public-app .sidebar-collab-badge-text strong {
+  font-size: 11px;
+  font-weight: 700;
+  color: #145950;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.public-app .sidebar-collab-badge-text span {
+  font-size: 9.5px;
+  color: #526864;
 }

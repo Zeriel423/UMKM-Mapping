@@ -1,6 +1,6 @@
 import { AlertTriangle, Archive, CheckCircle2, Edit3, Plus, RotateCcw, Search, Trash2, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { deleteBusiness, saveBusiness, setBusinessActive } from '../../services/umkmService';
+import { addBusinessPhotos, deleteBusiness, loadBusinessGallery, removeBusinessPhotos, saveBusiness, setBusinessActive } from '../../services/umkmService';
 import { getAnalysisCoordinates, LOCATION_ACCURACY, locationAccuracyLabel } from '../../utils/location';
 
 // Batas halaman menjaga tabel admin tetap ringan untuk dataset besar.
@@ -33,8 +33,61 @@ const accuracyClass = (accuracy) => {
 const BusinessDialog = ({ business, onClose, onSaved, notify }) => {
   const [form, setForm] = useState(() => business ? { ...business } : { ...EMPTY_BUSINESS });
   const [saving, setSaving] = useState(false);
+  const [photos, setPhotos] = useState([]);
+  const [photosLoading, setPhotosLoading] = useState(Boolean(business));
+  const [photoBusy, setPhotoBusy] = useState(false);
   const dialogRef = useRef(null);
+  const busyRef = useRef(false);
   const hasExactLocation = business?.location_accuracy === LOCATION_ACCURACY.EXACT;
+  const closeDialog = () => {
+    if (!photoBusy && !saving) onClose();
+  };
+
+  useEffect(() => {
+    busyRef.current = photoBusy || saving;
+  }, [photoBusy, saving]);
+
+  useEffect(() => {
+    if (!business) return undefined;
+    let active = true;
+    loadBusinessGallery(business.id).then((gallery) => {
+      if (active) setPhotos(gallery);
+    }).catch((error) => {
+      if (active) notify(error.message || 'Foto gagal dimuat.', 'error');
+    }).finally(() => {
+      if (active) setPhotosLoading(false);
+    });
+    return () => { active = false; };
+  }, [business, notify]);
+
+  const uploadPhotos = async (event) => {
+    const files = [...event.target.files];
+    event.target.value = '';
+    if (!files.length || !business) return;
+    setPhotoBusy(true);
+    try {
+      await addBusinessPhotos(business.id, files);
+      setPhotos(await loadBusinessGallery(business.id));
+      notify(`${files.length} foto berhasil ditambahkan.`, 'success');
+    } catch (error) {
+      notify(error.message || 'Foto gagal diunggah.', 'error');
+    } finally {
+      setPhotoBusy(false);
+    }
+  };
+
+  const removePhoto = async (photo) => {
+    setPhotoBusy(true);
+    try {
+      await removeBusinessPhotos(business.id, [photo]);
+      setPhotos((current) => current.filter((item) => item.id !== photo.id));
+      notify('Foto berhasil dihapus.', 'success');
+    } catch (error) {
+      notify(error.message || 'Foto gagal dihapus.', 'error');
+    } finally {
+      setPhotoBusy(false);
+    }
+  };
 
   // Mengunci scroll halaman dan menangani Escape selama dialog aktif.
   useEffect(() => {
@@ -43,7 +96,7 @@ const BusinessDialog = ({ business, onClose, onSaved, notify }) => {
     window.requestAnimationFrame(() => dialogRef.current?.querySelector('input, select, textarea, button')?.focus());
 
     const closeOnEscape = (event) => {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape' && !busyRef.current) onClose();
       if (event.key !== 'Tab') return;
 
       const focusable = [...(dialogRef.current?.querySelectorAll(
@@ -97,12 +150,12 @@ const BusinessDialog = ({ business, onClose, onSaved, notify }) => {
 
   return (
     <div className="admin-dialog-backdrop" role="presentation" onMouseDown={(event) => {
-      if (event.target === event.currentTarget) onClose();
+      if (event.target === event.currentTarget) closeDialog();
     }}>
       <section ref={dialogRef} className="admin-dialog" role="dialog" aria-modal="true" aria-labelledby="business-form-title">
         <div className="admin-dialog-header">
           <div><p className="admin-eyebrow">DATA UMKM</p><h2 id="business-form-title">{business ? 'Edit UMKM' : 'Tambah UMKM'}</h2></div>
-          <button className="admin-icon-button" type="button" onClick={onClose} aria-label="Tutup formulir"><X size={20} /></button>
+          <button className="admin-icon-button" type="button" onClick={closeDialog} disabled={photoBusy || saving} aria-label="Tutup formulir"><X size={20} /></button>
         </div>
 
         <form className="admin-form admin-form-grid" onSubmit={submit}>
@@ -119,9 +172,27 @@ const BusinessDialog = ({ business, onClose, onSaved, notify }) => {
           <label className="admin-check-field"><input type="checkbox" checked={form.published !== false} onChange={(event) => update('published', event.target.checked)} /><span>Tampilkan pada website publik</span></label>
           <label className="admin-check-field"><input type="checkbox" checked={form.is_active !== false} onChange={(event) => update('is_active', event.target.checked)} /><span>Data aktif</span></label>
 
+          <div className="admin-field-full admin-photo-section">
+            <strong>Foto UMKM</strong>
+            {business ? (
+              <>
+                <label className="admin-file-button">Tambah foto<input type="file" accept="image/jpeg,image/png,image/webp" multiple disabled={photoBusy || photosLoading} onChange={uploadPhotos} /></label>
+                <small>JPG, PNG, atau WebP. Maksimal 5 MB per foto. Foto langsung tersimpan dan akan tampil di popup peta.</small>
+                {photosLoading ? <span>Memuat foto...</span> : <div className="admin-photo-grid">{photos.map((photo) => (
+                  <div className="admin-photo-item" key={photo.id}>
+                    <img src={photo.url} alt={`Foto ${business.brand || business.name}`} loading="lazy" />
+                    <button type="button" className="admin-icon-button admin-icon-button-danger" disabled={photoBusy} onClick={() => removePhoto(photo)} aria-label="Hapus foto"><Trash2 size={16} /></button>
+                  </div>
+                ))}</div>}
+                {!photosLoading && photos.length === 0 && <span>Belum ada foto tambahan.</span>}
+                {photoBusy && <span>Menyimpan foto...</span>}
+              </>
+            ) : <small>Simpan data UMKM terlebih dahulu, lalu buka Edit untuk menambahkan foto.</small>}
+          </div>
+
           <div className="admin-dialog-actions admin-field-full">
-            <button className="admin-secondary-button" type="button" onClick={onClose}>Batal</button>
-            <button className="admin-primary-button" type="submit" disabled={saving}><CheckCircle2 size={18} /> {saving ? 'Menyimpan...' : 'Simpan data'}</button>
+            <button className="admin-secondary-button" type="button" onClick={closeDialog} disabled={photoBusy || saving}>Batal</button>
+            <button className="admin-primary-button" type="submit" disabled={saving || photoBusy}><CheckCircle2 size={18} /> {saving ? 'Menyimpan...' : 'Simpan data'}</button>
           </div>
         </form>
       </section>

@@ -1,13 +1,11 @@
-import { AlertCircle, CheckCircle2, Info, MapPin, Target, X } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Info, MapPin, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 // Memformat angka statistik dengan pemisah ribuan Indonesia.
 const formatNumber = (value) => Number(value || 0).toLocaleString('id-ID');
 
-// Menampilkan ringkasan zonasi dan ketelitian lokasi di atas peta.
+// Menampilkan ringkasan ketelitian lokasi di atas peta.
 const MapInfoPanel = ({
-  colors = [],
-  clusterStats = [],
   locationStats = {},
   disabled = false,
 }) => {
@@ -63,7 +61,7 @@ const MapInfoPanel = ({
               </span>
               <div>
                 <span className="map-info-eyebrow">INFO PETA</span>
-                <h2 id="map-info-title">Zonasi &amp; Akurasi Data</h2>
+                <h2 id="map-info-title">Status Akurasi Data</h2>
               </div>
             </div>
             <button
@@ -79,49 +77,8 @@ const MapInfoPanel = ({
 
           <div className="map-info-content">
             <p className="map-info-context">
-              Ringkasan untuk <strong>{formatNumber(total)} UMKM</strong> pada hasil saat ini.
+              Ringkasan untuk <strong>{formatNumber(total)} UMKM</strong> ({formatNumber(mappable)} terpetakan).
             </p>
-
-            <section className="map-info-section" aria-labelledby="map-info-zoning-title">
-              <div className="map-info-section-title">
-                <Target size={16} aria-hidden="true" />
-                <h3 id="map-info-zoning-title">Zonasi K-Means</h3>
-              </div>
-
-              <div className="map-info-metrics">
-                <div>
-                  <span>Zona aktif</span>
-                  <strong>{formatNumber(colors.length)}</strong>
-                </div>
-                <div>
-                  <span>Titik dipetakan</span>
-                  <strong>{formatNumber(mappable)}</strong>
-                </div>
-              </div>
-
-              {colors.length > 0 ? (
-                <div className={`map-info-zone-list ${colors.length > 5 ? 'dense' : ''}`}>
-                  {colors.map((color, index) => (
-                    <div className="map-info-zone-item" key={`${color}-${index}`}>
-                      <span
-                        className="map-info-zone-color"
-                        style={{ backgroundColor: color }}
-                        aria-hidden="true"
-                      />
-                      <span>Wilayah {index + 1}</span>
-                      <strong>{formatNumber(clusterStats[index]?.count)} UMKM</strong>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="map-info-empty">Tidak ada titik yang dapat dipetakan untuk hasil ini.</p>
-              )}
-
-              <div className="map-info-centroid">
-                <span className="centroid-icon-preview" aria-hidden="true" />
-                <span>Area berwarna menunjukkan persebaran anggota cluster; titik bundar menandai pusatnya.</span>
-              </div>
-            </section>
 
             <section className="map-info-section" aria-labelledby="map-info-accuracy-title">
               <div className="map-info-section-title">
@@ -151,8 +108,7 @@ const MapInfoPanel = ({
             <div className="map-info-note">
               <Info size={16} aria-hidden="true" />
               <p>
-                Warna titik menunjukkan kategori usaha. Warna area menunjukkan wilayah hasil K-Means.
-                Titik perkiraan mewakili wilayah dan bukan posisi GPS yang presisi.
+                Titik perkiraan mewakili wilayah kelurahan/kecamatan dan bukan posisi GPS fisik yang presisi.
               </p>
             </div>
           </div>

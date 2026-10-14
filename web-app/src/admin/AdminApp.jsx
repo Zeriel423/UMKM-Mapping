@@ -1,6 +1,5 @@
 import {
   ArrowLeftRight,
-  BarChart3,
   ClipboardCheck,
   History,
   LayoutDashboard,
@@ -20,7 +19,6 @@ import AuditPage from './pages/AuditPage';
 import BusinessesPage from './pages/BusinessesPage';
 import DashboardPage from './pages/DashboardPage';
 import ImportExportPage from './pages/ImportExportPage';
-import KMeansPage from './pages/KMeansPage';
 import SubmissionsPage from './pages/SubmissionsPage';
 import VerificationPage from './pages/VerificationPage';
 import './admin.css';
@@ -30,7 +28,6 @@ const NAV_ITEMS = [
   { path: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/admin/umkm', label: 'Data UMKM', icon: Store },
   { path: '/admin/verifikasi', label: 'Verifikasi Lokasi', icon: MapPinned, access: 'verify' },
-  { path: '/admin/kmeans', label: 'Analisis K-Means', icon: BarChart3 },
   { path: '/admin/impor', label: 'Impor & Ekspor', icon: ArrowLeftRight, access: 'manage' },
   { path: '/admin/pengajuan', label: 'Pengajuan UMKM', icon: ClipboardCheck, access: 'manage' },
   { path: '/admin/riwayat', label: 'Riwayat', icon: History },
@@ -179,7 +176,6 @@ const AdminWorkspace = ({ profile, onSignOut }) => {
     }
     if (activeRoute === '/admin/umkm') return <BusinessesPage initialFilters={dashboardFilters} businesses={businesses} loading={loading} refresh={refresh} notify={notify} canManage={canManage} />;
     if (activeRoute === '/admin/verifikasi' && canVerify) return <VerificationPage businesses={businesses} refresh={refresh} notify={notify} />;
-    if (activeRoute === '/admin/kmeans') return <KMeansPage businesses={businesses} notify={notify} canSave={canManage} />;
     if (activeRoute === '/admin/impor' && canManage) return <ImportExportPage businesses={businesses} refresh={refresh} notify={notify} />;
     if (activeRoute === '/admin/pengajuan' && canManage) return <SubmissionsPage initialSection={dashboardFilters.section} notify={notify} />;
     if (activeRoute === '/admin/riwayat') return <AuditPage notify={notify} />;

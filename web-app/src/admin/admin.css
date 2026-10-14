@@ -614,6 +614,48 @@ body.admin-page.admin-drawer-open {
   grid-column: 1 / -1;
 }
 
+.admin-photo-section {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  color: #38524f;
+  font-size: 12px;
+}
+
+.admin-photo-section input[type='file'] {
+  max-width: 220px;
+  font-size: 11px;
+}
+
+.admin-photo-section small {
+  color: #6a7b78;
+}
+
+.admin-photo-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.admin-photo-item {
+  position: relative;
+}
+
+.admin-photo-item img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
+.admin-photo-item button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #fff;
+}
+
 .admin-check-field {
   display: flex;
   align-items: center;
@@ -1083,9 +1125,6 @@ body.admin-page.admin-drawer-open {
   transform: rotate(-45deg);
 }
 
-.admin-kmeans-grid {
-  align-items: start;
-}
 
 .admin-cluster-infographic {
   display: grid;

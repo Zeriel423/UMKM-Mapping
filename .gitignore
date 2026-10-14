@@ -1,8 +1,30 @@
-*.xlsx
-*.xls
+# Dependencies & build outputs
 node_modules/
 dist/
+build/
+
+# Environment files
 .env
 .env.local
+.env.*.local
+
+# Python cache & temporary files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# OS and Editor files
 .DS_Store
+Thumbs.db
 *.log
+*.tmp
+*.temp
+
+# Documents and presentations
+*.docx
+*.pptx
+~$*.docx
+~$*.pptx
+*.xlsx
+*.xls

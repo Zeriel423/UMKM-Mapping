@@ -1,6 +1,6 @@
 import { AlertTriangle, CheckCircle2, MapPin, PackageSearch, Store } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
-import { getAnalysisCoordinates, isMappableLocation, LOCATION_ACCURACY } from '../../utils/location';
+import { getAnalysisCoordinates, LOCATION_ACCURACY } from '../../utils/location';
 import { loadDashboardOverview } from '../../services/umkmService';
 
 // Mengelompokkan data dengan Map agar ringkasan kategori tidak memakai pencarian berulang.
@@ -18,16 +18,15 @@ const countBy = (items, getValue) => {
 // Menyajikan indikator kualitas data dan pintasan alur kerja admin.
 const DashboardPage = ({ businesses, loading, onNavigate, canVerify, canManage }) => {
   const [overview, setOverview] = useState(null);
-  const [retry, setRetry] = useState(0);
   useEffect(() => {
     let active = true;
     loadDashboardOverview(canManage).then((data) => {
       if (active) setOverview(data);
     }).catch(() => {
-      if (active) setOverview({ analysis: { error: 'Data belum dapat dimuat.' }, submissions: { error: 'Data belum dapat dimuat.' }, recovery: { error: 'Data belum dapat dimuat.' } });
+      if (active) setOverview({ submissions: { error: 'Data belum dapat dimuat.' }, recovery: { error: 'Data belum dapat dimuat.' } });
     });
     return () => { active = false; };
-  }, [canManage, retry]);
+  }, [canManage]);
   // Ringkasan hanya dihitung ulang ketika daftar bisnis berubah.
   const summary = useMemo(() => {
     const active = businesses.filter((item) => item.is_active !== false);
@@ -47,19 +46,6 @@ const DashboardPage = ({ businesses, loading, onNavigate, canVerify, canManage }
       regions: countBy(active, (item) => item.location_area),
     };
   }, [businesses]);
-
-  const latest = overview?.analysis?.data?.[0];
-  const analysisChanged = useMemo(() => {
-    if (!Array.isArray(latest?.input_snapshot)) return null;
-    const current = businesses.filter((item) => item.is_active === true && item.published === true && isMappableLocation(item));
-    if (current.length !== latest.input_snapshot.length) return true;
-    const saved = new Map(latest.input_snapshot.map((point) => [String(point.id), point]));
-    return current.some((item) => {
-      const previous = saved.get(String(item.id));
-      const point = getAnalysisCoordinates(item);
-      return !previous || previous.lat !== point.lat || previous.lng !== point.lng;
-    });
-  }, [businesses, latest]);
 
   if (loading) return <div className="admin-loading-card">Memuat ringkasan data...</div>;
 
@@ -93,18 +79,14 @@ const DashboardPage = ({ businesses, loading, onNavigate, canVerify, canManage }
         {canManage && <><button type="button" className="admin-metric-card admin-dashboard-metric" onClick={() => onNavigate('/admin/pengajuan')}><PackageSearch size={22} /><span>Pengajuan menunggu</span><strong>{queueCount('submissions')}</strong><small>Buka antrean pengajuan</small></button><button type="button" className="admin-metric-card admin-dashboard-metric" onClick={() => onNavigate('/admin/pengajuan', { section: 'recovery' })}><AlertTriangle size={22} /><span>Permintaan lupa kode</span><strong>{queueCount('recovery')}</strong><small>Proses pemulihan kode</small></button></>}
       </section>
       {canManage && <section className="admin-two-column">{queue('submissions', 'Pengajuan perlu ditinjau', 'submissions')}{queue('recovery', 'Pemulihan kode', 'recovery')}</section>}
-      <section className="admin-two-column">
-        <article className="admin-panel"><h2>Kualitas data aktif</h2><p>Satu usaha dapat memiliki beberapa masalah. Klik indikator untuk melihat datanya.</p><div className="admin-dashboard-quality">{[
+      <section className="admin-panel">
+        <h2>Kualitas data aktif</h2>
+        <p>Satu usaha dapat memiliki beberapa masalah. Klik indikator untuk melihat datanya.</p>
+        <div className="admin-dashboard-quality">{[
           ['Koordinat kosong atau tidak valid', summary.missing, { quality: 'coordinates' }],
           ['Lokasi masih perkiraan', summary.approximate, { accuracy: LOCATION_ACCURACY.APPROXIMATE }],
           ['Kategori belum diisi', summary.uncategorized, { quality: 'category' }],
-        ].map(([label, count, filter]) => <button type="button" key={label} onClick={() => onNavigate('/admin/umkm', filter)}><span>{label}</span><strong>{count.toLocaleString('id-ID')}</strong></button>)}</div></article>
-        <article className="admin-panel"><div className="admin-panel-title-row"><div><h2>Ringkasan zona</h2><p>Analisis terakhir yang disimpan admin.</p></div><button type="button" className="admin-secondary-button" onClick={() => onNavigate('/admin/kmeans')}>Buka analisis</button></div>
-          {analysisChanged === true && <div className="admin-alert">Data analisis sudah berubah. Jalankan ulang analisis untuk memperbarui ringkasan.</div>}
-          {latest && analysisChanged === null && <p>Snapshot tidak tersedia; perubahan data belum dapat dibandingkan.</p>}
-          {!overview ? <p>Memuat analisis…</p> : overview.analysis.error ? <p role="alert">{overview.analysis.error}</p> : !latest ? <p>Belum ada analisis tersimpan.</p> : <><p>{new Date(latest.created_at).toLocaleString('id-ID')} · {latest.data_count.toLocaleString('id-ID')} UMKM · {latest.k_value} zona</p><div className="admin-cluster-list">{(latest.cluster_stats || []).map((zone) => <div key={zone.cluster}><MapPin size={16} /><span>Zona {zone.cluster}</span><strong>{zone.count.toLocaleString('id-ID')} UMKM</strong></div>)}</div><p>Jumlah usaha terdata tidak menunjukkan tingkat kepadatan atau kemajuan ekonomi.</p></>}
-          {overview && Object.values(overview).some((item) => item.error) && <button type="button" className="admin-secondary-button" onClick={() => { setOverview(null); setRetry((value) => value + 1); }}>Coba muat ulang</button>}
-        </article>
+        ].map(([label, count, filter]) => <button type="button" key={label} onClick={() => onNavigate('/admin/umkm', filter)}><span>{label}</span><strong>{count.toLocaleString('id-ID')}</strong></button>)}</div>
       </section>
 
       <section className="admin-metric-grid" aria-label="Statistik data UMKM">
@@ -130,7 +112,7 @@ const DashboardPage = ({ businesses, loading, onNavigate, canVerify, canManage }
           <AlertTriangle size={22} />
           <span>Belum terverifikasi</span>
           <strong>{summary.unknown.toLocaleString('id-ID')}</strong>
-          <small>Tidak disertakan dalam K-Means</small>
+          <small>Perlu verifikasi titik</small>
         </article>
       </section>
 

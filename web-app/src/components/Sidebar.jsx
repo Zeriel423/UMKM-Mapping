@@ -1,23 +1,12 @@
-import { Eye, EyeOff, MapPin, Info, Layers, Search, X } from 'lucide-react';
+import { MapPin, Info, Layers, Search, X } from 'lucide-react';
 import { useRef } from 'react';
 import { getProductInfo } from '../data/communityCollections';
 
-// Menyediakan pencarian, filter, ringkasan data, dan kontrol analisis peta.
+// Menyediakan pencarian, filter, ringkasan data, dan kontrol filter peta.
 const Sidebar = ({
   isOpen,
-  kValue,
-  setKValue,
   totalData,
   mappableCount,
-  clusterStats,
-  selectedZone,
-  onSelectZone,
-  selectedZoneSummary,
-  showZoneAreas,
-  setShowZoneAreas,
-
-  iterations,
-  wcss,
   searchQuery,
   setSearchQuery,
   productTypes,
@@ -27,6 +16,7 @@ const Sidebar = ({
   onToggleAllCategories,
   densityCategory,
   setDensityCategory,
+  onOpenAbout,
 }) => {
   const categoryDialog = useRef(null);
   return (
@@ -38,16 +28,34 @@ const Sidebar = ({
           </span>
           <div>
             <span className="sidebar-eyebrow">WEB GIS SULAWESI UTARA</span>
-            <h1>Zonasi UMKM</h1>
+            <h1>Peta UMKM</h1>
           </div>
         </div>
         <p className="sidebar-subtitle">
-          Pemetaan persebaran dan analisis zonasi UMKM dengan K-Means.
+          Pemetaan persebaran geografis UMKM di Sulawesi Utara.
         </p>
         <div className="sidebar-data-status">
           <span><i aria-hidden="true" />Data publik aktif</span>
           <strong>{mappableCount.toLocaleString('id-ID')} titik peta</strong>
         </div>
+
+        {onOpenAbout && (
+          <button
+            type="button"
+            className="sidebar-collab-badge"
+            onClick={onOpenAbout}
+            aria-label="Informasi kolaborasi Politeknik Negeri Manado dan Yayasan Bina Lentera Insan"
+          >
+            <div className="sidebar-collab-badge-logos">
+              <img src="/images/logo-polimdo.png" alt="Polimdo" />
+              <img src="/images/logo-ybli.png" alt="YBLI" />
+            </div>
+            <div className="sidebar-collab-badge-text">
+              <strong>Kerjasama Polimdo &amp; YBLI</strong>
+              <span>Latar belakang &amp; tujuan projek</span>
+            </div>
+          </button>
+        )}
       </div>
 
       <section className="sidebar-discovery" aria-labelledby="sidebar-discovery-title">
@@ -91,7 +99,7 @@ const Sidebar = ({
       <details className="map-layer-legend" open>
         <summary><Layers size={18} /> Legenda UMKM &amp; Layer Peta</summary>
         <div className="map-layer-content">
-          <p>Warna titik menunjukkan kategori. Warna area menunjukkan zona K-Means.</p>
+          <p>Warna titik menunjukkan kategori jenis usaha.</p>
           <label className="layer-option layer-option-all">
             <input type="checkbox" checked={hiddenCategories.length === 0} ref={(element) => { if (element) element.indeterminate = hiddenCategories.length > 0 && hiddenCategories.length < productTypes.length; }} onChange={onToggleAllCategories} />
             <strong>Semua kategori</strong>
@@ -155,106 +163,12 @@ const Sidebar = ({
         )}
       </div>
 
-      <details className="analysis-panel">
-        {/* Detail native menjaga kontrol K-Means tetap tersembunyi sampai dibutuhkan. */}
-        <summary>
-          <span className="analysis-summary-title"><Layers size={18} /> Analisis Zonasi K-Means</span>
-          <span className="analysis-summary-hint">Atur dan lihat hasil</span>
-        </summary>
-
-        <div className="analysis-panel-content">
-          <div className="control-group">
-            <label htmlFor="k-slider">
-              Jumlah cluster (K): <span className="k-badge">{kValue}</span>
-            </label>
-            <input
-              id="k-slider"
-              type="range"
-              min="2"
-              max="10"
-              value={kValue}
-              onChange={(e) => setKValue(Number.parseInt(e.target.value, 10))}
-            />
-            <span className="control-hint">Geser untuk mengubah jumlah wilayah zonasi.</span>
-          </div>
-
-          <div className="zone-visibility-control">
-            <div>
-              <strong>Area zonasi wilayah</strong>
-              <span>Tampilkan batas polygon hasil K-Means pada peta.</span>
-            </div>
-            <button
-              className={showZoneAreas ? 'active' : ''}
-              type="button"
-              role="switch"
-              aria-checked={showZoneAreas}
-              onClick={() => setShowZoneAreas((visible) => !visible)}
-            >
-              {showZoneAreas ? <Eye size={17} /> : <EyeOff size={17} />}
-              {showZoneAreas ? 'Aktif' : 'Nonaktif'}
-            </button>
-          </div>
-
-          {clusterStats && clusterStats.length > 0 && (
-            <div className="zone-stats-section animate-fade-in">
-              <div className="zone-stats-header">
-                <h3>Statistik Zonasi</h3>
-              </div>
-
-              <div className="zone-stats-list">
-                {clusterStats.map((stat, index) => (
-                  <button
-                    type="button"
-                    key={index}
-                    className={`zone-stat-item ${selectedZone === index ? 'selected' : ''}`}
-                    style={{ borderLeftColor: stat.color }}
-                    onClick={() => onSelectZone(index)}
-                    aria-pressed={selectedZone === index}
-                  >
-                    <span className="zone-stat-label">
-                      <span className="zone-color-dot" style={{ backgroundColor: stat.color }} />
-                      Wilayah {index + 1}
-                    </span>
-                    <span className="zone-stat-count">{stat.count.toLocaleString('id-ID')} UMKM</span>
-                  </button>
-                ))}
-              </div>
-
-              {selectedZoneSummary && (
-                <div className="zone-selection-summary">
-                  <div><span>Zona terpilih</span><strong>Wilayah {selectedZone + 1}</strong></div>
-                  <div><span>Jumlah UMKM</span><strong>{selectedZoneSummary.count.toLocaleString('id-ID')}</strong></div>
-                  <div><span>Kategori dominan</span><strong>{selectedZoneSummary.dominantCategory}</strong></div>
-                  <div><span>Pusat aktivitas</span><strong>{selectedZoneSummary.centroid ? `${selectedZoneSummary.centroid.lat.toFixed(5)}, ${selectedZoneSummary.centroid.lng.toFixed(5)}` : 'Belum tersedia'}</strong></div>
-                  <button type="button" onClick={() => onSelectZone(selectedZone)}>Tampilkan semua zona</button>
-                </div>
-              )}
-
-              <div className="algo-info">
-                <div className="algo-info-row">
-                  <span className="algo-info-label">Iterasi</span>
-                  <span className="algo-info-value">{iterations || '-'}</span>
-                </div>
-                <div className="algo-info-row">
-                  <span className="algo-info-label">WCSS</span>
-                  <span className="algo-info-value">{wcss ? `${wcss.toFixed(2)} km²` : '-'}</span>
-                </div>
-                <div className="algo-info-row">
-                  <span className="algo-info-label">Inisialisasi</span>
-                  <span className="algo-info-value">K-Means++ stabil</span>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </details>
-
       {/* Info Box */}
       <div className="sidebar-footer">
         <div className="info-box">
           <Info size={18} color="var(--primary-color)" className="info-box-icon" />
           <p>
-            Warna titik menunjukkan kategori usaha, sedangkan warna area menunjukkan zona K-Means.
+            Warna titik menunjukkan kategori jenis usaha.
             Sebagian titik merupakan perkiraan berdasarkan alamat atau wilayah.
           </p>
         </div>

@@ -34,7 +34,7 @@ const AdminSetup = () => {
             <h1>Hubungkan database untuk mengaktifkan pengelolaan data</h1>
             <p>
               Tampilan publik tetap menggunakan data JSON. Setelah Supabase dikonfigurasi,
-              login, CRUD, verifikasi lokasi, riwayat, dan penyimpanan K-Means akan aktif.
+              login, CRUD, verifikasi lokasi, dan riwayat akan aktif.
             </p>
           </div>
           <div className="admin-setup-icon" aria-hidden="true"><ShieldCheck size={52} /></div>

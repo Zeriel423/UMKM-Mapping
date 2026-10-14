@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import Sidebar from './components/Sidebar';
 import MapView from './components/Map';
 import BusinessList from './components/BusinessList';
-import { performKMeans, generateClusterColors } from './utils/kmeans';
 import {
   getDisplayCoordinates,
   isMappableLocation,
@@ -11,23 +10,22 @@ import {
 import { loadPublicBusinesses } from './services/publicDataService';
 import { Loader2, AlertTriangle, ClipboardCheck, Menu, X, Search, Store } from 'lucide-react';
 import BusinessSubmissionForm from './components/BusinessSubmissionForm';
+import AboutProjectModal from './components/AboutProjectModal';
 
 // Menentukan nama usaha yang diprioritaskan pada daftar dan popup.
 const businessTitle = (business) => business.brand?.trim() || business.name || 'UMKM tanpa nama';
 
-// Mengelola data publik, filter, zonasi, dan interaksi peta.
+// Mengelola data publik, filter, dan interaksi peta.
 function App() {
   // State berikut memisahkan data sumber, filter, dan status antarmuka.
   const [rawData, setRawData] = useState([]);
-  const [kValue, setKValue] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [discoveryOpen, setDiscoveryOpen] = useState(false);
   const [submissionOpen, setSubmissionOpen] = useState(false);
   const [submissionMode, setSubmissionMode] = useState('submit');
-  const [showZoneAreas, setShowZoneAreas] = useState(true);
-  const [selectedZone, setSelectedZone] = useState(null);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [hiddenCategories, setHiddenCategories] = useState([]);
   const [densityCategory, setDensityCategory] = useState('');
@@ -72,6 +70,7 @@ function App() {
         setSidebarOpen(false);
         closeDiscovery();
         setSubmissionOpen(false);
+        setAboutOpen(false);
       }
     };
     window.addEventListener('keydown', closeOnEscape);
@@ -142,11 +141,6 @@ function App() {
     [rawData],
   );
 
-  // K-Means hanya menerima usaha yang memiliki koordinat analisis valid.
-  const mappableFilteredData = useMemo(
-    () => filteredData.filter(isMappableLocation),
-    [filteredData],
-  );
 
   // Merangkum kualitas lokasi untuk panel informasi peta.
   const locationStats = useMemo(() => filteredData.reduce((stats, business) => {
@@ -169,60 +163,10 @@ function App() {
     unknown: 0,
   }), [filteredData]);
 
-  // Menghindari K-Means saat hasil filter tidak memiliki titik peta.
-  const clusterResult = useMemo(() => {
-    if (mappableFilteredData.length === 0) {
-      return { clusteredData: [], centroids: [], colors: [], clusterStats: [], clusterRadii: [], iterations: 0, wcss: 0 };
-    }
-
-    const effectiveK = Math.min(kValue, mappableFilteredData.length);
-    const result = performKMeans(mappableFilteredData, effectiveK);
-    const generatedColors = generateClusterColors(effectiveK);
-    const stats = result.clusters.map((cluster, index) => ({ count: cluster.length, color: generatedColors[index] }));
-
-    return {
-      clusteredData: result.clusteredData,
-      centroids: result.centroids,
-      colors: generatedColors,
-      clusterStats: stats,
-      clusterRadii: result.clusterRadii,
-      iterations: result.iterations,
-      wcss: result.wcss,
-    };
-  }, [mappableFilteredData, kValue]);
-
-  const { clusteredData, centroids, colors, clusterStats, iterations, wcss } = clusterResult;
-  const activeZone = selectedZone !== null && clusterStats[selectedZone] ? selectedZone : null;
-
-  const zoneFilteredBusinesses = useMemo(() => (
-    activeZone === null
-      ? clusteredData
-      : clusteredData.filter((business) => Number(business.cluster) === activeZone)
-  ), [activeZone, clusteredData]);
-
   const visibleBusinesses = useMemo(() => {
     const hidden = new Set(hiddenCategories);
-    return zoneFilteredBusinesses.filter((business) => !hidden.has(business.product_type));
-  }, [zoneFilteredBusinesses, hiddenCategories]);
-
-  const selectedZoneSummary = useMemo(() => {
-    if (activeZone === null) return null;
-
-    const businesses = clusteredData.filter((business) => Number(business.cluster) === activeZone);
-    const categories = businesses.reduce((counts, business) => {
-      const label = business.product_label || business.product_type || 'Kategori belum tersedia';
-      counts.set(label, (counts.get(label) || 0) + 1);
-      return counts;
-    }, new Map());
-    const [dominantCategory] = [...categories.entries()]
-      .sort((first, second) => second[1] - first[1] || first[0].localeCompare(second[0], 'id-ID'));
-
-    return {
-      count: businesses.length,
-      dominantCategory: dominantCategory?.[0] || 'Belum tersedia',
-      centroid: centroids[activeZone] || null,
-    };
-  }, [activeZone, centroids, clusteredData]);
+    return filteredData.filter((business) => !hidden.has(business.product_type));
+  }, [filteredData, hiddenCategories]);
 
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const closeSubmission = useCallback(() => setSubmissionOpen(false), []);
@@ -455,19 +399,9 @@ function App() {
 
       <Sidebar
         isOpen={sidebarOpen}
-        kValue={kValue}
-        setKValue={setKValue}
         totalData={rawData.length}
         mappableCount={mappableCount}
         filteredCount={visibleBusinesses.length}
-        clusterStats={clusterStats}
-        selectedZone={activeZone}
-        onSelectZone={(index) => setSelectedZone((current) => (current === index ? null : index))}
-        selectedZoneSummary={selectedZoneSummary}
-        showZoneAreas={showZoneAreas}
-        setShowZoneAreas={setShowZoneAreas}
-        iterations={iterations}
-        wcss={wcss}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         productTypes={productTypes}
@@ -484,6 +418,10 @@ function App() {
         }}
         densityCategory={densityCategory}
         setDensityCategory={setDensityCategory}
+        onOpenAbout={() => {
+          setSidebarOpen(false);
+          setAboutOpen(true);
+        }}
       />
 
       <main className="main-content">
@@ -505,13 +443,7 @@ function App() {
 
         <MapView
           data={visibleBusinesses}
-          zoneData={zoneFilteredBusinesses}
           densityCategory={densityCategory}
-          centroids={centroids}
-          colors={colors}
-          clusterStats={clusterStats}
-          activeZoneIndex={activeZone}
-          showZoneAreas={showZoneAreas}
           locationStats={locationStats}
           overlayOpen={sidebarOpen || discoveryOpen}
           selectedBusiness={focusSelectedBusiness ? selectedBusiness : null}
@@ -551,7 +483,7 @@ function App() {
         <BusinessList
           businesses={visibleBusinesses}
           allBusinesses={rawData}
-          resultsKey={`${searchQuery}\u0000${hiddenCategories.join(',')}\u0000${activeCollection?.id || 'all'}\u0000${activeZone ?? 'all'}`}
+          resultsKey={`${searchQuery}\u0000${hiddenCategories.join(',')}\u0000${activeCollection?.id || 'all'}`}
           selectedBusiness={selectedBusiness}
           activeCollectionId={activeCollection?.id}
           onSelectCollection={selectCollection}
@@ -564,7 +496,15 @@ function App() {
           onMobileClose={closeDiscovery}
         />
       </main>
-      {submissionOpen && <BusinessSubmissionForm initialMode={submissionMode} onChangeMode={setSubmissionMode} onClose={closeSubmission} />}
+      {submissionOpen && <BusinessSubmissionForm categoryOptions={productTypes.filter((type) => /^[A-Z]\d{4}$/.test(type.code))} initialMode={submissionMode} onChangeMode={setSubmissionMode} onClose={closeSubmission} />}
+      <AboutProjectModal
+        isOpen={aboutOpen}
+        onClose={() => setAboutOpen(false)}
+        onOpenSubmission={() => {
+          setSubmissionMode('submit');
+          setSubmissionOpen(true);
+        }}
+      />
     </div>
   );
 }

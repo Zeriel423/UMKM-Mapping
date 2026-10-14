@@ -1,17 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   MapContainer,
   TileLayer,
   Marker,
   Popup,
   Circle,
-  Polygon,
   ZoomControl,
   useMap,
 } from "react-leaflet";
 import L from "leaflet";
 import {
-  getAnalysisCoordinates,
   getDisplayCoordinates,
   isExactLocation,
   isMappableLocation,
@@ -28,50 +26,26 @@ if (typeof window !== "undefined") {
 // Cache ikon mencegah pembuatan divIcon berulang untuk warna yang sama.
 const iconCache = {};
 
-// Membuat ikon kecil UMKM atau ikon centroid berdasarkan warna cluster.
-const getIcon = (color, isCentroid = false) => {
-  const key = `${color}-${isCentroid}`;
-  if (iconCache[key]) return iconCache[key];
+// Membuat ikon marker UMKM berdasarkan warna kategori.
+const getIcon = (color) => {
+  if (iconCache[color]) return iconCache[color];
 
-  let icon;
+  const icon = L.divIcon({
+    className: "custom-div-icon",
+    html: `<div style="
+      background-color: ${color};
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    "></div>`,
+    iconSize: [10, 10],
+    iconAnchor: [5, 5],
+    popupAnchor: [0, -5],
+  });
 
-  if (isCentroid) {
-    icon = L.divIcon({
-      className: "custom-div-icon",
-      html: `<div style="
-        background-color: ${color};
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        border: 3px solid #fff;
-        box-shadow: 0 0 10px rgba(0,0,0,0.4), 0 0 20px ${color}44;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      ">
-        <div style="width: 7px; height: 7px; background-color: white; border-radius: 50%;"></div>
-      </div>`,
-      iconSize: [22, 22],
-      iconAnchor: [11, 11],
-    });
-  } else {
-    icon = L.divIcon({
-      className: "custom-div-icon",
-      html: `<div style="
-        background-color: ${color};
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        border: 2px solid #fff;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-      "></div>`,
-      iconSize: [10, 10],
-      iconAnchor: [5, 5],
-      popupAnchor: [0, -5],
-    });
-  }
-
-  iconCache[key] = icon;
+  iconCache[color] = icon;
   return icon;
 };
 
@@ -117,32 +91,6 @@ const formatDistance = (distance) => {
   return `${distance.toFixed(1)} km`;
 };
 
-const crossProduct = (origin, first, second) => (
-  (first.lng - origin.lng) * (second.lat - origin.lat)
-  - (first.lat - origin.lat) * (second.lng - origin.lng)
-);
-
-const convexHull = (points) => {
-  const uniquePoints = [...new Map(points.map((point) => [`${point.lat},${point.lng}`, point])).values()]
-    .sort((first, second) => first.lng - second.lng || first.lat - second.lat);
-  if (uniquePoints.length < 3) return [];
-
-  const lower = [];
-  uniquePoints.forEach((point) => {
-    while (lower.length >= 2 && crossProduct(lower.at(-2), lower.at(-1), point) <= 0) lower.pop();
-    lower.push(point);
-  });
-
-  const upper = [];
-  [...uniquePoints].reverse().forEach((point) => {
-    while (upper.length >= 2 && crossProduct(upper.at(-2), upper.at(-1), point) <= 0) upper.pop();
-    upper.push(point);
-  });
-
-  const hull = lower.slice(0, -1).concat(upper.slice(0, -1));
-  return hull.length >= 3 ? hull.map((point) => [point.lat, point.lng]) : [];
-};
-
 // Mencegah data UMKM menjadi HTML aktif ketika dimasukkan ke popup Leaflet.
 const escapeHtml = (value) => String(value ?? "")
   .replaceAll("&", "&amp;")
@@ -152,25 +100,28 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll("'", "&#039;");
 
 // Merakit HTML popup yang dipakai oleh marker Leaflet di luar tree React.
-const popupContent = (umkm, clusterColor) => {
+const popupContent = (umkm, categoryColor) => {
   const coordinates = getDisplayCoordinates(umkm);
   const destination = coordinates ? `${coordinates.lat},${coordinates.lng}` : umkm.address || umkm.name;
+  const gallery = (umkm.photos || []).map((photo, index) =>
+    `<img src="${escapeHtml(photo.url)}" alt="Foto ${escapeHtml(umkm.brand || umkm.name || 'UMKM')} ${index + 1}" loading="lazy" />`,
+  ).join('');
   return `
   <div>
-    <h3 style="color: ${clusterColor}">${escapeHtml(umkm.name || "UMKM")}</h3>
+    <h3 style="color: ${categoryColor}">${escapeHtml(umkm.name || "UMKM")}</h3>
     <p class="popup-brand">${escapeHtml(umkm.brand || "")}</p>
+    ${gallery ? `<div class="popup-photo-gallery">${gallery}</div>` : ''}
     <p class="popup-detail"><strong>Jenis:</strong> ${escapeHtml(umkm.product_label || umkm.product_type || "-")}</p>
     <p class="popup-detail"><strong>Pemilik:</strong> ${escapeHtml(umkm.owner || "-")}</p>
     <p class="popup-address">${escapeHtml(umkm.address || "-")}</p>
     <span class="popup-location-badge">${escapeHtml(locationAccuracyLabel(umkm))}</span>
-    <span class="popup-zone-badge" style="background-color: ${clusterColor}">Wilayah ${Number(umkm.cluster) + 1}</span>
     <a class="popup-route-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=${encodeURIComponent(destination)}" target="_blank" rel="noopener noreferrer">Buka Rute</a>
   </div>
 `;
 };
 
 const bindBusinessPopup = (marker, business, color) => {
-  marker.bindPopup(popupContent(business, color), { maxWidth: 280, maxHeight: 390 });
+  marker.bindPopup(popupContent(business, color), { maxWidth: 280, maxHeight: 420 });
 };
 
 const DensityLayer = ({ data, category }) => {
@@ -211,12 +162,12 @@ const DensityLayer = ({ data, category }) => {
 // =========================================================
 
 // Membuat layer marker yang dikelompokkan untuk menjaga peta tetap responsif.
-const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
+const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
   const map = useMap();
   const clusterGroupRef = useRef(null);
   const mcLoadedRef = useRef(false);
 
-  // Layer lama dibersihkan sebelum data atau warna cluster diganti.
+  // Layer lama dibersihkan sebelum data diganti.
   useEffect(() => {
     if (!map || !data || data.length === 0) return;
     let cancelled = false;
@@ -277,27 +228,20 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
 
       // Tambahkan marker
       data.forEach((umkm) => {
-        const clusterColor =
-          umkm.cluster !== undefined && colors[umkm.cluster]
-            ? colors[umkm.cluster]
-            : "#888";
-
+        const categoryColor = getProductInfo(umkm.product_type).color || "#0f766e";
         const coordinates = getDisplayCoordinates(umkm);
         if (!coordinates) return;
 
         const marker = L.marker([coordinates.lat, coordinates.lng], {
-          icon: getIcon(getProductInfo(umkm.product_type).color),
+          icon: getIcon(categoryColor),
         });
 
         marker.on("click", () => onSelectBusiness?.(umkm));
-
-        bindBusinessPopup(marker, umkm, clusterColor);
-
+        bindBusinessPopup(marker, umkm, categoryColor);
         clusterGroup.addLayer(marker);
       });
 
       map.addLayer(clusterGroup);
-
       clusterGroupRef.current = clusterGroup;
     };
 
@@ -310,22 +254,16 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
       const group = L.layerGroup();
 
       data.forEach((umkm) => {
-        const clusterColor =
-          umkm.cluster !== undefined && colors[umkm.cluster]
-            ? colors[umkm.cluster]
-            : "#888";
-
+        const categoryColor = getProductInfo(umkm.product_type).color || "#0f766e";
         const coordinates = getDisplayCoordinates(umkm);
         if (!coordinates) return;
 
         const marker = L.marker([coordinates.lat, coordinates.lng], {
-          icon: getIcon(getProductInfo(umkm.product_type).color),
+          icon: getIcon(categoryColor),
         });
 
         marker.on("click", () => onSelectBusiness?.(umkm));
-
-        bindBusinessPopup(marker, umkm, clusterColor);
-
+        bindBusinessPopup(marker, umkm, categoryColor);
         group.addLayer(marker);
       });
 
@@ -342,7 +280,7 @@ const MarkerClusterLayer = ({ data, colors, onSelectBusiness }) => {
         clusterGroupRef.current = null;
       }
     };
-  }, [map, data, colors, onSelectBusiness]);
+  }, [map, data, onSelectBusiness]);
 
   return null;
 };
@@ -401,8 +339,7 @@ const UserLocationFeature = ({ data }) => {
           lng: coords.longitude,
         };
 
-        // Jarak publik harus memakai titik yang terlihat pengguna pada peta,
-        // bukan koordinat analisis yang dapat berbeda untuk kebutuhan K-Means.
+        // Jarak publik memakai titik yang terlihat pengguna pada peta.
         const validData = (data || []).filter((umkm) => getDisplayCoordinates(umkm));
 
         // Hitung jarak setiap UMKM
@@ -627,30 +564,34 @@ const UserLocationFeature = ({ data }) => {
 // MAIN MAP COMPONENT
 // =========================================================
 
-// Menyatukan tile map, marker cluster, zona, dan kontrol informasi peta.
+const EXCLUDED_SAMPLE_NAMES = new Set([
+  'Kibo Cafe',
+  'Odanam Burger',
+  'QueenJo',
+  'Christine Klappertaart Kairagi',
+  'Kios Golden',
+]);
+const EXCLUDED_SAMPLE_IDS = new Set([1811, 1812, 1813, 1814, 1815]);
+
+const isCleanBusiness = (business) => (
+  business
+  && !EXCLUDED_SAMPLE_IDS.has(business.id)
+  && !EXCLUDED_SAMPLE_NAMES.has(business.name)
+  && !business.sampleDetails
+);
+
+// Menyatukan tile map, marker cluster, dan kontrol informasi peta.
 const MapComponent = ({
   data,
-  zoneData = data,
   densityCategory = '',
-  centroids,
-  colors,
-  clusterStats,
-  activeZoneIndex = null,
-  showZoneAreas = true,
   locationStats,
   overlayOpen = false,
   selectedBusiness,
   onSelectBusiness,
 }) => {
   const defaultCenter = [1.2, 124.5];
-
+  const cleanData = useMemo(() => (data || []).filter(isCleanBusiness), [data]);
   const zoomLevel = 8;
-  const zonePolygons = useMemo(() => centroids.map((_, index) => convexHull(
-    zoneData
-      .filter((business) => Number(business.cluster) === index)
-      .map(getAnalysisCoordinates)
-      .filter(Boolean),
-  )), [centroids, zoneData]);
 
   return (
     <div className="map-container" id="map-container">
@@ -671,70 +612,19 @@ const MapComponent = ({
 
         <ZoomControl position="topright" />
 
-        <DensityLayer data={data} category={densityCategory} />
+        <DensityLayer data={cleanData} category={densityCategory} />
 
         {/* Fitur untuk masyarakat */}
-        <UserLocationFeature data={data} />
+        <UserLocationFeature data={cleanData} />
 
         <SelectedBusinessController business={selectedBusiness} />
 
         {/* Marker UMKM */}
-        <MarkerClusterLayer data={data} colors={colors} onSelectBusiness={onSelectBusiness} />
-
-        {/* Centroid dan area persebaran cluster */}
-        {showZoneAreas && centroids.map((centroid, idx) => (activeZoneIndex !== null && idx !== activeZoneIndex ? null : (
-          <React.Fragment key={`centroid-${idx}`}>
-            <Marker
-              position={[centroid.lat, centroid.lng]}
-              icon={getIcon(colors[idx], true)}
-              zIndexOffset={1000}
-            >
-              <Popup>
-                <div
-                  style={{
-                    textAlign: "center",
-                  }}
-                >
-                  <strong
-                    style={{
-                      color: colors[idx],
-                    }}
-                  >
-                    Pusat Wilayah {idx + 1}
-                  </strong>
-
-                  <br />
-
-                  <span
-                    style={{
-                      fontSize: "0.8rem",
-                      color: "#64748b",
-                    }}
-                  >
-                    {centroid.lat.toFixed(4)}, {centroid.lng.toFixed(4)}
-                  </span>
-                </div>
-              </Popup>
-            </Marker>
-
-            {zonePolygons[idx]?.length >= 3 && <Polygon
-              positions={zonePolygons[idx]}
-              interactive={false}
-              pathOptions={{
-                color: colors[idx],
-                fillColor: colors[idx],
-                fillOpacity: 0.09,
-                weight: 1.7,
-              }}
-            />}
-          </React.Fragment>
-        )))}
+        <MarkerClusterLayer data={cleanData} onSelectBusiness={onSelectBusiness} />
       </MapContainer>
 
       <MapInfoPanel
         key={overlayOpen ? "map-info-blocked" : "map-info-ready"}
-        colors={colors}
-        clusterStats={clusterStats}
         locationStats={locationStats}
         disabled={overlayOpen}
       />

@@ -1,6 +1,6 @@
 # Zonasi UMKM Sulawesi Utara
 
-Aplikasi Web GIS untuk pemetaan dan analisis zonasi UMKM menggunakan K-Means clustering.
+Aplikasi Web GIS untuk pemetaan dan visualisasi persebaran UMKM di Sulawesi Utara.
 
 ## Menjalankan aplikasi
 
@@ -35,7 +35,6 @@ Jangan memasukkan secret key atau service-role key ke file `.env` frontend. Akse
 - Dashboard kualitas dataset.
 - Tambah, edit, aktifkan, dan nonaktifkan data UMKM.
 - Verifikasi koordinat dengan pin peta yang dapat digeser.
-- Analisis K-Means dan penyimpanan snapshot input, hash dataset, WCSS, centroid, serta iterasi.
 - Impor atomik data awal/CSV tervalidasi dan ekspor CSV yang aman dibuka di spreadsheet.
 - Audit log otomatis untuk perubahan data UMKM.
 - Formulir pengajuan UMKM dari halaman peta, dengan peninjauan setujui/tolak oleh admin.
@@ -61,9 +60,9 @@ Admin dan superadmin meninjau pengajuan melalui **Pengajuan UMKM**. Saat disetuj
 
 ## Kategori, kepadatan, dan foto publik
 
-Sidebar publik menyediakan **Mengenal Kategori UMKM** dan **Legenda UMKM & Layer Peta**. Checkbox kategori dapat dipilih bersamaan dan memfilter marker serta daftar usaha. Warna titik mengikuti kategori produk; polygon dan centroid tetap memakai warna K-Means. Menyembunyikan kategori di legenda tidak menghitung ulang K-Means atau mengubah batas zona.
+Sidebar publik menyediakan **Mengenal Kategori UMKM** dan **Legenda UMKM & Layer Peta**. Checkbox kategori dapat dipilih bersamaan dan memfilter marker serta daftar usaha. Warna titik mengikuti kategori produk. Menyembunyikan kategori di legenda memfilter titik marker pada peta serta daftar usaha di samping.
 
-Pilihan **Analisis kepadatan** menampilkan heatmap semua kategori terpilih atau satu kategori. Heatmap menunjukkan konsentrasi relatif titik pada tingkat zoom saat ini, bukan nilai usaha/km² maupun hasil K-Means. Titik perkiraan dan filter pencarian/zona memengaruhi tampilan. Batas dan nomor RW belum ditambahkan karena dataset RW belum tersedia.
+Pilihan **Analisis kepadatan** menampilkan heatmap semua kategori terpilih atau satu kategori. Heatmap menunjukkan konsentrasi relatif titik pada tingkat zoom saat ini, bukan nilai usaha/km². Titik perkiraan dan filter pencarian memengaruhi tampilan. Batas dan nomor RW belum ditambahkan karena dataset RW belum tersedia.
 
 Migrasi `supabase/migrations/20260920000101_published_umkm_photos.sql` sudah diterapkan pada proyek Supabase saat ini. Untuk instalasi baru, jalankan migrasi tersebut setelah migrasi pengajuan dan foto sebelumnya. Migrasi menyalin metadata foto pengajuan yang sudah disetujui ke `umkm_photos` dan menyinkronkan persetujuan berikutnya melalui trigger. Data kontak, kode pelacakan, dan pengajuan yang belum disetujui tetap privat. Bucket tetap privat; RLS hanya mengizinkan pembacaan foto usaha aktif dan dipublikasikan. Tautan foto berlaku 5 menit, sehingga tautan yang sudah diterbitkan dapat tetap berlaku sampai kedaluwarsa setelah usaha dinonaktifkan.
 
