@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import { CheckCircle2, ClipboardCheck, Copy, Loader2, MapPin, Search, Send, Store, X } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import { isSupabaseConfigured } from '../lib/supabase';
 import { requestSubmissionTrackingRecovery, submitBusinessSubmission, trackBusinessSubmission } from '../services/umkmService';
@@ -26,6 +26,21 @@ const selectedLocationIcon = L.divIcon({
   iconAnchor: [15, 30],
 });
 
+const reverseGeocodeCoordinate = async ({ lat, lng, signal }) => {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+  const response = await fetch(url, {
+    signal,
+    headers: {
+      'Accept-Language': 'id, en',
+    },
+  });
+  if (!response.ok) {
+    throw new Error('Gagal mengambil nama alamat dari server peta.');
+  }
+  const data = await response.json();
+  return data.display_name || (data.name ? `${data.name}, Manado, Sulawesi Utara` : `Titik Koordinat (${lat}, ${lng})`);
+};
+
 const LocationPickerEvents = ({ onSelect }) => {
   useMapEvents({
     click: (event) => onSelect(event.latlng),
@@ -43,10 +58,25 @@ const LocationPickerFocus = ({ coordinates }) => {
   return null;
 };
 
+const MapResizer = () => {
+  const map = useMap();
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      map.invalidateSize();
+    }, 250);
+    return () => window.clearTimeout(timer);
+  }, [map]);
+
+  return null;
+};
+
 const BusinessSubmissionForm = ({ categoryOptions, initialMode = 'submit', onChangeMode, onClose }) => {
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
-  const [pickerOpen, setPickerOpen] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(true);
+  const [addressLoading, setAddressLoading] = useState(false);
+  const [addressError, setAddressError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
@@ -67,11 +97,21 @@ const BusinessSubmissionForm = ({ categoryOptions, initialMode = 'submit', onCha
   const dialogRef = useRef(null);
   const savingRef = useRef(false);
   const locationSearchCache = useRef(new Map());
+  const reverseGeocodeCache = useRef(new Map());
+  const reverseAbortController = useRef(null);
   const lastSearchAt = useRef(0);
 
   useEffect(() => {
     savingRef.current = saving;
   }, [saving]);
+
+  useEffect(() => {
+    return () => {
+      if (reverseAbortController.current) {
+        reverseAbortController.current.abort();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const previousFocus = document.activeElement;
@@ -106,13 +146,58 @@ const BusinessSubmissionForm = ({ categoryOptions, initialMode = 'submit', onCha
     ? [latitude, longitude]
     : null;
 
-  const selectLocation = ({ lat, lng }) => {
+  const selectLocation = useCallback(async ({ lat, lng }) => {
+    const roundedLat = Number(lat.toFixed(6));
+    const roundedLng = Number(lng.toFixed(6));
+    const cacheKey = `${lat.toFixed(5)},${lng.toFixed(5)}`;
+
     setForm((current) => ({
       ...current,
-      latitude: lat.toFixed(6),
-      longitude: lng.toFixed(6),
+      latitude: String(roundedLat),
+      longitude: String(roundedLng),
     }));
-  };
+
+    if (reverseGeocodeCache.current.has(cacheKey)) {
+      const cached = reverseGeocodeCache.current.get(cacheKey);
+      setForm((current) => ({ ...current, address: cached }));
+      setAddressError('');
+      return;
+    }
+
+    if (reverseAbortController.current) {
+      reverseAbortController.current.abort();
+    }
+    const controller = new AbortController();
+    reverseAbortController.current = controller;
+
+    setAddressLoading(true);
+    setAddressError('');
+
+    try {
+      const resolvedAddress = await reverseGeocodeCoordinate({
+        lat: roundedLat,
+        lng: roundedLng,
+        signal: controller.signal,
+      });
+
+      reverseGeocodeCache.current.set(cacheKey, resolvedAddress);
+      setForm((current) => ({
+        ...current,
+        address: resolvedAddress,
+      }));
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+      setForm((current) => ({
+        ...current,
+        address: current.address || `Titik Koordinat (${roundedLat}, ${roundedLng})`,
+      }));
+      setAddressError('Gagal mendeteksi nama alamat secara otomatis. Silakan coba klik titik di sekitarnya.');
+    } finally {
+      if (!controller.signal.aborted) {
+        setAddressLoading(false);
+      }
+    }
+  }, []);
 
   const searchLocation = async () => {
     const query = searchQuery.trim();
@@ -166,16 +251,33 @@ const BusinessSubmissionForm = ({ categoryOptions, initialMode = 'submit', onCha
 
   const chooseSearchResult = (location) => {
     const coordinates = [location.lat, location.lng];
-    selectLocation(location);
+    const roundedLat = Number(location.lat.toFixed(6));
+    const roundedLng = Number(location.lng.toFixed(6));
+    const cacheKey = `${location.lat.toFixed(5)},${location.lng.toFixed(5)}`;
+    reverseGeocodeCache.current.set(cacheKey, location.name);
+
+    setForm((current) => ({
+      ...current,
+      address: location.name,
+      latitude: String(roundedLat),
+      longitude: String(roundedLng),
+    }));
     setMapFocus(coordinates);
     setSearchQuery(location.name);
     setSearchResults([]);
+    setAddressError('');
   };
 
   const submit = async (event) => {
     event.preventDefault();
     setSaving(true);
     setError('');
+
+    if (!form.latitude || !form.longitude || !form.address) {
+      setError('Silakan tentukan titik lokasi usaha pada peta untuk mendeteksi alamat otomatis.');
+      setSaving(false);
+      return;
+    }
 
     try {
       const result = await submitBusinessSubmission({ ...form, category: selectedCategory?.label || '' });
@@ -270,26 +372,29 @@ const BusinessSubmissionForm = ({ categoryOptions, initialMode = 'submit', onCha
           </div>
         ) : (
           <form className="public-submission-form" onSubmit={submit}>
-            <p className="public-submission-intro">Isi data usaha Anda. Titik lokasi bersifat opsional dan akan diverifikasi oleh admin.</p>
+            <p className="public-submission-intro">Isi data usaha Anda dan tentukan titik lokasi pada peta. Alamat akan terdeteksi secara otomatis.</p>
             <button className="public-status-trigger" type="button" onClick={() => onChangeMode('tracking')}>
               <ClipboardCheck size={17} aria-hidden="true" /> Sudah mendaftar? Lacak pengajuan Anda
             </button>
             <div className="public-submission-grid">
-              <label><span>Nama usaha *</span><input value={form.business_name} onChange={(event) => update('business_name', event.target.value)} maxLength="160" required /></label>
-              <label><span>Nama pemilik *</span><input value={form.owner_name} onChange={(event) => update('owner_name', event.target.value)} maxLength="120" required /></label>
-              <label><span>Nomor WhatsApp *</span><input type="tel" inputMode="tel" value={form.phone} onChange={(event) => update('phone', event.target.value)} maxLength="40" required /></label>
+              <label><span>Nama usaha *</span><input value={form.business_name} onChange={(event) => update('business_name', event.target.value)} maxLength="160" required placeholder="Contoh: Rumah Kopi Kaskado" /></label>
+              <label><span>Nama pemilik *</span><input value={form.owner_name} onChange={(event) => update('owner_name', event.target.value)} maxLength="120" required placeholder="Nama lengkap pemilik" /></label>
+              <label><span>Nomor WhatsApp *</span><input type="tel" inputMode="tel" value={form.phone} onChange={(event) => update('phone', event.target.value)} maxLength="40" required placeholder="08xxxxxxxxxx" /></label>
               <label><span>Kategori usaha *</span><select value={form.category_code} onChange={(event) => update('category_code', event.target.value)} required><option value="">Pilih kategori usaha</option>{categoryOptions.map((category) => <option key={category.code} value={category.code}>{category.label}</option>)}</select></label>
-              <label className="public-submission-full"><span>Alamat usaha *</span><textarea rows="3" value={form.address} onChange={(event) => update('address', event.target.value)} maxLength="500" required /></label>
             </div>
 
             {selectedCategory && <div className="public-category-guide"><strong>{selectedCategory.label}</strong><p>{getProductInfo(selectedCategory.code).description}</p></div>}
 
             <div className="public-location-fields">
-              <div><strong><MapPin size={17} aria-hidden="true" /> Titik lokasi usaha</strong><p>Pilih titik usaha secara manual pada peta agar koordinat lebih presisi.</p></div>
-              <button className="public-location-button" type="button" onClick={() => setPickerOpen((current) => !current)} aria-expanded={pickerOpen} aria-controls="submission-location-picker"><MapPin size={17} /> {pickerOpen ? 'Tutup peta' : 'Pilih lokasi'}</button>
+              <div>
+                <strong><MapPin size={17} aria-hidden="true" /> Titik Lokasi &amp; Alamat Usaha *</strong>
+                <p>Klik titik lokasi usaha pada peta atau cari jalan di bawah. Alamat akan terdeteksi dan terisi otomatis.</p>
+              </div>
+              <button className="public-location-button" type="button" onClick={() => setPickerOpen((current) => !current)} aria-expanded={pickerOpen} aria-controls="submission-location-picker">
+                <MapPin size={17} /> {pickerOpen ? 'Sembunyikan peta' : 'Buka peta'}
+              </button>
               {pickerOpen && (
                 <div className="public-location-picker" id="submission-location-picker">
-                  <p>Klik peta untuk menetapkan titik lokasi usaha.</p>
                   <div className="public-location-search">
                     <label className="public-visually-hidden" htmlFor="submission-location-search">Cari jalan atau gedung</label>
                     <input id="submission-location-search" type="search" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} onKeyDown={(event) => {
@@ -297,7 +402,7 @@ const BusinessSubmissionForm = ({ categoryOptions, initialMode = 'submit', onCha
                         event.preventDefault();
                         searchLocation();
                       }
-                    }} placeholder="Cari nama jalan atau gedung" autoComplete="off" />
+                    }} placeholder="Cari nama jalan, kelurahan, atau gedung di Manado" autoComplete="off" />
                     <button type="button" onClick={searchLocation} disabled={searching}>{searching ? <Loader2 className="animate-spin" size={17} /> : <Search size={17} />} {searching ? 'Mencari...' : 'Cari'}</button>
                   </div>
                   {searchError && <p className="public-location-search-error" role="alert">{searchError}</p>}
@@ -307,19 +412,42 @@ const BusinessSubmissionForm = ({ categoryOptions, initialMode = 'submit', onCha
                     </div>
                   )}
                   <div className="public-location-picker-map" aria-label="Peta pemilih lokasi usaha">
-                    <MapContainer center={selectedLocation || [1.2, 124.5]} zoom={selectedLocation ? 15 : 8} zoomControl>
+                    <MapContainer center={selectedLocation || [1.4870, 124.8456]} zoom={selectedLocation ? 16 : 13} zoomControl>
                       <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" maxZoom={19} />
+                      <MapResizer />
                       <LocationPickerEvents onSelect={selectLocation} />
                       <LocationPickerFocus coordinates={mapFocus} />
                       {selectedLocation && <Marker position={selectedLocation} icon={selectedLocationIcon} />}
                     </MapContainer>
                   </div>
-                  <small className="public-location-attribution">Pencarian lokasi oleh <a href="https://www.openstreetmap.org/" target="_blank" rel="noreferrer">OpenStreetMap</a>.</small>
+                  <small className="public-location-attribution">Pencarian &amp; penetapan alamat oleh <a href="https://www.openstreetmap.org/" target="_blank" rel="noreferrer">OpenStreetMap</a>.</small>
                 </div>
               )}
+
+              <div className="public-selected-address-card" aria-live="polite">
+                <div className="public-selected-address-header">
+                  <span className="public-address-title"><MapPin size={15} /> Alamat Usaha (Terdeteksi Otomatis) *</span>
+                  {addressLoading && (
+                    <span className="public-address-loading">
+                      <Loader2 className="animate-spin" size={13} /> Mendeteksi alamat...
+                    </span>
+                  )}
+                </div>
+                {form.address ? (
+                  <div className="public-selected-address-body">
+                    <p className="public-selected-address-text">{form.address}</p>
+                  </div>
+                ) : (
+                  <p className="public-selected-address-empty">
+                    Belum ada titik yang dipilih. Silakan klik titik usaha Anda pada peta atau cari lokasi di atas agar alamat terdeteksi secara otomatis.
+                  </p>
+                )}
+                {addressError && <p className="public-address-error" role="alert">{addressError}</p>}
+              </div>
+
               <div className="public-location-coordinates" aria-live="polite">
-                <label><span>Latitude</span><input type="number" min="-90" max="90" step="any" value={form.latitude} onChange={(event) => update('latitude', event.target.value)} /></label>
-                <label><span>Longitude</span><input type="number" min="-180" max="180" step="any" value={form.longitude} onChange={(event) => update('longitude', event.target.value)} /></label>
+                <label><span>Latitude</span><input type="text" readOnly value={form.latitude} placeholder="Otomatis dari peta" /></label>
+                <label><span>Longitude</span><input type="text" readOnly value={form.longitude} placeholder="Otomatis dari peta" /></label>
               </div>
             </div>
 
