@@ -119,7 +119,9 @@ const AboutProjectModal = ({ isOpen, onClose, onOpenSubmission }) => {
                 lokal secara akurat, serta menjadi tantangan bagi lembaga mitra dalam menyusun program
                 pembinaan, pelatihan kewirausahaan, dan penyaluran bantuan yang tepat sasaran. Melalui
                 teknologi Sistem Informasi Geografis (GIS), proyek ini hadir menjembatani kebutuhan
-                akademik dengan dampak sosial ekonomi nyata di masyarakat.
+                akademik dengan dampak sosial ekonomi nyata, di mana seluruh data yang terkumpul akan
+                diverifikasi dan ditindaklanjuti oleh Lentera UMKM Indonesia (unit pendampingan pelaku
+                UMKM dari Yayasan Bina Lentera Insan) dalam menyalurkan program pendampingan yang tepat sasaran.
               </p>
             </div>
           </section>
