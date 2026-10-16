@@ -68,18 +68,18 @@
 }
 
 .public-app .sidebar {
-  background: transparent;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-right: none;
-  box-shadow: none;
+  background: rgba(244, 247, 246, 0.45);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-right: 1px solid rgba(220, 230, 227, 0.45);
+  box-shadow: 8px 0 28px rgba(13, 70, 63, 0.06);
   scrollbar-color: #b8cac6 transparent;
 }
 
 .public-app .sidebar-header {
   background:
     radial-gradient(circle at 88% 12%, rgba(245, 180, 0, 0.28), transparent 32%),
-    linear-gradient(145deg, rgba(21, 95, 86, 0.58) 0%, rgba(13, 70, 63, 0.65) 100%);
+    linear-gradient(145deg, rgba(21, 95, 86, 0.68) 0%, rgba(13, 70, 63, 0.72) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.22);
@@ -171,12 +171,12 @@
 
 .public-app .sidebar-discovery {
   padding: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: var(--border-radius-md);
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
 }
 
 .public-app .sidebar-section-heading {
@@ -207,11 +207,11 @@
 .public-app .search-input {
   min-height: 46px;
   padding: 10px 42px 10px 39px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: var(--text-dark);
   font-size: 13px;
 }
@@ -485,11 +485,11 @@
 }
 
 .public-app .business-panel {
-  background: transparent;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-left: none;
-  box-shadow: none;
+  background: rgba(244, 247, 246, 0.45);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-left: 1px solid rgba(220, 230, 227, 0.45);
+  box-shadow: -8px 0 28px rgba(13, 70, 63, 0.06);
   scrollbar-color: #b8cac6 transparent;
 }
 
@@ -507,9 +507,9 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.45);
   background:
     radial-gradient(circle at 95% 5%, rgba(245, 180, 0, 0.13), transparent 33%),
-    rgba(248, 251, 250, 0.35);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+    rgba(248, 251, 250, 0.52);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .public-app .section-heading {
@@ -607,7 +607,7 @@
   margin: -4px -4px 12px;
   padding: 8px 4px 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.45);
-  background: rgba(244, 247, 246, 0.35);
+  background: rgba(244, 247, 246, 0.52);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -619,11 +619,11 @@
 .public-app .business-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 13px;
-  background: rgba(255, 255, 255, 0.42);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
@@ -1862,11 +1862,11 @@
 
 .public-app .map-layer-legend {
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.52);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
@@ -1877,7 +1877,7 @@
   gap: 8px;
   min-height: 48px;
   padding: 8px 14px;
-  background: rgba(13, 70, 63, 0.65);
+  background: rgba(13, 70, 63, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: #fff;
@@ -2256,7 +2256,7 @@
     padding: 0 18px 18px;
     gap: 14px;
     border-radius: 0 22px 22px 0;
-    background: rgba(244, 247, 246, 0.28) !important;
+    background: rgba(244, 247, 246, 0.45) !important;
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     box-shadow: 16px 0 42px rgba(12, 45, 41, 0.24);
