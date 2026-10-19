@@ -1,4 +1,4 @@
-import { Building2, CheckCircle2, GraduationCap, Handshake, HeartHandshake, MapPin, Sparkles, Store, X } from 'lucide-react';
+import { Briefcase, Building2, CheckCircle2, GraduationCap, Handshake, HeartHandshake, MapPin, Sparkles, Store, Users, X } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
 const AboutProjectModal = ({ isOpen, onClose, onOpenSubmission }) => {
@@ -184,6 +184,37 @@ const AboutProjectModal = ({ isOpen, onClose, onOpenSubmission }) => {
                 Lembaga nirlaba yang berfokus pada kegiatan sosial, pendidikan, kesehatan, serta
                 pendampingan dan pemberdayaan ekonomi masyarakat.
               </p>
+            </div>
+          </section>
+
+          {/* Mitra Pelaksana */}
+          <section className="about-section">
+            <div className="about-section-header">
+              <Handshake size={18} className="about-section-icon" aria-hidden="true" />
+              <h3>Mitra Pelaksana</h3>
+            </div>
+            <div className="about-partners-grid">
+              <div className="about-partner-card">
+                <div className="about-partner-title">
+                  <Briefcase size={18} aria-hidden="true" />
+                  <h4>Asosiasi Pengusaha Industri Kecil (APIK)</h4>
+                </div>
+                <p>
+                  Wadah jejaring dan kolaborasi bagi para pelaku industri kecil dalam meningkatkan
+                  kualitas produk, daya saing, serta akses pasar.
+                </p>
+              </div>
+
+              <div className="about-partner-card">
+                <div className="about-partner-title">
+                  <Users size={18} aria-hidden="true" />
+                  <h4>Tangan Di Atas (TDA) Manado</h4>
+                </div>
+                <p>
+                  Komunitas wirausaha yang berfokus pada edukasi, pendampingan bisnis, serta
+                  pembentukan ekosistem kewirausahaan yang saling memberdayakan.
+                </p>
+              </div>
             </div>
           </section>
 
