@@ -2140,6 +2140,21 @@
   .public-app .map-info-control {
     right: calc(var(--results-panel-width) + 18px);
   }
+
+  .public-app .nearby-panel {
+    top: 18px;
+    left: auto;
+    right: calc(var(--results-panel-width) + 70px);
+    width: min(290px, calc(100vw - var(--sidebar-width) - var(--results-panel-width) - 96px));
+  }
+
+  .public-app .nearby-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+  }
 }
 
 @media (min-width: 1181px) {
@@ -2228,7 +2243,7 @@
   }
 
   .public-app .nearby-panel {
-    width: min(260px, calc(100% - 90px));
+    width: min(260px, calc(100vw - var(--sidebar-width) - var(--results-panel-width) - 96px));
   }
 
 }
