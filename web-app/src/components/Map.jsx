@@ -102,17 +102,17 @@ const escapeHtml = (value) => String(value ?? "")
 // Merakit HTML popup yang dipakai oleh marker Leaflet di luar tree React.
 const popupContent = (umkm, categoryColor) => {
   const coordinates = getDisplayCoordinates(umkm);
-  const destination = coordinates ? `${coordinates.lat},${coordinates.lng}` : umkm.address || umkm.name;
+  const title = umkm.brand?.trim() || umkm.name || 'UMKM';
+  const destination = coordinates ? `${coordinates.lat},${coordinates.lng}` : umkm.address || title;
   const gallery = (umkm.photos || []).map((photo, index) =>
-    `<img src="${escapeHtml(photo.url)}" alt="Foto ${escapeHtml(umkm.brand || umkm.name || 'UMKM')} ${index + 1}" loading="lazy" />`,
+    `<img src="${escapeHtml(photo.url)}" alt="Foto ${escapeHtml(title)} ${index + 1}" loading="lazy" />`,
   ).join('');
+
   return `
   <div>
-    <h3 style="color: ${categoryColor}">${escapeHtml(umkm.name || "UMKM")}</h3>
-    <p class="popup-brand">${escapeHtml(umkm.brand || "")}</p>
+    <h3 style="color: ${categoryColor}">${escapeHtml(title)}</h3>
     ${gallery ? `<div class="popup-photo-gallery">${gallery}</div>` : ''}
     <p class="popup-detail"><strong>Jenis:</strong> ${escapeHtml(umkm.product_label || umkm.product_type || "-")}</p>
-    <p class="popup-detail"><strong>Pemilik:</strong> ${escapeHtml(umkm.owner || "-")}</p>
     <p class="popup-address">${escapeHtml(umkm.address || "-")}</p>
     <span class="popup-location-badge">${escapeHtml(locationAccuracyLabel(umkm))}</span>
     <a class="popup-route-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=${encodeURIComponent(destination)}" target="_blank" rel="noopener noreferrer">Buka Rute</a>

@@ -20,6 +20,7 @@ Thumbs.db
 *.log
 *.tmp
 *.temp
+*.backup.json
 
 # Documents and presentations
 *.docx

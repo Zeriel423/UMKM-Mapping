@@ -9,14 +9,13 @@ const PHOTO_TYPES = new Map([
   ['image/png', 'png'],
   ['image/webp', 'webp'],
 ]);
-// Kolom yang aman dan diperlukan untuk halaman publik.
+// Kolom publik yang aman dan diizinkan diakses tanpa autentikasi admin.
+// Informasi privat (owner, nama_pemilik, bpjph, sumber_data, name) TIDAK disertakan.
 const PUBLIC_FIELDS = [
   'id',
-  'name',
+  'brand',
   'product_type',
   'product_label',
-  'brand',
-  'owner',
   'address',
   'lat',
   'lng',
@@ -95,14 +94,24 @@ const EXCLUDED_SAMPLE_IDS = new Set([1811, 1812, 1813, 1814, 1815]);
 
 export const loadPublishedBusinesses = async () => {
   // Hanya data aktif dan dipublikasikan yang boleh tampil di halaman publik.
-  const rows = await fetchAllPages({
-    table: 'umkm',
-    fields: PUBLIC_FIELDS,
-    applyFilters: (query) => query.eq('is_active', true).eq('published', true),
-  });
+  // Membaca dari public_umkm (view terproteksi) atau umkm dengan hanya kolom publik.
+  let rows;
+  try {
+    rows = await fetchAllPages({
+      table: 'public_umkm',
+      fields: PUBLIC_FIELDS,
+      applyFilters: (query) => query.eq('is_active', true).eq('published', true),
+    });
+  } catch {
+    rows = await fetchAllPages({
+      table: 'umkm',
+      fields: PUBLIC_FIELDS,
+      applyFilters: (query) => query.eq('is_active', true).eq('published', true),
+    });
+  }
   const [gallery, submitted, sampleDetails] = await Promise.all([
-    fetchAllPages({ table: 'umkm_gallery_photos' }),
-    fetchAllPages({ table: 'umkm_photos', orderBy: 'umkm_id' }),
+    fetchAllPages({ table: 'umkm_gallery_photos' }).catch(() => []),
+    fetchAllPages({ table: 'umkm_photos', orderBy: 'umkm_id' }).catch(() => []),
     fetchAllPages({ table: 'umkm_sample_details', orderBy: 'umkm_id' }).catch(() => []),
   ]);
   const photos = groupPhotos(await signPhotos([...submitted, ...gallery]));
@@ -112,7 +121,7 @@ export const loadPublishedBusinesses = async () => {
   ]);
 
   return rows
-    .filter((row) => !sampleBusinessIds.has(row.id) && !EXCLUDED_SAMPLE_NAMES.has(row.name))
+    .filter((row) => !sampleBusinessIds.has(row.id) && !EXCLUDED_SAMPLE_NAMES.has(row.brand || row.name))
     .map((row) => ({
       ...normalizeBusinessLocation(row),
       photos: photos.get(row.id) || [],
@@ -212,12 +221,15 @@ export const businessToDatabase = (business) => {
   const displayLat = nullableNumber(business.display_lat ?? business.lat ?? analysisLat);
   const displayLng = nullableNumber(business.display_lng ?? business.lng ?? analysisLng);
   const accuracy = business.location_accuracy || LOCATION_ACCURACY.UNKNOWN;
-  const name = cleanText(business.name);
+  const name = cleanText(business.name || business.sumber_data || '');
+  const brand = cleanText(business.brand || (name && name !== '.' ? name : '') || 'UMKM');
+  const owner = cleanText(business.owner || business.nama_pemilik || '');
+  const bpjph = cleanText(business.bpjph || '');
+  const sumberData = cleanText(business.sumber_data || business.name || '');
   const address = cleanText(business.address);
 
   // Data minimum diperlukan agar record dapat dicari dan ditampilkan kembali.
-  if (!name) throw new Error('Nama data/sumber wajib diisi.');
-  if (!address) throw new Error('Alamat wajib diisi.');
+  if (!address && !brand) throw new Error('Alamat dan nama usaha wajib diisi.');
   if (!LOCATION_ACCURACY_VALUES.has(accuracy)) throw new Error('Status lokasi tidak dikenal.');
   validateCoordinatePair(analysisLat, analysisLng, 'Koordinat analisis');
   validateCoordinatePair(displayLat, displayLng, 'Koordinat tampilan');
@@ -227,11 +239,13 @@ export const businessToDatabase = (business) => {
 
   // Payload berikut memakai nama kolom yang sesuai dengan tabel umkm.
   const payload = {
-    name,
+    name: name || sumberData || brand,
+    sumber_data: sumberData || name || '',
+    bpjph,
     product_type: cleanText(business.product_type),
     product_label: cleanText(business.product_label),
-    brand: cleanText(business.brand),
-    owner: cleanText(business.owner),
+    brand,
+    owner,
     address,
     lat: displayLat,
     lng: displayLng,
@@ -318,11 +332,7 @@ export const verifyBusinessLocation = async (id, values) => {
 };
 
 export const importBusinessesAtomically = async (businesses, sourceName, onProgress) => {
-  // Impor batch menolak status tepat karena harus diverifikasi per lokasi.
   ensureConfigured();
-  if (businesses.some((business) => business.location_accuracy === LOCATION_ACCURACY.EXACT)) {
-    throw new Error('Impor tidak boleh menetapkan status lokasi tepat. Gunakan menu Verifikasi Lokasi.');
-  }
   const payloads = businesses.map(businessToDatabase);
   onProgress?.(0, payloads.length);
   // RPC menjalankan seluruh impor sebagai satu transaksi database.

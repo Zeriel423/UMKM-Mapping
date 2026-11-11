@@ -6,7 +6,7 @@ import os
 # Organized by Kabupaten/Kota for clarity
 DISTRICT_COORDS = {
     # === KOTA MANADO ===
-    'MALALAYANG': (1.4500, 124.8211),
+    'MALALAYANG': (1.4580, 124.8310),
     'SARIO': (1.4631, 124.8420),
     'WANEA': (1.4589, 124.8437),
     'WENANG': (1.4931, 124.8409),
@@ -15,8 +15,8 @@ DISTRICT_COORDS = {
     'MAPANGET': (1.5230, 124.9126),
     'SINGKIL': (1.5034, 124.8458),
     'TUMINTING': (1.5126, 124.8466),
-    'BUNAKEN': (1.5800, 124.7900),
-    'BUNAKEN KEPULAUAN': (1.6200, 124.7400),
+    'BUNAKEN': (1.5500, 124.8400),
+    'BUNAKEN KEPULAUAN': (1.6210, 124.7610),
     'MANADO': (1.4748, 124.8421),
 
     # === KOTA BITUNG ===
@@ -346,11 +346,14 @@ def main():
         product_code = str(row['JENIS PRODUK']).strip()
         item = {
             'id': idx,
-            'name': str(row['FAC NAME']),
+            'name': str(row['FAC NAME']).strip() if pd.notna(row['FAC NAME']) else 'BPJPH',
+            'sumber_data': str(row['FAC NAME']).strip() if pd.notna(row['FAC NAME']) else 'BPJPH',
+            'bpjph': str(row['FAC NAME']).strip() if pd.notna(row['FAC NAME']) else 'BPJPH',
             'product_type': product_code,
             'product_label': get_product_label(product_code),
             'brand': str(row['MEREK DAGANG']),
-            'owner': str(row['NAMA PU']),
+            'owner': str(row['NAMA PU']).strip() if pd.notna(row['NAMA PU']) else '',
+            'nama_pemilik': str(row['NAMA PU']).strip() if pd.notna(row['NAMA PU']) else '',
             'address': str(row['ALAMAT PU']),
             # Stable district/area point used by K-Means.
             'analysis_lat': analysis_lat,

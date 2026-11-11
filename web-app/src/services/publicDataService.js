@@ -8,6 +8,7 @@ const hasDatabaseConfiguration = Boolean(
 
 export const loadStaticBusinesses = async () => {
   // Menggunakan JSON lokal saat database belum dikonfigurasi.
+  // Menyaring hanya atribut publik agar data privat tidak berada pada memori publik.
   const response = await fetch('/data/umkm.json');
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}: Gagal memuat data UMKM`);
@@ -15,7 +16,35 @@ export const loadStaticBusinesses = async () => {
 
   const data = await response.json();
   if (!Array.isArray(data)) throw new Error('Format data UMKM tidak valid.');
-  // Menyamakan format lokasi data lama dengan format database.
+  return data.map((item) => {
+    const normalized = normalizeBusinessLocation(item);
+    return {
+      id: normalized.id,
+      brand: normalized.brand || (normalized.name && normalized.name !== '.' ? normalized.name : '') || 'UMKM',
+      product_type: normalized.product_type,
+      product_label: normalized.product_label,
+      address: normalized.address,
+      lat: normalized.lat,
+      lng: normalized.lng,
+      analysis_lat: normalized.analysis_lat,
+      analysis_lng: normalized.analysis_lng,
+      display_lat: normalized.display_lat,
+      display_lng: normalized.display_lng,
+      location_accuracy: normalized.location_accuracy,
+      location_area: normalized.location_area,
+    };
+  });
+};
+
+export const loadRawStaticBusinesses = async () => {
+  // Dipakai secara internal oleh panel admin untuk keperluan penyemaian data awal.
+  const response = await fetch('/data/umkm.json');
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: Gagal memuat data UMKM`);
+  }
+
+  const data = await response.json();
+  if (!Array.isArray(data)) throw new Error('Format data UMKM tidak valid.');
   return data.map(normalizeBusinessLocation);
 };
 

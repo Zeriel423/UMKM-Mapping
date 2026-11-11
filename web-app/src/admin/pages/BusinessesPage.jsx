@@ -9,8 +9,11 @@ const PAGE_SIZE = 30;
 // Nilai awal form saat admin membuat UMKM baru.
 const EMPTY_BUSINESS = {
   name: '',
+  sumber_data: '',
+  bpjph: '',
   brand: '',
   owner: '',
+  nama_pemilik: '',
   product_type: '',
   product_label: '',
   address: '',
@@ -159,9 +162,10 @@ const BusinessDialog = ({ business, onClose, onSaved, notify }) => {
         </div>
 
         <form className="admin-form admin-form-grid" onSubmit={submit}>
-          <label className="admin-field"><span>Nama data/sumber *</span><input value={form.name} onChange={(event) => update('name', event.target.value)} required /></label>
-          <label className="admin-field"><span>Nama usaha/merek</span><input value={form.brand || ''} onChange={(event) => update('brand', event.target.value)} /></label>
-          <label className="admin-field"><span>Nama pemilik</span><input value={form.owner || ''} onChange={(event) => update('owner', event.target.value)} /></label>
+          <label className="admin-field"><span>Nama usaha/merek *</span><input value={form.brand || ''} onChange={(event) => update('brand', event.target.value)} required placeholder="Contoh: Bakery Barokah" /></label>
+          <label className="admin-field"><span>Nama data / Sumber data (Privat)</span><input value={form.sumber_data || form.name || ''} onChange={(event) => { update('sumber_data', event.target.value); update('name', event.target.value); }} placeholder="Contoh: BPJPH SEHATI 2022" /></label>
+          <label className="admin-field"><span>BPJPH (Privat)</span><input value={form.bpjph || ''} onChange={(event) => update('bpjph', event.target.value)} placeholder="Contoh: BPJPH SEHATI" /></label>
+          <label className="admin-field"><span>Nama pemilik (Privat)</span><input value={form.owner || form.nama_pemilik || ''} onChange={(event) => { update('owner', event.target.value); update('nama_pemilik', event.target.value); }} placeholder="Nama pemilik usaha" /></label>
           <label className="admin-field"><span>Kode kategori</span><input value={form.product_type || ''} onChange={(event) => update('product_type', event.target.value)} /></label>
           <label className="admin-field"><span>Nama kategori</span><input value={form.product_label || ''} onChange={(event) => update('product_label', event.target.value)} /></label>
           <label className="admin-field"><span>Wilayah</span><input value={form.location_area || ''} disabled={hasExactLocation} onChange={(event) => update('location_area', event.target.value)} /></label>
@@ -377,7 +381,7 @@ const BusinessesPage = ({ businesses, loading, refresh, notify, canManage, initi
               <tbody>
                 {visible.map((business) => (
                   <tr key={business.id}>
-                    <td><strong>{business.brand || business.name}</strong><small>{business.owner || 'Pemilik belum tersedia'}</small><small>{business.address || 'Alamat belum tersedia'}</small></td>
+                    <td><strong>{business.brand || business.name}</strong><small>{business.owner ? `Pemilik: ${business.owner}` : 'Pemilik: -'}</small><small>{business.address || 'Alamat belum tersedia'}</small></td>
                     <td>{business.product_label || business.product_type || '-'}</td>
                     <td>{business.location_area || '-'}</td>
                     <td><span className={`admin-status-badge ${accuracyClass(business.location_accuracy)}`}>{locationAccuracyLabel(business)}</span></td>

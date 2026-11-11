@@ -118,9 +118,8 @@ function App() {
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
       result = result.filter(item =>
-        item.name?.toLowerCase().includes(q) ||
         item.brand?.toLowerCase().includes(q) ||
-        item.owner?.toLowerCase().includes(q) ||
+        item.name?.toLowerCase().includes(q) ||
         item.address?.toLowerCase().includes(q) ||
         item.product_label?.toLowerCase().includes(q)
       );
