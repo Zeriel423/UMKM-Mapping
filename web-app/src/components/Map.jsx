@@ -132,8 +132,8 @@ const popupContent = (umkm, categoryColor) => {
 
 const bindBusinessPopup = (marker, business, color) => {
   marker.bindPopup(popupContent(business, color), {
-    maxWidth: 300,
-    minWidth: 230,
+    maxWidth: 320,
+    minWidth: 260,
     maxHeight: 440,
     className: 'umkm-custom-popup',
     autoPan: true,
