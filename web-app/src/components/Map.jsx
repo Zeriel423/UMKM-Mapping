@@ -26,23 +26,23 @@ if (typeof window !== "undefined") {
 // Cache ikon mencegah pembuatan divIcon berulang untuk warna yang sama.
 const iconCache = {};
 
-// Membuat ikon marker UMKM berdasarkan warna kategori.
+// Membuat ikon marker UMKM berdasarkan warna kategori dengan kontras tinggi dan area klik (hitbox) luas.
 const getIcon = (color) => {
   if (iconCache[color]) return iconCache[color];
 
   const icon = L.divIcon({
-    className: "custom-div-icon",
-    html: `<div style="
-      background-color: ${color};
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    "></div>`,
-    iconSize: [10, 10],
-    iconAnchor: [5, 5],
-    popupAnchor: [0, -5],
+    className: "umkm-marker-div-icon",
+    html: `
+      <div class="umkm-marker-hitbox" style="--marker-color: ${color};">
+        <div class="umkm-marker-pin" style="background-color: ${color};">
+          <div class="umkm-marker-inner-dot"></div>
+        </div>
+        <div class="umkm-marker-halo"></div>
+      </div>
+    `,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -18],
   });
 
   iconCache[color] = icon;
@@ -108,20 +108,49 @@ const popupContent = (umkm, categoryColor) => {
     `<img src="${escapeHtml(photo.url)}" alt="Foto ${escapeHtml(title)} ${index + 1}" loading="lazy" />`,
   ).join('');
 
+  const rawAddress = (umkm.address || '').trim();
+  const addressText = escapeHtml(rawAddress || 'Alamat belum tersedia');
+
   return `
-  <div>
-    <h3 style="color: ${categoryColor}">${escapeHtml(title)}</h3>
+  <div class="umkm-popup-container">
+    <div class="umkm-popup-header">
+      <h3 class="popup-title" style="color: ${categoryColor}">${escapeHtml(title)}</h3>
+      <div class="popup-address-box">
+        <svg class="popup-address-pin" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        <span class="popup-address-text ${!rawAddress ? 'is-empty' : ''}">${addressText}</span>
+      </div>
+    </div>
     ${gallery ? `<div class="popup-photo-gallery">${gallery}</div>` : ''}
-    <p class="popup-detail"><strong>Jenis:</strong> ${escapeHtml(umkm.product_label || umkm.product_type || "-")}</p>
-    <p class="popup-address">${escapeHtml(umkm.address || "-")}</p>
-    <span class="popup-location-badge">${escapeHtml(locationAccuracyLabel(umkm))}</span>
+    <div class="popup-meta">
+      <p class="popup-detail"><strong>Jenis:</strong> ${escapeHtml(umkm.product_label || umkm.product_type || "-")}</p>
+      <span class="popup-location-badge">${escapeHtml(locationAccuracyLabel(umkm))}</span>
+    </div>
     <a class="popup-route-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=${encodeURIComponent(destination)}" target="_blank" rel="noopener noreferrer">Buka Rute</a>
   </div>
 `;
 };
 
 const bindBusinessPopup = (marker, business, color) => {
-  marker.bindPopup(popupContent(business, color), { maxWidth: 280, maxHeight: 420 });
+  marker.bindPopup(popupContent(business, color), {
+    maxWidth: 300,
+    minWidth: 230,
+    maxHeight: 440,
+    className: 'umkm-custom-popup',
+    autoPan: true,
+    autoPanPaddingTopLeft: L.point(16, 75),
+    autoPanPaddingBottomRight: L.point(16, 20),
+    keepInView: true,
+  });
+
+  marker.on('popupopen', () => {
+    const el = marker.getElement();
+    if (el) el.classList.add('marker-active');
+  });
+
+  marker.on('popupclose', () => {
+    const el = marker.getElement();
+    if (el) el.classList.remove('marker-active');
+  });
 };
 
 const DensityLayer = ({ data, category }) => {
@@ -162,10 +191,11 @@ const DensityLayer = ({ data, category }) => {
 // =========================================================
 
 // Membuat layer marker yang dikelompokkan untuk menjaga peta tetap responsif.
-const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
+const MarkerClusterLayer = ({ data, onSelectBusiness, selectedBusiness }) => {
   const map = useMap();
   const clusterGroupRef = useRef(null);
   const mcLoadedRef = useRef(false);
+  const markersByIdRef = useRef(new Map());
 
   // Layer lama dibersihkan sebelum data diganti.
   useEffect(() => {
@@ -177,16 +207,12 @@ const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
       if (!mcLoadedRef.current && !L.MarkerClusterGroup) {
         try {
           await import("leaflet.markercluster/dist/leaflet.markercluster.js");
-
           await import("leaflet.markercluster/dist/MarkerCluster.css");
-
           await import("leaflet.markercluster/dist/MarkerCluster.Default.css");
-
           mcLoadedRef.current = true;
         } catch (err) {
           if (cancelled) return;
           console.error("[Map] Failed to load markercluster:", err);
-
           addMarkersWithoutClustering();
           return;
         }
@@ -198,6 +224,7 @@ const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
       if (clusterGroupRef.current) {
         map.removeLayer(clusterGroupRef.current);
       }
+      markersByIdRef.current = new Map();
 
       // Buat cluster group
       const clusterGroup = L.markerClusterGroup({
@@ -209,9 +236,7 @@ const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
 
         iconCreateFunction: (cluster) => {
           const childCount = cluster.getChildCount();
-
           let size = "small";
-
           if (childCount > 50) {
             size = "large";
           } else if (childCount > 20) {
@@ -226,7 +251,7 @@ const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
         },
       });
 
-      // Tambahkan marker
+      // Tambahkan marker dengan hitbox luas dan registrasi ke lookup map
       data.forEach((umkm) => {
         const categoryColor = getProductInfo(umkm.product_type).color || "#0f766e";
         const coordinates = getDisplayCoordinates(umkm);
@@ -234,11 +259,13 @@ const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
 
         const marker = L.marker([coordinates.lat, coordinates.lng], {
           icon: getIcon(categoryColor),
+          alt: umkm.brand || umkm.name || 'Marker UMKM',
         });
 
         marker.on("click", () => onSelectBusiness?.(umkm));
         bindBusinessPopup(marker, umkm, categoryColor);
         clusterGroup.addLayer(marker);
+        markersByIdRef.current.set(String(umkm.id), marker);
       });
 
       map.addLayer(clusterGroup);
@@ -250,6 +277,7 @@ const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
       if (clusterGroupRef.current) {
         map.removeLayer(clusterGroupRef.current);
       }
+      markersByIdRef.current = new Map();
 
       const group = L.layerGroup();
 
@@ -260,11 +288,13 @@ const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
 
         const marker = L.marker([coordinates.lat, coordinates.lng], {
           icon: getIcon(categoryColor),
+          alt: umkm.brand || umkm.name || 'Marker UMKM',
         });
 
         marker.on("click", () => onSelectBusiness?.(umkm));
         bindBusinessPopup(marker, umkm, categoryColor);
         group.addLayer(marker);
+        markersByIdRef.current.set(String(umkm.id), marker);
       });
 
       map.addLayer(group);
@@ -279,8 +309,33 @@ const MarkerClusterLayer = ({ data, onSelectBusiness }) => {
         map.removeLayer(clusterGroupRef.current);
         clusterGroupRef.current = null;
       }
+      markersByIdRef.current = new Map();
     };
   }, [map, data, onSelectBusiness]);
+
+  // Memberi feedback visual aktif dan membuka popup saat UMKM dipilih
+  useEffect(() => {
+    if (!selectedBusiness) return;
+    const targetMarker = markersByIdRef.current.get(String(selectedBusiness.id));
+    if (!targetMarker) return;
+
+    // Bersihkan penanda aktif sebelumnya
+    document.querySelectorAll('.leaflet-marker-icon.marker-active').forEach((el) => {
+      el.classList.remove('marker-active');
+    });
+
+    const activateMarker = () => {
+      targetMarker.openPopup();
+      const el = targetMarker.getElement();
+      if (el) el.classList.add('marker-active');
+    };
+
+    if (clusterGroupRef.current && clusterGroupRef.current.hasLayer(targetMarker)) {
+      clusterGroupRef.current.zoomToShowLayer(targetMarker, activateMarker);
+    } else {
+      activateMarker();
+    }
+  }, [selectedBusiness]);
 
   return null;
 };
@@ -467,42 +522,45 @@ const UserLocationFeature = ({ data }) => {
                   Tidak ada data UMKM dengan koordinat yang valid.
                 </div>
               ) : (
-                nearest.map((umkm, index) => (
-                  <div className="nearby-item" key={`${umkm.name}-${index}`}>
-                    {/* Informasi UMKM */}
-                    <button
-                      className="nearby-item-main"
-                      type="button"
-                      onClick={() => focusUmkm(umkm)}
-                    >
-                      <div className="nearby-item-heading">
-                        <strong className="nearby-item-name">
-                          {index + 1}. {umkm.name}
-                        </strong>
+                nearest.map((umkm, index) => {
+                  const displayName = umkm.brand?.trim() || umkm.name || 'UMKM';
+                  return (
+                    <div className="nearby-item" key={`${displayName}-${index}`}>
+                      {/* Informasi UMKM */}
+                      <button
+                        className="nearby-item-main"
+                        type="button"
+                        onClick={() => focusUmkm(umkm)}
+                      >
+                        <div className="nearby-item-heading">
+                          <strong className="nearby-item-name">
+                            {index + 1}. {displayName}
+                          </strong>
 
-                        <span className="nearby-item-distance">
-                          {formatDistance(umkm.distance)}
-                        </span>
-                      </div>
+                          <span className="nearby-item-distance">
+                            {formatDistance(umkm.distance)}
+                          </span>
+                        </div>
 
-                      <div className="nearby-item-category">
-                        {umkm.product_label ||
-                          umkm.product_type ||
-                          "UMKM"}
-                      </div>
-                    </button>
+                        <div className="nearby-item-category">
+                          {umkm.product_label ||
+                            umkm.product_type ||
+                            "UMKM"}
+                        </div>
+                      </button>
 
-                    {/* Tombol Rute */}
-                    <button
-                      className="nearby-route-button"
-                      type="button"
-                      onClick={() => openMap(umkm)}
-                      aria-label={`Buka rute menuju ${umkm.name}`}
-                    >
-                      🚗 Buka Rute
-                    </button>
-                  </div>
-                ))
+                      {/* Tombol Rute */}
+                      <button
+                        className="nearby-route-button"
+                        type="button"
+                        onClick={() => openMap(umkm)}
+                        aria-label={`Buka rute menuju ${displayName}`}
+                      >
+                        🚗 Buka Rute
+                      </button>
+                    </div>
+                  );
+                })
               )}
             </div>
             {/* Reset */}
@@ -620,7 +678,11 @@ const MapComponent = ({
         <SelectedBusinessController business={selectedBusiness} />
 
         {/* Marker UMKM */}
-        <MarkerClusterLayer data={cleanData} onSelectBusiness={onSelectBusiness} />
+        <MarkerClusterLayer
+          data={cleanData}
+          onSelectBusiness={onSelectBusiness}
+          selectedBusiness={selectedBusiness}
+        />
       </MapContainer>
 
       <MapInfoPanel
